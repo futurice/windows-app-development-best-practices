@@ -53,13 +53,13 @@ THE APPS ARE UNLIKELY TO:
 - Be implemented as HTML-hybrid apps
 - Be designed by the developer(s) themselves
 
-THESE REQUIREMENTS LEAD INTO THE FOLLOWING GUIDELINES [Id / Responded requirements]:
+THESE REQUIREMENTS LEAD INTO THE FOLLOWING GUIDELINES [Id / Responded requirements : Guideline]:
 - G1 / R3, R4.4, R4.5: Follow strict separation of UI, bussiness logic, and data access
 - G2 / R4.4, R4.5: Support easy utilization of bundled fake API responses
 - Use the built in Visual Studio designer with design time data
 
-WHICH LEAD INTO THE FOLLOWING WP/WIN 8 ARCHITECHTURE (Patterns, frameworks, libraries) [Implemented Guideline]:
-
+WHICH LEAD INTO THE FOLLOWING WP/WIN 8 ARCHITECHTURE (Patterns, frameworks, libraries) [Implemented Guideline / Thing : (rationale)]:
+- G1 / Follow MVVM and use MVVMCross
 
 WHICH IS MOST EASILY IMPLEMENTED BY USING THE FOLLOWING TOOLS:
 - Visual Studio 2013
