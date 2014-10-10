@@ -9,14 +9,13 @@ A collection windows phone and windows 8 app development good practices from Fut
 THESE PRACTICES ARE AIMED FOR APPS THAT:
 - R1: Start up fast enough, present user with top of the line visual quality and fluidity (constantly good framerate) and let user navigate between pages (handling backstack and passing parameters from page to page), allow popups when required.
 - R2: Support easy optimization for different screen resolutions and small differences in aspect ratios
-- R3: Implement different GUIs and navigation structures for different devices (WP, Win 8, (Xbox One, iOS and Android with Xamarin))
 - R4: Get data from a backend
   - R4.1: Multiple backends (with different data formats) might be used
   - R4.2: Most likely json/xml from a restful web service
   - R4.3: In most cases caching the data and falling back to the cached data when disconnected is required
     - R4.3.1: Clearing / expiring the cache needs to be supported as well
-  - R4.4: The backend, it's APIs, or the format of the data returned might change. The architecture needs to be able to adapt with as little changes as possible
-  - R4.5: The APIs or the format provided might not be ideal for the app's object model. In many cases just mapping the data into model classes is not ideal. The architecture needs to be able to map any kind of backend into the object model that is ideal for the app.
+  - R4.4: The backend, it's APIs, or the format of the data returned might change. The architecture needs to be easily adaptable to the changes.
+  - R4.5: The APIs or the format provided might not be ideal for the app's object model. In many cases just mapping the data into model classes is not ideal. The architecture needs to be able to map any kind of backend into the object model that is ideal for the app. (Architecture needs to support changes in APIs and app requirements)
   - R4.6: Support development against wip APIs and in scenarios when the API can not be accessed
   - R4.7: Support debugging against rare, but know API responses
 - Parse the data into model objects and setup references between them
@@ -38,6 +37,7 @@ THESE PRACTICES ARE AIMED FOR APPS THAT:
   - Update experience should be as smooth as possible with automatic data and settings migrations when necessary
 
 ADDITIONALLY THE APPS MIGHT:  
+- R3: Implement different GUIs and navigation structures for different devices (WP, Win 8, (Xbox One, iOS and Android with Xamarin))
 - Handle authentication
   - The requirements vary from just blocking pages from unauthenticated users to more fine grained access control to the data (possible already dowloaded into the app)
   - In some cases registration and login are handled by third parties, and third party implementations, such as facebook, web view navigated to a web page implemented by a third party etc..
