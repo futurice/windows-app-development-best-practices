@@ -59,12 +59,11 @@ THESE REQUIREMENTS LEAD INTO THE FOLLOWING GUIDELINES [Id / Responded requiremen
 - Use the built in Visual Studio designer with design time data
 
 WHICH LEAD INTO THE FOLLOWING WP/WIN 8 ARCHITECHTURE (Patterns, frameworks, libraries) [Implemented Guideline / Thing : (rationale)]:
-- G1 / Follow MVVM and use MVVMCross
+- G1 / Follow MVVM and use MVVMCross: MVVM Seperates the UI-layer and MVVMCross is designed to work with Xamarin
 
 WHICH IS MOST EASILY IMPLEMENTED BY USING THE FOLLOWING TOOLS:
 - Visual Studio 2013
 - NuGet..
 - ..
-- 
 
 SOLUTION TEMPLATE: ...
