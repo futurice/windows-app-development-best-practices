@@ -61,4 +61,31 @@ Each dependency object in a PresentationFrameworkCollection has to have an uniqu
 
 When you don't set the name yourself, the framework will generate an unique name for each instance.
 
+### Be very careful when binding into multiple dependency properties of a dependency object
+
+There are two possible suprises:
+
+#### Order matters
+
+For example: [1](http://www.weseman.net/blog/development/c/order-in-xaml-is-important-when-using-data-binding/) and [2](http://discoveringdotnet.alexeyev.org/2011/03/order-in-xaml-is-important.html)
+
+#### Binding to DataContext changes the default binding source
+
+For example, the following xaml looks for the AdVisiblity in MyAdViewModel, not in the MyPageViewModel. Changing the order of the bindings doesn't make a difference. (However, does it first look in MyPageViewModel and then in MyAdViewModel).
+
+```groovy
+<Grid>
+    <Grid.DataContext>
+        <MyPageViewModel AdVisiblity="Collapsed">
+            <MyPageViewModel.AdContext>
+                <MyAdViewModel Url="www.bystuff.com" Text="Buy Stuff!"/>
+            </MyPageViewModel.AdContext>
+        </MyPageViewModel>
+    </Grid.DataContext>
+    
+    <AdControl Visibility="{Binding AdVisibility}" DataContext="{Binding AdContext}"/> 
+</Grid>
+```
+
+This happens because "{Binding PropertyName}" is short for "{Binding Path=DataContext.PropertyName, Source={RelativeSource Self}". It actually binds to the property PropertyName in the object in the DataContext property of its self. When DataContext is not set, it's automatically inherited from the Parent.
 
