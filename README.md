@@ -39,7 +39,7 @@ public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
 Automatically returns empty IEnumreable if no "yield return" is called -> no nulls when expecting an IEnumerable.
 Avoids unnecessary work when all the items are not enumerated.
 
-## Split code into small methods
+### Split code into small methods
 
 Code is often split into small methods for reusability. However, there are reasons to split your methods even if you don't plan to reuse them. Method name documents the intent of the code it encloses. Additonally, you get more informative stacktraces from your exceptions when your code is split into smaller methods.
 
