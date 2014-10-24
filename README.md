@@ -7,7 +7,7 @@ A collection windows phone and windows 8 app development good practices from Fut
 
 ## General C# Programming
 
-### Use IEnumerables and [yield](http://msdn.microsoft.com/en-us/library/9k7k7cf0.aspx) when ever possible
+### Use IEnumerables and [yield](http://msdn.microsoft.com/en-us/library/9k7k7cf0.aspx) whenever possible
 
 Rather than writing something like:
 
