@@ -9,12 +9,11 @@ A collection windows phone and windows 8 app development good practices from Fut
 
 ### Use Visual Studio Pro or greater
 
-Visual Studio is the defacto IDE for developing Windows apps. The free express versions are okay for getting started, but lacks some important features such as support for [extensions](https://visualstudiogallery.msdn.microsoft.com/). Pro version adds support for all the different project types in a single installation, additional productivity features, support for extensions, and some team collaboration features. Premium mainly adds built in testing support beoyond simple unit testing, and Ultimate mainly adds enhanced debugging, architecture and code analysis tools.
+Visual Studio is the defacto IDE for developing Windows apps. The free express versions are okay for getting started, but lacks some important features such as support for [extensions](https://visualstudiogallery.msdn.microsoft.com/). Pro version adds support for all the different project types in a single installation, additional productivity features, support for extensions, and some team collaboration features. Premium mainly adds built in testing support beyond simple unit testing, and Ultimate adds enhanced debugging, architecture, and code analysis tools.
 
 ### Use IEnumerables and [yield](http://msdn.microsoft.com/en-us/library/9k7k7cf0.aspx) whenever possible
 
 Rather than writing something like:
-
 ```groovy
 public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
     get {
@@ -27,9 +26,7 @@ public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
     }
 }
 ```
-
 write this instead:
-
 ```groovy
 public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
     get {
@@ -40,8 +37,11 @@ public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
     }
 }
 ```
-Automatically returns empty IEnumreable if no "yield return" is called -> no nulls when expecting an IEnumerable.
-Avoids unnecessary work when all the items are not enumerated.
+It automatically returns empty IEnumreable if no "yield return" is called. This will avoid null reference exceptions when you're expecting to get an IEnumerable. The yield approach also only runs as far as the caller requires. For example:
+```groovy
+var firstGalaxy = Galaxies.First();
+```
+only creates the first Galaxy instance, avoiding unnecessary processing.
 
 ### Split code into small methods
 
