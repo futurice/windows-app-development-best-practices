@@ -43,6 +43,39 @@ Avoids unnecessary work when all the items are not enumerated.
 
 Code is often split into small methods for reusability. However, there are reasons to split your methods even if you don't plan to reuse them. Method name documents the intent of the code it encloses. Additonally, you get more informative stacktraces from your exceptions when your code is split into smaller methods.
 
+### Use [caller information attributes](http://msdn.microsoft.com/en-us/library/hh534540(v=vs.110).aspx) for tracing
+
+When you add CallerMemberName, CallerFilePath, or CallerLineNumber attributes for optional parameters, the parameters get set with the file path, line number, and member name of the caller. The values are set into the method call at compile time, don't have a performance penalty, and are not affected by obfuscation.
+
+[Example from msdn](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx?cs-save-lang=1&cs-lang=csharp#code-snippet-2):
+
+```groovy
+// using System.Runtime.CompilerServices 
+// using System.Diagnostics; 
+
+public void DoProcessing()
+{
+    TraceMessage("Something happened.");
+}
+
+public void TraceMessage(string message,
+        [CallerMemberName] string memberName = "",
+        [CallerFilePath] string sourceFilePath = "",
+        [CallerLineNumber] int sourceLineNumber = 0)
+{
+    Trace.WriteLine("message: " + message);
+    Trace.WriteLine("member name: " + memberName);
+    Trace.WriteLine("source file path: " + sourceFilePath);
+    Trace.WriteLine("source line number: " + sourceLineNumber);
+}
+
+// Sample Output: 
+//  message: Something happened. 
+//  member name: DoProcessing 
+//  source file path: c:\Users\username\Documents\Visual Studio 2012\Projects\CallerInfoCS\CallerInfoCS\Form1.cs 
+//  source line number: 31
+```
+
 ## Windows App Development 
 
 ### Do not hardcode a name for your custom controls (as in set x:Name)
@@ -93,35 +126,6 @@ This happens because "{Binding PropertyName}" is short for "{Binding Path=DataCo
 
 ### AppTheme.xaml
 
-### Use [caller information attributes](http://msdn.microsoft.com/en-us/library/hh534540(v=vs.110).aspx) for tracing
+### User CallerMemberName attribute or a LinQ Expression to help with notifying property changes
 
-When you add CallerMemberName, CallerFilePath, or CallerLineNumber attributes for optional parameters, the parameters get set with the file path, line number, and member name of the caller. The values are set into the method call at compile time, don't have a performance penalty, and are not affected by obfuscation.
 
-[Example from msdn](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx?cs-save-lang=1&cs-lang=csharp#code-snippet-2):
-
-´´´groovy
-// using System.Runtime.CompilerServices 
-// using System.Diagnostics; 
-
-public void DoProcessing()
-{
-    TraceMessage("Something happened.");
-}
-
-public void TraceMessage(string message,
-        [CallerMemberName] string memberName = "",
-        [CallerFilePath] string sourceFilePath = "",
-        [CallerLineNumber] int sourceLineNumber = 0)
-{
-    Trace.WriteLine("message: " + message);
-    Trace.WriteLine("member name: " + memberName);
-    Trace.WriteLine("source file path: " + sourceFilePath);
-    Trace.WriteLine("source line number: " + sourceLineNumber);
-}
-
-// Sample Output: 
-//  message: Something happened. 
-//  member name: DoProcessing 
-//  source file path: c:\Users\username\Documents\Visual Studio 2012\Projects\CallerInfoCS\CallerInfoCS\Form1.cs 
-//  source line number: 31
-´´´
