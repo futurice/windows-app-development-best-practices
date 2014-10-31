@@ -75,6 +75,18 @@ public void TraceMessage(string message,
 //  source line number: 31
 ```
 
+### Use HttpClient for your HTTP needs
+
+Out of the different APIs available, HttpClient is the new one that supports async/await and automatic request decompression. 
+
+### Know the timers
+
+Ther are different timers for different purposes. For example [DispatcherTimer for WinRT](http://msdn.microsoft.com/en-us/library/windows/apps/xaml/windows.ui.xaml.dispatchertimer.aspx), [DispatcherTimer for WP Silverlight](http://msdn.microsoft.com/en-us/library/windows/apps/system.windows.threading.dispatchertimer(v=vs.105).aspx) and [ThreadPoolTimer](http://msdn.microsoft.com/en-us/library/windows/apps/windows.system.threading.threadpooltimer.aspx).
+
+### #1 thing to know about LinQ
+
+LinQ creates a query that is re-executed when ever the collection accessed. Use ToArray, ToList, etc. extension methods to avoid re-execution when utilizing the collection multiple times.
+
 ## Windows App Development 
 
 ### Do not hardcode a name for your custom controls (as in set x:Name)
