@@ -183,3 +183,9 @@ public class ViewModelBase : INotifyPropertyChanged
 	}	
 }
 ```
+
+## Visual Studio Extensions
+
+### Productivity Power Tools ([2013](https://visualstudiogallery.msdn.microsoft.com/dbcb8670-889e-4a54-a226-a48a15e4cace))
+
+A free visual studio extension from Microsoft. It lacks some features of the commercial JustCode or ReSharper, but doesn't seem to slow your IDE down at all either.
