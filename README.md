@@ -47,8 +47,7 @@ Code is often split into small methods for reusability. However, there are reaso
 
 When you add CallerMemberName, CallerFilePath, or CallerLineNumber attributes for optional parameters, the parameters get set with the file path, line number, and member name of the caller. The values are set into the method call at compile time, don't have a performance penalty, and are not affected by obfuscation.
 
-[Example from msdn](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx?cs-save-lang=1&cs-lang=csharp#code-snippet-2):
-
+[Example from msdn:](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx?cs-save-lang=1&cs-lang=csharp#code-snippet-2)
 ```groovy
 // using System.Runtime.CompilerServices 
 // using System.Diagnostics; 
@@ -83,7 +82,6 @@ public void TraceMessage(string message,
 When creating custom or user controls, do not set the x:Name for the control itself.
 
 Each dependency object in a PresentationFrameworkCollection has to have an unique Name, and if you end up adding two controls with the same name into the same PresentationFrameworkCollection, you'll end up with:
-
 ```
 {System.ArgumentException: Value does not fall within the expected range.
    at MS.Internal.XcpImports.CheckHResult(UInt32 hr)
@@ -126,6 +124,50 @@ This happens because "{Binding PropertyName}" is short for "{Binding Path=DataCo
 
 ### AppTheme.xaml
 
-### User CallerMemberName attribute or a LinQ Expression to help with notifying property changes
+### User [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute or a LinQ Expression to help with notifying property changes
 
+Many MVVM frameworks already help you with notifying property changes from a class that implements INotifyPropertyChange. However, if you don't use any of those, create a base viewmodel class for yourself.
 
+```groovy
+//using System;
+//using System.ComponentModel;
+//using System.Linq.Expressions;
+//using System.Runtime.CompilerServices;
+	
+	public class ViewModelBase : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private virtual void NotifyPropertyChanged([CallerMemberName]string propertyName = "")
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+		/// <summary>
+        /// Use this to notify a property change from outside of the property's setter.
+		/// For example: NotifyPropertyChanged(() => MyPropertyWhoseGetterShouldNowReturnNewValue);
+        /// </summary>
+        protected virtual void NotifyPropertyChanged<T>(Expression<Func<T>> memberExpression)
+        {
+            NotifyPropertyChanged(ExpressionUtils.GetMemberName(memberExpression));
+        }
+
+		/// <summary>
+        /// Use this from within a property's setter
+		/// For example: if (SetProperty(ref _propertysBackingField, value)){ OptionallyDoThisIfValueWasNotEqual(); }
+        /// </summary>
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName]String propertyName = "")
+        {
+			if (object.Equals(storage, value)) {
+                return false;
+            }
+
+            storage = value;
+			NotifyPropertyChanged(propertyName);
+            return true;
+		}
+    }
+```
