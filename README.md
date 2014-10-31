@@ -139,19 +139,11 @@ public class ViewModelBase : INotifyPropertyChanged
 {
 	public event PropertyChangedEventHandler PropertyChanged;
 
-	private virtual void NotifyPropertyChanged([CallerMemberName]string propertyName = "")
-	{
-		PropertyChangedEventHandler handler = PropertyChanged;
-		if (handler != null) {
-			handler(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}
-
 	/// <summary>
 	/// Use this to notify a property change from outside of the property's setter.
 	/// For example: NotifyPropertyChanged(() => MyPropertyWhoseGetterShouldNowReturnNewValue);
 	/// </summary>
-	protected virtual void NotifyPropertyChanged<T>(Expression<Func<T>> memberExpression)
+	protected void NotifyPropertyChanged<T>(Expression<Func<T>> memberExpression)
 	{
 		var lambda = (memberExpression as LambdaExpression);
 		if (lambda == null) return null;
@@ -176,5 +168,18 @@ public class ViewModelBase : INotifyPropertyChanged
 		NotifyPropertyChanged(propertyName);
 		return true;
 	}
+	
+	
+	/// <summary>
+	/// You can use this from within a property's setter when you don't want to set a backing field. 
+	/// For example: NotifyPropertyChanged();
+	/// </summary>
+	protected void NotifyPropertyChanged([CallerMemberName]string propertyName = "")
+	{
+		PropertyChangedEventHandler handler = PropertyChanged;
+		if (handler != null) {
+			handler(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}	
 }
 ```
