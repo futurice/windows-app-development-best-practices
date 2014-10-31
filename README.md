@@ -89,3 +89,39 @@ For example, the following xaml looks for the AdVisiblity in MyAdViewModel, not 
 
 This happens because "{Binding PropertyName}" is short for "{Binding Path=DataContext.PropertyName, Source={RelativeSource Self}". It actually binds to the property PropertyName in the object in the DataContext property of its self. When DataContext is not set, it's automatically inherited from the Parent.
 
+### Application.Resources
+
+### AppTheme.xaml
+
+### Use [caller information attributes](http://msdn.microsoft.com/en-us/library/hh534540(v=vs.110).aspx) for tracing
+
+When you add CallerMemberName, CallerFilePath, or CallerLineNumber attributes for optional parameters, the parameters get set with the file path, line number, and member name of the caller. The values are set into the method call at compile time, don't have a performance penalty, and are not affected by obfuscation.
+
+[Example from msdn](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx?cs-save-lang=1&cs-lang=csharp#code-snippet-2):
+
+´´´groovy
+// using System.Runtime.CompilerServices 
+// using System.Diagnostics; 
+
+public void DoProcessing()
+{
+    TraceMessage("Something happened.");
+}
+
+public void TraceMessage(string message,
+        [CallerMemberName] string memberName = "",
+        [CallerFilePath] string sourceFilePath = "",
+        [CallerLineNumber] int sourceLineNumber = 0)
+{
+    Trace.WriteLine("message: " + message);
+    Trace.WriteLine("member name: " + memberName);
+    Trace.WriteLine("source file path: " + sourceFilePath);
+    Trace.WriteLine("source line number: " + sourceLineNumber);
+}
+
+// Sample Output: 
+//  message: Something happened. 
+//  member name: DoProcessing 
+//  source file path: c:\Users\username\Documents\Visual Studio 2012\Projects\CallerInfoCS\CallerInfoCS\Form1.cs 
+//  source line number: 31
+´´´
