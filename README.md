@@ -79,7 +79,7 @@ public void TraceMessage(string message,
 //  source line number: 31
 ```
 
-### Use HttpClient for your HTTP needs
+### Use [HttpClient](http://msdn.microsoft.com/en-us/library/system.net.http.httpclient(v=vs.118).aspx) for your HTTP needs
 
 Out of the different APIs available, HttpClient is the new one that supports async/await and automatic request decompression. 
 
@@ -87,9 +87,9 @@ Out of the different APIs available, HttpClient is the new one that supports asy
 
 Ther are different timers for different purposes. For example [DispatcherTimer for WinRT](http://msdn.microsoft.com/en-us/library/windows/apps/xaml/windows.ui.xaml.dispatchertimer.aspx), [DispatcherTimer for WP Silverlight](http://msdn.microsoft.com/en-us/library/windows/apps/system.windows.threading.dispatchertimer(v=vs.105).aspx) and [ThreadPoolTimer](http://msdn.microsoft.com/en-us/library/windows/apps/windows.system.threading.threadpooltimer.aspx).
 
-### #1 thing to know about LinQ
+### #1 thing to know about LINQ
 
-LinQ creates a query that is re-executed when ever the collection accessed. Use ToArray, ToList, etc. extension methods to avoid re-execution when utilizing the collection multiple times.
+LINQ creates a query that is re-executed whenever the collection is accessed. Use ToArray, ToList, etc. extension methods to avoid re-execution when utilizing the collection multiple times.
 
 ## Windows App Development 
 
@@ -140,7 +140,7 @@ This happens because "{Binding PropertyName}" is short for "{Binding Path=DataCo
 
 ### AppTheme.xaml
 
-### Use [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute or a [linq expression](http://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) to help with notifying property changes.
+### Use [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute or a [LINQ expression](http://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) to help with notifying property changes.
 
 Many MVVM frameworks already help you with notifying property changes from your viewmodels. However, if you don't use any of those, create a base viewmodel class for yourself.
 
@@ -162,10 +162,10 @@ public class ViewModelBase : INotifyPropertyChanged
 	protected void NotifyPropertyChanged<T>(Expression<Func<T>> memberExpression)
 	{
 		var lambda = (memberExpression as LambdaExpression);
-		if (lambda == null) return null;
+		if (lambda == null) return;
 		
 		var expr = lambda.Body as MemberExpression;
-		if (expr == null) return null;
+		if (expr == null) return;
 	
 		NotifyPropertyChanged(expr.Member.Name);
 	}
