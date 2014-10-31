@@ -124,50 +124,57 @@ This happens because "{Binding PropertyName}" is short for "{Binding Path=DataCo
 
 ### AppTheme.xaml
 
-### User [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute or a LinQ Expression to help with notifying property changes
+### Use [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute or a [linq expression](http://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) to help with notifying property changes.
 
-Many MVVM frameworks already help you with notifying property changes from a class that implements INotifyPropertyChange. However, if you don't use any of those, create a base viewmodel class for yourself.
+Many MVVM frameworks already help you with notifying property changes from your viewmodels. However, if you don't use any of those, create a base viewmodel class for yourself.
 
+For example:
 ```groovy
 //using System;
 //using System.ComponentModel;
 //using System.Linq.Expressions;
 //using System.Runtime.CompilerServices;
-	
-	public class ViewModelBase : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        private virtual void NotifyPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+public class ViewModelBase : INotifyPropertyChanged
+{
+	public event PropertyChangedEventHandler PropertyChanged;
 
-		/// <summary>
-        /// Use this to notify a property change from outside of the property's setter.
-		/// For example: NotifyPropertyChanged(() => MyPropertyWhoseGetterShouldNowReturnNewValue);
-        /// </summary>
-        protected virtual void NotifyPropertyChanged<T>(Expression<Func<T>> memberExpression)
-        {
-            NotifyPropertyChanged(ExpressionUtils.GetMemberName(memberExpression));
-        }
-
-		/// <summary>
-        /// Use this from within a property's setter
-		/// For example: if (SetProperty(ref _propertysBackingField, value)){ OptionallyDoThisIfValueWasNotEqual(); }
-        /// </summary>
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName]String propertyName = "")
-        {
-			if (object.Equals(storage, value)) {
-                return false;
-            }
-
-            storage = value;
-			NotifyPropertyChanged(propertyName);
-            return true;
+	private virtual void NotifyPropertyChanged([CallerMemberName]string propertyName = "")
+	{
+		PropertyChangedEventHandler handler = PropertyChanged;
+		if (handler != null) {
+			handler(this, new PropertyChangedEventArgs(propertyName));
 		}
-    }
+	}
+
+	/// <summary>
+	/// Use this to notify a property change from outside of the property's setter.
+	/// For example: NotifyPropertyChanged(() => MyPropertyWhoseGetterShouldNowReturnNewValue);
+	/// </summary>
+	protected virtual void NotifyPropertyChanged<T>(Expression<Func<T>> memberExpression)
+	{
+		var lambda = (memberExpression as LambdaExpression);
+		if (lambda == null) return null;
+		
+		var expr = lambda.Body as MemberExpression;
+		if (expr == null) return null;
+	
+		NotifyPropertyChanged(expr.Member.Name);
+	}
+
+	/// <summary>
+	/// Use this from within a property's setter
+	/// For example: if (SetProperty(ref _propertysBackingField, value)){ OptionallyDoThisIfValueWasNotEqual(); }
+	/// </summary>
+	protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName]String propertyName = "")
+	{
+		if (object.Equals(storage, value)) {
+			return false;
+		}
+
+		storage = value;
+		NotifyPropertyChanged(propertyName);
+		return true;
+	}
+}
 ```
