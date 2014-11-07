@@ -139,11 +139,15 @@ It's easy to think that you should just:
 ```
 .Timeout(Observable.Return(TimeSpan.FromSeconds(10)), vm => Observable.Return(TimeSpan.FromSeconds(1)))
 ```
-However, that will simply timeout immediately. The right way to use it is (Notice the Obervable.Timer):
+However, that will simply timeout immediately. The correct way to use it is (Notice the Obervable.Timer):
 ```
 .Timeout(Observable.Timer(TimeSpan.FromSeconds(10)), i => Observable.Timer(TimeSpan.FromSeconds(1)))
 ```
 So, in practice the timeout occurs when the passed IObservable completes, not after the passed TimeSpan.
+
+### If you're using Rx in your ViewModels, use a ReactiveProperty as well
+
+If you aren't already using an framework that offers you an easy way to bind into your reactive code from XAML, search for a ReactiveProperty helpers class.
 
 ## Windows App Development 
 
@@ -192,7 +196,7 @@ This happens because "{Binding PropertyName}" is short for "{Binding Path=DataCo
 
 ### Use [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute or a [LINQ expression](http://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) to help with notifying property changes.
 
-Many MVVM frameworks already help you with notifying property changes from your viewmodels. However, if you don't use any of those, create a base viewmodel class for yourself.
+Many MVVM frameworks already help you with notifying property changes from your viewmodels. However, if you don't use any of those, create a base viewmodel class for yourself. However, be aware of the performance overhead creating a LINQ expression has.
 
 For example:
 ```groovy
