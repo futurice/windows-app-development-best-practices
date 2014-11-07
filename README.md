@@ -11,6 +11,10 @@ A collection windows phone and windows 8 app development good practices from Fut
 
 Visual Studio is the defacto IDE for developing Windows apps. The free express versions are okay for getting started, but lacks some important features such as support for [extensions](https://visualstudiogallery.msdn.microsoft.com/). Pro version adds support for all the different project types in a single installation, additional productivity features, support for extensions, and some team collaboration features. Premium mainly adds built in testing support beyond simple unit testing, and Ultimate adds enhanced debugging, architecture, and code analysis tools.
 
+### Use Productivity Power Tools ([2013](https://visualstudiogallery.msdn.microsoft.com/dbcb8670-889e-4a54-a226-a48a15e4cace))
+
+A free visual studio extension from Microsoft. It lacks some features of the commercial [JustCode](http://www.telerik.com/products/justcode.aspx) and [ReSharper](https://www.jetbrains.com/resharper/), but doesn't seem to slow your IDE down at all either.
+
 ### Use NuGet
 
 Nuget is Microsoft's take on a package manager. There's a Visual Studio extension called NuGet Package Manager preinstalled into newer Visual Studios. Bottom line: Use it for external references if you don't need to include the source code in your Solution.
@@ -29,7 +33,7 @@ According to [NuGet docs:](http://docs.nuget.org/docs/reference/package-restore)
 
 You are using the old package restore if you have clicked the "Enable NuGet Package Restore" -button in Visual Studio. If so, you should migrate: [NuGet doc](http://docs.nuget.org/docs/workflows/migrating-to-automatic-package-restore) or [with pictures](http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore). 
 
-### Use IEnumerables and [yield](http://msdn.microsoft.com/en-us/library/9k7k7cf0.aspx) whenever possible
+### Use [yield](http://msdn.microsoft.com/en-us/library/9k7k7cf0.aspx) when returning an IEnumerable
 
 Rather than writing something like:
 ```groovy
@@ -55,7 +59,7 @@ public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
     }
 }
 ```
-It automatically returns empty IEnumreable if no "yield return" is called. This will avoid null reference exceptions when you're expecting to get an IEnumerable. The yield approach also only runs as far as the caller requires. For example:
+It will automatically return empty IEnumreable if no "yield return" is called. This will avoid null reference exceptions when you're expecting to get an IEnumerable. The yield approach also only runs as far as is required by the possible iterator. For example:
 ```groovy
 var firstGalaxy = Galaxies.First();
 ```
@@ -108,6 +112,13 @@ Ther are different timers for different purposes. For example [DispatcherTimer f
 ### #1 thing to know about LINQ
 
 LINQ creates a query that is re-executed whenever the collection is accessed. Use ToArray, ToList, etc. extension methods to avoid re-execution when utilizing the collection multiple times.
+
+### Don't be fooled by the Observable.Timeout
+
+The right way to use it is:
+```
+Timeout(Observable.Timer(TimeSpan.FromSeconds(30)), i => Observable.Timer(TimeSpan.FromSeconds(3)))
+```
 
 ## Windows App Development 
 
@@ -214,8 +225,3 @@ public class ViewModelBase : INotifyPropertyChanged
 }
 ```
 
-## Visual Studio Extensions
-
-### Productivity Power Tools ([2013](https://visualstudiogallery.msdn.microsoft.com/dbcb8670-889e-4a54-a226-a48a15e4cace))
-
-A free visual studio extension from Microsoft. It lacks some features of the commercial JustCode or ReSharper, but doesn't seem to slow your IDE down at all either.
