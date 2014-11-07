@@ -34,9 +34,9 @@ According to [NuGet docs:](http://docs.nuget.org/docs/reference/package-restore)
 
 You are using the old package restore if you have clicked the "Enable NuGet Package Restore" -button in Visual Studio. If so, you should migrate: [NuGet doc](http://docs.nuget.org/docs/workflows/migrating-to-automatic-package-restore) or [with pictures](http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore). 
 
-### Split code into small methods
+### Split code into small methods to improve stacktraces
 
-Code is often split into small methods for reusability. However, there are reasons to split your methods even if you don't plan to reuse them. Method name documents the intent of the code it encloses. Additonally, you get more informative stacktraces from your exceptions when your code is split into smaller methods. Especially on release builds where line number information is lost.
+Code is often split into small methods for reusability. However, there are reasons to split your methods even if you don't plan to reuse them. Method name documents the intent of the code it encloses and you get more informative stacktraces from your exceptions when your code is split into smaller methods. The latter especially applies to release builds where source code line information is lost.
 
 ### Use [caller information attributes](http://msdn.microsoft.com/en-us/library/hh534540(v=vs.110).aspx) when tracing
 
@@ -113,6 +113,23 @@ only creates the first Galaxy instance, avoiding unnecessary processing.
 ### Explicitly convert LINQ queries into collections to avoid unnecessary re-evaluation
 
 Probably the #1 thing to know about LINQ, is that it creates a query that is executed whenever its items are accessed. Sometimes this is what you actually want. However, often you just want to run the query once but access the resulting items multiple times. To avoid unnecessary re-evaluation and bugs resulting from the query result changing, use ToArray, ToList, etc. extension methods to run the query and store the results into a collection.
+
+So rather than:
+```
+var sItems = MyItems.Where(i => i.Name.Contains("s"));
+var firstSItem = sItems.First(); // Query executed
+var lastSItem = sItems.Last(); // Query executed
+MyItems.Add(new MyItem("spoon"));
+Handle(sItems.Last()); // Query executed, returns the spoon item
+```
+do this instead:
+```
+var sItems = MyItems.Where(i => i.Name.Contains("s")); // Query executed
+var firstSItem = sItems.First(); 
+var lastSItem = sItems.Last();
+MyItems.Add(new MyItem("spoon"));
+Handle(sItems.Last()); // returns the lastSItem
+```
 
 ### Don't be fooled by the IObservable<TSource> Timeout<TSource, TTimeout>(this IObservable<TSource> source, IObservable<TTimeout> firstTimeout, Func<TSource, IObservable<TTimeout>> timeoutDurationSelector)
 
