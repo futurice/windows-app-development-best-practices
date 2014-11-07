@@ -34,9 +34,9 @@ According to [NuGet docs:](http://docs.nuget.org/docs/reference/package-restore)
 
 You are using the old package restore if you have clicked the "Enable NuGet Package Restore" -button in Visual Studio. If so, you should migrate: [NuGet doc](http://docs.nuget.org/docs/workflows/migrating-to-automatic-package-restore) or [with pictures](http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore). 
 
-### Split code into small methods to improve stacktraces
+### Split code into small methods to improve stacktraces and the callstack
 
-Code is often split into small methods for reusability. However, there are reasons to split your methods even if you don't plan to reuse them. Method name documents the intent of the code it encloses and you get more informative stacktraces from your exceptions when your code is split into smaller methods. The latter especially applies to release builds where source code line information is lost.
+Code is often split into small methods for reusability. However, there are reasons to split your methods even if you don't plan to reuse them. Method name documents the intent of the code it encloses. This gives you more informative callstack view and stacktraces from your exceptions. The stacktraces part applies especially to release builds, where source code line information is lost.
 
 ### Use [caller information attributes](http://msdn.microsoft.com/en-us/library/hh534540(v=vs.110).aspx) when tracing
 
