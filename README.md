@@ -104,11 +104,10 @@ public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
     }
 }
 ```
-It will automatically return empty IEnumreable if no "yield return" is called. This will avoid null reference exceptions when you're expecting to get an IEnumerable. The yield approach also only runs as far as is required by the possible iterator. For example:
+It will automatically return empty IEnumreable if no "yield return" is called. This will avoid null reference exceptions when you're expecting to get an IEnumerable. The yield approach also only runs as far as is required by the possible iterator. For example, the following only creates one Galaxy instance, avoiding unnecessary processing.
 ```groovy
 var firstGalaxy = Galaxies.First();
 ```
-only creates the first Galaxy instance, avoiding unnecessary processing.
 
 ### Explicitly convert LINQ queries into collections to avoid unnecessary re-evaluation
 
