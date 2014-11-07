@@ -1,7 +1,8 @@
-win-client-dev-good-practices
-=============================
+# Good practices in Windows App development
 
-A collection windows phone and windows 8 app development good practices from Futurice
+Lessons learned from Windows App developers in Futurice. Avoid reinventing the wheel by following these guidelines. If you are interested in iOS or Android development, be sure to also check our [**iOS Good Practices**](https://github.com/futurice/ios-good-practices) or [**Android Best Practices**](https://github.com/futurice/ios-good-practices) documents.
+
+Feedback is welcomed, but check the [guidelines](https://github.com/futurice/android-best-practices/tree/master/CONTRIBUTING.md) first.
 
 -----------------------------
 
@@ -232,3 +233,7 @@ public class ViewModelBase : INotifyPropertyChanged
 }
 ```
 
+## License
+
+[Futurice Oy](www.futurice.com)
+Creative Commons Attribution 4.0 International (CC BY 4.0)
