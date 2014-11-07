@@ -1,6 +1,6 @@
-# Good practices in Windows App development
+# Good practices in Windows apps development
 
-Lessons learned from Windows App developers at Futurice. Avoid reinventing the wheel by following these guidelines. If you are interested in iOS or Android development, be sure to check our [**iOS**](https://github.com/futurice/ios-good-practices) or [**Android**](https://github.com/futurice/ios-good-practices) document as well.
+Lessons learned from Windows 8.x and Windows Phone 8.x app developers at Futurice. Avoid reinventing the wheel by following these guidelines. If you are interested in iOS or Android development, be sure to check our [**iOS**](https://github.com/futurice/ios-good-practices) and [**Android**](https://github.com/futurice/ios-good-practices) documents as well.
 
 Feedback is welcomed, but check the [guidelines](https://github.com/futurice/android-best-practices/tree/master/CONTRIBUTING.md) first.
 
@@ -34,7 +34,7 @@ According to [NuGet docs:](http://docs.nuget.org/docs/reference/package-restore)
 
 You are using the old package restore if you have clicked the "Enable NuGet Package Restore" -button in Visual Studio. If so, you should migrate: [NuGet doc](http://docs.nuget.org/docs/workflows/migrating-to-automatic-package-restore) or [with pictures](http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore). 
 
-### Split code into small methods to improve stacktraces and the callstack
+### Split code into small methods to improve stacktraces and the callstack view
 
 Code is often split into small methods for reusability. However, there are reasons to split your methods even if you don't plan to reuse them. Method name documents the intent of the code it encloses. This gives you more informative callstack view while debugging and better stacktraces from your exceptions. The stacktraces part applies especially to release builds, where source code line information is lost.
 
@@ -72,7 +72,7 @@ public void TraceMessage(string message,
 
 ### Use [HttpClient](http://msdn.microsoft.com/en-us/library/system.net.http.httpclient(v=vs.118).aspx) for your HTTP needs
 
-Out of the different APIs available, HttpClient is the new one that supports async/await and automatic request decompression. Using it the async/await -way keeps your code short and readable.
+Out of the different HTTP APIs available, HttpClient is the new one that supports async/await and automatic request decompression. Using it the async/await -way keeps your code short and readable.
 
 ### Know the timers
 
