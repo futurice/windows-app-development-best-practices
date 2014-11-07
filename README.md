@@ -43,7 +43,7 @@ Code is often split into small methods for reusability. However, there are reaso
 When you add CallerMemberName, CallerFilePath, or CallerLineNumber attributes for optional parameters, the parameters get set with the file path, line number, and member name of the caller. The values are set into the method call at compile time, don't have a performance penalty, and are not affected by obfuscation.
 
 [Example from msdn:](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx?cs-save-lang=1&cs-lang=csharp#code-snippet-2)
-```groovy
+```C#
 // using System.Runtime.CompilerServices 
 // using System.Diagnostics; 
 
@@ -81,7 +81,7 @@ Ther are different timers for different purposes. For example [DispatcherTimer f
 ### Use [yield](http://msdn.microsoft.com/en-us/library/9k7k7cf0.aspx) when returning an IEnumerable
 
 Rather than writing something like:
-```groovy
+```C#
 public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
     get {
       return new List<Galaxy>() {
@@ -94,7 +94,7 @@ public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
 }
 ```
 Write this instead:
-```groovy
+```C#
 public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
     get {
       yield return new Galaxy { Name = "Tadpole", MegaLightYears = 400 };
@@ -105,7 +105,7 @@ public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
 }
 ```
 It will automatically return empty IEnumreable if no "yield return" is called. This will avoid null reference exceptions when you're expecting to get an IEnumerable. The yield approach also only runs as far as is required by the possible iterator. For example, the following only creates one Galaxy instance, avoiding unnecessary processing.
-```groovy
+```C#
 var firstGalaxy = Galaxies.First();
 ```
 
@@ -114,7 +114,7 @@ var firstGalaxy = Galaxies.First();
 Probably the #1 thing to know about LINQ is that it creates a query that is executed whenever its items are accessed. Sometimes this is what you actually want. However, often you just want to run the query once but access the resulting items multiple times. To avoid unnecessary re-evaluation and bugs resulting from the query result changing, use ToArray, ToList, etc. extension methods to run the query and store the results into a collection.
 
 So rather than:
-```
+```C#
 var sItems = MyItems.Where(i => i.Name.Contains("s"));
 var firstSItem = sItems.First(); // Query executed
 var lastSItem = sItems.Last(); // Query executed
@@ -122,7 +122,7 @@ MyItems.Add(new MyItem("spoon"));
 Handle(sItems.Last()); // Query executed, returns the spoon item
 ```
 Do this instead:
-```
+```C#
 var sItems = MyItems.Where(i => i.Name.Contains("s")).ToList(); // Query executed
 var firstSItem = sItems.First(); 
 var lastSItem = sItems.Last();
@@ -135,11 +135,11 @@ Handle(sItems.Last()); // returns the lastSItem
 Now, this is an interface, so different implementations could behave differently. The following applies at least to the implementation in System.Reactive.Linq.Observable.
 
 It's easy to think that you should just:
-```
+```C#
 .Timeout(Observable.Return(TimeSpan.FromSeconds(10)), vm => Observable.Return(TimeSpan.FromSeconds(1)))
 ```
 However, that will simply timeout immediately. The correct way to use it is:
-```
+```C#
 // Notice the .Timer
 .Timeout(Observable.Timer(TimeSpan.FromSeconds(10)), i => Observable.Timer(TimeSpan.FromSeconds(1)))
 ```
@@ -152,7 +152,7 @@ So, in practice the timeout occurs when the passed IObservable completes, not af
 When writing custom or user controls, do not set the control's Name property with a fixed value. In XAML this would mean setting the x:Name attribute for the root element.
 
 Each dependency object in a PresentationFrameworkCollection has to have an unique Name, and if you end up adding two controls with the same name into the same PresentationFrameworkCollection, you'll end up with:
-```
+```groovy
 {System.ArgumentException: Value does not fall within the expected range.
    at MS.Internal.XcpImports.CheckHResult(UInt32 hr)
    at MS.Internal.XcpImports.Collection_AddValue[T](PresentationFrameworkCollection`1 collection, CValue value)
@@ -174,7 +174,7 @@ For example: [1](http://www.weseman.net/blog/development/c/order-in-xaml-is-impo
 
 For example, the following xaml looks for the AdVisiblity in MyAdViewModel, not in the MyPageViewModel. Changing the order of the bindings doesn't make a difference. (However, does it first look in MyPageViewModel and then in MyAdViewModel).
 
-```groovy
+```XML
 <Grid>
     <Grid.DataContext>
         <MyPageViewModel AdVisiblity="Collapsed">
@@ -188,7 +188,7 @@ For example, the following xaml looks for the AdVisiblity in MyAdViewModel, not 
 </Grid>
 ```
 This happens because "{Binding PropertyName}" is short for:
-```
+```XML
 "{Binding Path=DataContext.PropertyName, Source={RelativeSource Self}"
 ```
 It actually binds to the property PropertyName in the object in the DataContext property of its self. When DataContext is not set, it's automatically inherited from the Parent.
@@ -198,7 +198,7 @@ It actually binds to the property PropertyName in the object in the DataContext 
 Many MVVM frameworks already help you with notifying property changes from your viewmodels. However, if you don't use any of those, create a base viewmodel class for yourself. Be aware of the performance overhead in creating a LINQ expressions though.
 
 For example:
-```groovy
+```C#
 //using System;
 //using System.ComponentModel;
 //using System.Linq.Expressions;
