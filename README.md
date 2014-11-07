@@ -1,6 +1,6 @@
 # Good practices in Windows App development
 
-Lessons learned from Windows App developers in Futurice. Avoid reinventing the wheel by following these guidelines. If you are interested in iOS or Android development, be sure to check our [**iOS**](https://github.com/futurice/ios-good-practices) or [**Android**](https://github.com/futurice/ios-good-practices) documents as well.
+Lessons learned from Windows App developers at Futurice. Avoid reinventing the wheel by following these guidelines. If you are interested in iOS or Android development, be sure to check our [**iOS**](https://github.com/futurice/ios-good-practices) or [**Android**](https://github.com/futurice/ios-good-practices) document as well.
 
 Feedback is welcomed, but check the [guidelines](https://github.com/futurice/android-best-practices/tree/master/CONTRIBUTING.md) first.
 
@@ -10,15 +10,15 @@ Feedback is welcomed, but check the [guidelines](https://github.com/futurice/and
 
 ### Use Visual Studio Pro or greater
 
-Visual Studio is the defacto IDE for developing Windows apps. The free express versions are okay for getting started, but lacks some important features such as support for [extensions](https://visualstudiogallery.msdn.microsoft.com/). Pro version adds support for all the different project types in a single installation, additional productivity features, support for extensions, and some team collaboration features. Premium mainly adds built in testing support beyond simple unit testing, and Ultimate adds enhanced debugging, architecture, and code analysis tools.
+Visual Studio is the de facto IDE for developing Windows apps. The free express versions are good for getting started, but lack some important features, such as support for [extensions](https://visualstudiogallery.msdn.microsoft.com/). Pro version adds support for all the different project types in a single installation, additional productivity features, support for extensions, and some team collaboration features. Premium mainly adds built in testing support beyond simple unit testing, and Ultimate adds enhanced debugging, architecture, and code analysis tools.
 
 ### Use Productivity Power Tools ([2013](https://visualstudiogallery.msdn.microsoft.com/dbcb8670-889e-4a54-a226-a48a15e4cace))
 
-A free visual studio extension from Microsoft. It lacks some features of the commercial [JustCode](http://www.telerik.com/products/justcode.aspx) and [ReSharper](https://www.jetbrains.com/resharper/), but doesn't seem to slow your IDE down at all either.
+A free visual studio productivity extension from Microsoft. It lacks some features of the commercial counterparts like [JustCode](http://www.telerik.com/products/justcode.aspx) or [ReSharper](https://www.jetbrains.com/resharper/), but doesn't seem to slow the IDE down at all either.
 
 ### Use [NuGet](http://www.nuget.org/)
 
-Nuget is Microsoft's take on a package manager. There's a Visual Studio extension called NuGet Package Manager preinstalled into newer Visual Studios. Bottom line: Use it for external references if you don't need to include the source code in your Solution.
+Nuget is Microsoft's take on a package manager. There's a Visual Studio extension called NuGet Package Manager preinstalled in newer Visual Studios. Bottom line: [Use it](http://docs.nuget.org/docs/start-here/managing-nuget-packages-using-the-dialog) for external references when you don't need to include the source code in your Solution.
 
 #### Use [Package Restore](http://docs.nuget.org/docs/reference/package-restore)
 
@@ -36,7 +36,7 @@ You are using the old package restore if you have clicked the "Enable NuGet Pack
 
 ### Split code into small methods to improve stacktraces and the callstack
 
-Code is often split into small methods for reusability. However, there are reasons to split your methods even if you don't plan to reuse them. Method name documents the intent of the code it encloses. This gives you more informative callstack view and stacktraces from your exceptions. The stacktraces part applies especially to release builds, where source code line information is lost.
+Code is often split into small methods for reusability. However, there are reasons to split your methods even if you don't plan to reuse them. Method name documents the intent of the code it encloses. This gives you more informative callstack view while debugging and better stacktraces from your exceptions. The stacktraces part applies especially to release builds, where source code line information is lost.
 
 ### Use [caller information attributes](http://msdn.microsoft.com/en-us/library/hh534540(v=vs.110).aspx) when tracing
 
@@ -93,7 +93,7 @@ public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
     }
 }
 ```
-write this instead:
+Write this instead:
 ```groovy
 public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
     get {
@@ -111,7 +111,7 @@ var firstGalaxy = Galaxies.First();
 
 ### Explicitly convert LINQ queries into collections to avoid unnecessary re-evaluation
 
-Probably the #1 thing to know about LINQ, is that it creates a query that is executed whenever its items are accessed. Sometimes this is what you actually want. However, often you just want to run the query once but access the resulting items multiple times. To avoid unnecessary re-evaluation and bugs resulting from the query result changing, use ToArray, ToList, etc. extension methods to run the query and store the results into a collection.
+Probably the #1 thing to know about LINQ is that it creates a query that is executed whenever its items are accessed. Sometimes this is what you actually want. However, often you just want to run the query once but access the resulting items multiple times. To avoid unnecessary re-evaluation and bugs resulting from the query result changing, use ToArray, ToList, etc. extension methods to run the query and store the results into a collection.
 
 So rather than:
 ```
@@ -121,7 +121,7 @@ var lastSItem = sItems.Last(); // Query executed
 MyItems.Add(new MyItem("spoon"));
 Handle(sItems.Last()); // Query executed, returns the spoon item
 ```
-do this instead:
+Do this instead:
 ```
 var sItems = MyItems.Where(i => i.Name.Contains("s")).ToList(); // Query executed
 var firstSItem = sItems.First(); 
@@ -138,17 +138,18 @@ It's easy to think that you should just:
 ```
 .Timeout(Observable.Return(TimeSpan.FromSeconds(10)), vm => Observable.Return(TimeSpan.FromSeconds(1)))
 ```
-However, that will simply timeout immediately. The correct way to use it is (Notice the Obervable.Timer):
+However, that will simply timeout immediately. The correct way to use it is:
 ```
+// Notice the .Timer
 .Timeout(Observable.Timer(TimeSpan.FromSeconds(10)), i => Observable.Timer(TimeSpan.FromSeconds(1)))
 ```
-So, in practice the timeout occurs when the passed IObservable completes, not after the passed TimeSpan.
+So, in practice the timeout occurs when the passed IObservable completes, not after the duration of the passed TimeSpan.
 
 ## Windows App Development 
 
-### Do not hardcode a name for your custom controls (as in set x:Name)
+### Do not hardcode a Name for your custom controls
 
-When creating custom or user controls, do not set the x:Name for the control itself.
+When writing custom or user controls, do not set the control's Name property with a fixed value. In XAML this would mean setting the x:Name attribute for the root element.
 
 Each dependency object in a PresentationFrameworkCollection has to have an unique Name, and if you end up adding two controls with the same name into the same PresentationFrameworkCollection, you'll end up with:
 ```
@@ -159,7 +160,7 @@ Each dependency object in a PresentationFrameworkCollection has to have an uniqu
    at System.Windows.PresentationFrameworkCollection`1.AddDependencyObject(DependencyObject value)
 ```
 
-When you don't set the name yourself, the framework will generate an unique name for each instance.
+When you don't set the Name yourself, the framework will generate a unique name for each instance.
 
 ### Be very careful when binding into multiple dependency properties of a dependency object
 
@@ -194,7 +195,7 @@ It actually binds to the property PropertyName in the object in the DataContext 
 
 ### Use [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute or a [LINQ expression](http://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) to help with notifying property changes.
 
-Many MVVM frameworks already help you with notifying property changes from your viewmodels. However, if you don't use any of those, create a base viewmodel class for yourself. However, be aware of the performance overhead creating a LINQ expression has.
+Many MVVM frameworks already help you with notifying property changes from your viewmodels. However, if you don't use any of those, create a base viewmodel class for yourself. Be aware of the performance overhead in creating a LINQ expressions though.
 
 For example:
 ```groovy
@@ -254,7 +255,7 @@ public class ViewModelBase : INotifyPropertyChanged
 
 ### If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well
 
-If you aren't already using a library that offers you an easy way to bind into your reactive code from XAML, search for a ReactiveProperty and ReactiveCommand helper classes. Or just pick up the ones in [this](https://github.com/tomaszpolanski/Utilities/tree/master/Utilities.Reactive) small reactive utilities library by Futurice's Tomasz Polanski.
+If you aren't already using a library that offers you an easy way to bind into your reactive code from XAML, search for a ReactiveProperty and ReactiveCommand helper classes. Or just pick up the ones in [this](https://github.com/tomaszpolanski/Utilities/tree/master/Utilities.Reactive) little reactive utilities library by Futurice's Tomasz Polanski.
 
 ## License
 
