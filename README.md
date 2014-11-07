@@ -145,10 +145,6 @@ However, that will simply timeout immediately. The correct way to use it is (Not
 ```
 So, in practice the timeout occurs when the passed IObservable completes, not after the passed TimeSpan.
 
-### If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well
-
-If you aren't already using a framework that offers you an easy way to bind into your reactive code from XAML, search for a ReactiveProperty and ReactiveCommand helpers classes. Like the ones in [this](https://github.com/tomaszpolanski/Utilities/tree/master/Utilities.Reactive) small reactive utilities library by Futurice's Tomasz Polanski.
-
 ## Windows App Development 
 
 ### Do not hardcode a name for your custom controls (as in set x:Name)
@@ -191,8 +187,11 @@ For example, the following xaml looks for the AdVisiblity in MyAdViewModel, not 
     <AdControl Visibility="{Binding AdVisibility}" DataContext="{Binding AdContext}"/> 
 </Grid>
 ```
-
-This happens because "{Binding PropertyName}" is short for "{Binding Path=DataContext.PropertyName, Source={RelativeSource Self}". It actually binds to the property PropertyName in the object in the DataContext property of its self. When DataContext is not set, it's automatically inherited from the Parent.
+This happens because "{Binding PropertyName}" is short for:
+```
+"{Binding Path=DataContext.PropertyName, Source={RelativeSource Self}"
+```
+It actually binds to the property PropertyName in the object in the DataContext property of its self. When DataContext is not set, it's automatically inherited from the Parent.
 
 ### Use [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute or a [LINQ expression](http://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) to help with notifying property changes.
 
@@ -253,6 +252,10 @@ public class ViewModelBase : INotifyPropertyChanged
 	}	
 }
 ```
+
+### If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well
+
+If you aren't already using a library that offers you an easy way to bind into your reactive code from XAML, search for a ReactiveProperty and ReactiveCommand helper classes. Or just pick up the ones in [this](https://github.com/tomaszpolanski/Utilities/tree/master/Utilities.Reactive) small reactive utilities library by Futurice's Tomasz Polanski.
 
 ## License
 
