@@ -140,6 +140,24 @@ This happens because "{Binding PropertyName}" is short for "{Binding Path=DataCo
 
 ### AppTheme.xaml
 
+### Nuget
+
+Nuget is Microsoft's take on a package manager. There's a Visual Studio extension called NuGet Package Manager preinstalled into newer Visual Studios. Bottom line: Use it for external references if you don't need to include the source code in your Solution.
+
+#### [Package Restore](http://docs.nuget.org/docs/reference/package-restore)
+
+According to [NuGet docs:](http://docs.nuget.org/docs/reference/package-restore)
+>Beginning with NuGet 2.7, the NuGet Visual Studio extension integrates into Visual Studio's build events and restores missing packages when a build begins.
+>
+>This approach to package restore offers several advantages:
+>
+>- No need to enable it for your project or solution. Visual Studio will automatically download missing packages before your projects are built and team members don't need to understand NuGet Package Restore.
+>- No additional directories and files are required within your project or solution.
+>- Packages are restored before MSBuild is invoked by Visual Studio. This allows packages that extend MSBuild though targets/props file imports to be restored before MSBuild starts, ensuring a successful build.
+>- Compatibility with ASP.NET Web Site projects created in Visual Studio.
+
+You are using the old package restore if you have clicked the "Enable NuGet Package Restore" -button in Visual Studio. If so, you should migrate: [NuGet doc](http://docs.nuget.org/docs/workflows/migrating-to-automatic-package-restore) or [with pictures](http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore). 
+
 ### Use [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute or a [LINQ expression](http://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) to help with notifying property changes.
 
 Many MVVM frameworks already help you with notifying property changes from your viewmodels. However, if you don't use any of those, create a base viewmodel class for yourself.
