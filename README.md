@@ -145,9 +145,9 @@ However, that will simply timeout immediately. The correct way to use it is (Not
 ```
 So, in practice the timeout occurs when the passed IObservable completes, not after the passed TimeSpan.
 
-### If you're using Rx in your ViewModels, use a ReactiveProperty as well
+### If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well
 
-If you aren't already using an framework that offers you an easy way to bind into your reactive code from XAML, search for a ReactiveProperty helpers class.
+If you aren't already using a framework that offers you an easy way to bind into your reactive code from XAML, search for a ReactiveProperty and ReactiveCommand helpers classes. Like the ones in [this](https://github.com/tomaszpolanski/Utilities/tree/master/Utilities.Reactive) small reactive utilities library by Futurice's Tomasz Polanski.
 
 ## Windows App Development 
 
