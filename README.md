@@ -1,6 +1,6 @@
 # Good practices in Windows App development
 
-Lessons learned from Windows App developers in Futurice. Avoid reinventing the wheel by following these guidelines. If you are interested in iOS or Android development, be sure to also check our [**iOS Good Practices**](https://github.com/futurice/ios-good-practices) or [**Android Best Practices**](https://github.com/futurice/ios-good-practices) documents.
+Lessons learned from Windows App developers in Futurice. Avoid reinventing the wheel by following these guidelines. If you are interested in iOS or Android development, be sure to check our [**iOS**](https://github.com/futurice/ios-good-practices) or [**Android**](https://github.com/futurice/ios-good-practices) documents as well.
 
 Feedback is welcomed, but check the [guidelines](https://github.com/futurice/android-best-practices/tree/master/CONTRIBUTING.md) first.
 
@@ -16,7 +16,7 @@ Visual Studio is the defacto IDE for developing Windows apps. The free express v
 
 A free visual studio extension from Microsoft. It lacks some features of the commercial [JustCode](http://www.telerik.com/products/justcode.aspx) and [ReSharper](https://www.jetbrains.com/resharper/), but doesn't seem to slow your IDE down at all either.
 
-### Use NuGet
+### Use [NuGet](http://www.nuget.org/)
 
 Nuget is Microsoft's take on a package manager. There's a Visual Studio extension called NuGet Package Manager preinstalled into newer Visual Studios. Bottom line: Use it for external references if you don't need to include the source code in your Solution.
 
@@ -33,38 +33,6 @@ According to [NuGet docs:](http://docs.nuget.org/docs/reference/package-restore)
 >- Compatibility with ASP.NET Web Site projects created in Visual Studio.
 
 You are using the old package restore if you have clicked the "Enable NuGet Package Restore" -button in Visual Studio. If so, you should migrate: [NuGet doc](http://docs.nuget.org/docs/workflows/migrating-to-automatic-package-restore) or [with pictures](http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore). 
-
-### Use [yield](http://msdn.microsoft.com/en-us/library/9k7k7cf0.aspx) when returning an IEnumerable
-
-Rather than writing something like:
-```groovy
-public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
-    get {
-      return new List<Galaxy>() {
-        new Galaxy { Name = "Tadpole", MegaLightYears = 400 },
-        new Galaxy { Name = "Pinwheel", MegaLightYears = 25 },
-        new Galaxy { Name = "Milky Way", MegaLightYears = 0 },
-        new Galaxy { Name = "Andromeda", MegaLightYears = 3 },
-      };
-    }
-}
-```
-write this instead:
-```groovy
-public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
-    get {
-      yield return new Galaxy { Name = "Tadpole", MegaLightYears = 400 };
-      yield return new Galaxy { Name = "Pinwheel", MegaLightYears = 25 };
-      yield return new Galaxy { Name = "Milky Way", MegaLightYears = 0 };
-      yield return new Galaxy { Name = "Andromeda", MegaLightYears = 3 };
-    }
-}
-```
-It will automatically return empty IEnumreable if no "yield return" is called. This will avoid null reference exceptions when you're expecting to get an IEnumerable. The yield approach also only runs as far as is required by the possible iterator. For example:
-```groovy
-var firstGalaxy = Galaxies.First();
-```
-only creates the first Galaxy instance, avoiding unnecessary processing.
 
 ### Split code into small methods
 
@@ -110,23 +78,55 @@ Out of the different APIs available, HttpClient is the new one that supports asy
 
 Ther are different timers for different purposes. For example [DispatcherTimer for WinRT](http://msdn.microsoft.com/en-us/library/windows/apps/xaml/windows.ui.xaml.dispatchertimer.aspx), [DispatcherTimer for WP Silverlight](http://msdn.microsoft.com/en-us/library/windows/apps/system.windows.threading.dispatchertimer(v=vs.105).aspx) and [ThreadPoolTimer](http://msdn.microsoft.com/en-us/library/windows/apps/windows.system.threading.threadpooltimer.aspx). Additionally there are [Observable.Timer](http://msdn.microsoft.com/en-us/library/system.reactive.linq.observable.timer(v=vs.103).aspx), [Task.Delay](http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.delay(v=vs.110).aspx), and last (and least) [Thread.Sleep](http://msdn.microsoft.com/en-us/library/system.threading.thread.sleep(v=vs.110).aspx).
 
-### #1 thing to know about LINQ
+### Use [yield](http://msdn.microsoft.com/en-us/library/9k7k7cf0.aspx) when returning an IEnumerable
 
-LINQ creates a query that is re-executed whenever the collection is accessed. Use ToArray, ToList, etc. extension methods to avoid re-execution when utilizing the collection multiple times.
+Rather than writing something like:
+```groovy
+public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
+    get {
+      return new List<Galaxy>() {
+        new Galaxy { Name = "Tadpole", MegaLightYears = 400 },
+        new Galaxy { Name = "Pinwheel", MegaLightYears = 25 },
+        new Galaxy { Name = "Milky Way", MegaLightYears = 0 },
+        new Galaxy { Name = "Andromeda", MegaLightYears = 3 },
+      };
+    }
+}
+```
+write this instead:
+```groovy
+public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
+    get {
+      yield return new Galaxy { Name = "Tadpole", MegaLightYears = 400 };
+      yield return new Galaxy { Name = "Pinwheel", MegaLightYears = 25 };
+      yield return new Galaxy { Name = "Milky Way", MegaLightYears = 0 };
+      yield return new Galaxy { Name = "Andromeda", MegaLightYears = 3 };
+    }
+}
+```
+It will automatically return empty IEnumreable if no "yield return" is called. This will avoid null reference exceptions when you're expecting to get an IEnumerable. The yield approach also only runs as far as is required by the possible iterator. For example:
+```groovy
+var firstGalaxy = Galaxies.First();
+```
+only creates the first Galaxy instance, avoiding unnecessary processing.
+
+### Explicitly convert LINQ queries into collections to avoid unnecessary re-evaluation
+
+Probably the #1 thing to know about LINQ, is that it creates a query that is executed whenever its items are accessed. Sometimes this is what you actually want. However, often you just want to run the query once but access the resulting items multiple times. To avoid unnecessary re-evaluation and bugs resulting from the query result changing, use ToArray, ToList, etc. extension methods to run the query and store the results into a collection.
 
 ### Don't be fooled by the IObservable<TSource> Timeout<TSource, TTimeout>(this IObservable<TSource> source, IObservable<TTimeout> firstTimeout, Func<TSource, IObservable<TTimeout>> timeoutDurationSelector)
 
-Now this is an interface, so different implementations could behave differently. The following applies at least to the implementation in System.Reactive.Linq.Observable.
+Now, this is an interface, so different implementations could behave differently. The following applies at least to the implementation in System.Reactive.Linq.Observable.
 
 It's easy to think that you should just:
 ```
 .Timeout(Observable.Return(TimeSpan.FromSeconds(10)), vm => Observable.Return(TimeSpan.FromSeconds(1)))
 ```
-However, that will simply timeout immediately. The right way to use it is:
+However, that will simply timeout immediately. The right way to use it is (Notice the Obervable.Timer):
 ```
 .Timeout(Observable.Timer(TimeSpan.FromSeconds(10)), i => Observable.Timer(TimeSpan.FromSeconds(1)))
 ```
-So, in practice the timeout happens when the passed IObservable completes, not after the passed TimeSpan.
+So, in practice the timeout occurs when the passed IObservable completes, not after the passed TimeSpan.
 
 ## Windows App Development 
 
