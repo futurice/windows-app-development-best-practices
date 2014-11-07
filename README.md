@@ -124,7 +124,7 @@ Handle(sItems.Last()); // Query executed, returns the spoon item
 ```
 do this instead:
 ```
-var sItems = MyItems.Where(i => i.Name.Contains("s")); // Query executed
+var sItems = MyItems.Where(i => i.Name.Contains("s")).ToList(); // Query executed
 var firstSItem = sItems.First(); 
 var lastSItem = sItems.Last();
 MyItems.Add(new MyItem("spoon"));
