@@ -113,12 +113,19 @@ Ther are different timers for different purposes. For example [DispatcherTimer f
 
 LINQ creates a query that is re-executed whenever the collection is accessed. Use ToArray, ToList, etc. extension methods to avoid re-execution when utilizing the collection multiple times.
 
-### Don't be fooled by the Observable.Timeout
+### Don't be fooled by the IObservable<TSource> Timeout<TSource, TTimeout>(this IObservable<TSource> source, IObservable<TTimeout> firstTimeout, Func<TSource, IObservable<TTimeout>> timeoutDurationSelector)
 
-The right way to use it is:
+Now this is an interface, so different implementations could behave differently. The following applies at least to the implementation in System.Reactive.Linq.Observable.
+
+It's easy to think that you should just:
 ```
-Timeout(Observable.Timer(TimeSpan.FromSeconds(30)), i => Observable.Timer(TimeSpan.FromSeconds(3)))
+.Timeout(Observable.Return(TimeSpan.FromSeconds(10)), vm => Observable.Return(TimeSpan.FromSeconds(1)))
 ```
+However, that will simply timeout immediately. The right way to use it is:
+```
+.Timeout(Observable.Timer(TimeSpan.FromSeconds(10)), i => Observable.Timer(TimeSpan.FromSeconds(1)))
+```
+So, in practice the timeout happens when the passed IObservable completes, not after the passed TimeSpan.
 
 ## Windows App Development 
 
