@@ -259,5 +259,5 @@ If you aren't already using a library that offers you an easy way to bind into y
 
 ## License
 
-[Futurice Oy](www.futurice.com)
+[Futurice Oy](http://www.futurice.com)
 Creative Commons Attribution 4.0 International (CC BY 4.0)
