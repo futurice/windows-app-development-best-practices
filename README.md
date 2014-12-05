@@ -2,6 +2,8 @@
 
 Lessons learned from Windows 8.x and Windows Phone 8.x app developers at Futurice. Avoid reinventing the wheel by following these guidelines. If you are interested in iOS or Android development, be sure to check our [**iOS**](https://github.com/futurice/ios-good-practices) and [**Android**](https://github.com/futurice/android-best-practices) documents as well.
 
+To keep this document easily approachable, it should be kept concise and practical: Each subtitle should be an actual practice and contain short, but very practical description of what to do and what not to do. Some reasoning should be included, but more detailed explanations and discussions should only be included as external links. 
+
 Feedback is welcomed, but check the [guidelines](https://github.com/futurice/android-best-practices/tree/master/CONTRIBUTING.md) first.
 
 -----------------------------
