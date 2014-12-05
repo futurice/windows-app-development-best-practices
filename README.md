@@ -145,6 +145,31 @@ However, that will simply timeout immediately. The correct way to use it is:
 ```
 So, in practice the timeout occurs when the passed IObservable completes, not after the duration of the passed TimeSpan.
 
+### When rethrowing an exception use just "throw" or include the original exception in the new exception
+
+Sometimes you want to catch an exception and rethrow it with or without additional information. For example, you could want to write something like:
+```C#
+try {
+  ExceptionThrowingOperation();
+} catch (Exception e) {
+  if (CanRecover) {
+    Recover();
+  }
+  else {
+    // Different options for rethrowing
+    throw e; // Don't do this: It baisicly throws a new exception, with a stacktrace that begins from here.
+    throw; // Do this if you want to rethrow the same exception. It keeps the stacktrace.
+    throw new SpecificException("my message", e); // Do this if you want to throw a more specific exception with additional information. It sets the original exception as the inner exception of the new exception. Therefore, the stacktrace will be accessible further on.
+  }
+}
+```
+
+
+### Only throw exceptions when it's important enough to stop the debugger
+
+- Exception should only be thrown when something completely unexpected happens (network stuff?)
+-- every exception thrown (on purpose) makes it more difficult to debug real issues using the "break when exception is thrown" -feature in visual studio. for example NullReferenceException should never ever happen in working code.
+
 ## Windows App Development 
 
 ### Do not hardcode a Name for your custom controls
