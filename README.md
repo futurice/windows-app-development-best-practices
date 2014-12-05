@@ -166,6 +166,40 @@ try {
 }
 ```
 
+### Log Exception.ToString()
+
+Do not just log Exception.Message, it lacks a lot of useful details. Use Exception.ToString() instead, it contains all the necessary information, including exception type, message, stacktrace, and inner exceptions.
+
+### Catch exactly the exception you expect
+
+If you expect a NetworkException, write _"catch (NetworkException e)"_, not just _"catch (Exception e)"_. By catching a more general exception, you hide programming errors inside the try-block. For example, a NullReferenceException would be swallowed, and make it a lot harder to notice. Additionally, any recovery code you have in the catch-block might not work as intented for other than the specific exception it was written for.
+
+[A good article on handling exceptions](http://www.codeproject.com/Articles/9538/Exception-Handling-Best-Practices-in-NET)
+
+### Only throw exceptions in _exceptional_ cases
+
+Exceptions are slow and are by definition _exceptions_. Additionally each exception thrown during the normal execution of the codebase makes using the Visual Studio feature to break the debugger when any or some exceptions are thrown a pain. Ideally you could always have the debugger break when a managed exception is thrown. Then, every time your debugger breaks, there's something noteworthy for you to look at. Either there's a programming error, something wrong with your debugging setup, or a device malfunction.
+
+This applies to both designing APIs and using APIs. There's often a way to run a programmatic check to avoid _expected_ exceptions.
+
+Do:
+```C#
+if (!closable.IsAlreadyClosed) {
+  closable.Close()
+} else {
+  DoSomething();
+}
+```
+Don't:
+```C#
+try {
+  closable.Close()
+} catch (AlreadyClosedException e) {
+  DoSomething();
+}
+```
+[MSDN on throwing exceptions](http://msdn.microsoft.com/en-us/library/seyhszts(v=vs.110).aspx)
+
 ## Windows App Development 
 
 ### Do not hardcode a Name for your custom controls
