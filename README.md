@@ -164,6 +164,24 @@ try {
 }
 ```
 
+### Log Exception.ToString()
+
+Do not just log Exception.Message. Exception.ToString() contains all the necessary information, including message, stacktrace, and inner exceptions.
+
+### Only catch exceptions you can actually handle
+
+Except when you log it and eat if to prevent a bug in non critical feature (analytics, ads..) to crash the app.
+
+### Only throw exceptions in _exceptional_ cases
+
+http://msdn.microsoft.com/en-us/library/seyhszts(v=vs.110).aspx
+
+http://www.codeproject.com/Articles/9538/Exception-Handling-Best-Practices-in-NET
+
+- Exception should only be thrown when something completely unexpected happens (network stuff?)
+-- every exception thrown (on purpose) makes it more difficult to debug real issues using the "break when exception is thrown" -feature in visual studio. for example NullReferenceException should never ever happen in working code.
+
+
 ## Windows App Development 
 
 ### Do not hardcode a Name for your custom controls
