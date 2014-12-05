@@ -168,11 +168,11 @@ try {
 
 Do not just log Exception.Message, it lacks a lot of useful details. Use Exception.ToString() instead, it contains all the necessary information, including exception type, message, stacktrace, and inner exceptions.
 
-### Only catch exceptions you can actually handle
+### Catch exactly the exception you expect
 
-Except when you log it and eat it to prevent a bug in non critical feature (analytics, ads..) to crash the app.
+If you expect a NetworkException, write _"catch (NetworkException e)"_, not just _"catch (Exception e)"_. By catching a more general exception, you hide programming errors inside the try-block. For example, a NullReferenceException would be swallowed, and make it a lot harder to notice. Additionally, any recovery code you have in the catch-block might not work as intented for other than the specific exception it was written for.
 
-http://www.codeproject.com/Articles/9538/Exception-Handling-Best-Practices-in-NET
+[A good article on handling exceptions](http://www.codeproject.com/Articles/9538/Exception-Handling-Best-Practices-in-NET)
 
 ### Only throw exceptions in _exceptional_ cases
 
@@ -180,18 +180,18 @@ Exceptions are slow and are by definition _exceptions_. Additionally each except
 
 This applies to both designing APIs and using APIs. There's often a way to run a programmatic check to avoid _expected_ exceptions.
 
-For example, rather do this:
+Do:
 ```C#
-if (!Closable.IsAlreadyClosed) {
-  Closable.Close()
+if (!closable.IsAlreadyClosed) {
+  closable.Close()
 } else {
   DoSomething();
 }
 ```
-Than this:
+Don't:
 ```C#
 try {
-  Closable.Close()
+  closable.Close()
 } catch (AlreadyClosedException e) {
   DoSomething();
 }
