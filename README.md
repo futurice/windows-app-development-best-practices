@@ -166,21 +166,37 @@ try {
 
 ### Log Exception.ToString()
 
-Do not just log Exception.Message. Exception.ToString() contains all the necessary information, including message, stacktrace, and inner exceptions.
+Do not just log Exception.Message, it lacks a lot of useful details. Use Exception.ToString() instead, it contains all the necessary information, including exception type, message, stacktrace, and inner exceptions.
 
 ### Only catch exceptions you can actually handle
 
-Except when you log it and eat if to prevent a bug in non critical feature (analytics, ads..) to crash the app.
-
-### Only throw exceptions in _exceptional_ cases
-
-http://msdn.microsoft.com/en-us/library/seyhszts(v=vs.110).aspx
+Except when you log it and eat it to prevent a bug in non critical feature (analytics, ads..) to crash the app.
 
 http://www.codeproject.com/Articles/9538/Exception-Handling-Best-Practices-in-NET
 
-- Exception should only be thrown when something completely unexpected happens (network stuff?)
--- every exception thrown (on purpose) makes it more difficult to debug real issues using the "break when exception is thrown" -feature in visual studio. for example NullReferenceException should never ever happen in working code.
+### Only throw exceptions in _exceptional_ cases
 
+Exceptions are slow and are by definition _exceptions_. Additionally each exception thrown during the normal execution of the codebase makes using the Visual Studio feature to break the debugger when any or some exceptions are thrown a pain. Ideally you could always have the debugger break when a managed exception is thrown. Then, every time your debugger breaks, there's something noteworthy for you to look at. Either there's a programming error, something wrong with your debugging setup, or a device malfunction.
+
+This applies to both designing APIs and using APIs. There's often a way to run a programmatic check to avoid _expected_ exceptions.
+
+For example, rather do this:
+```C#
+if (!Closable.IsAlreadyClosed) {
+  Closable.Close()
+} else {
+  DoSomething();
+}
+```
+Than this:
+```C#
+try {
+  Closable.Close()
+} catch (AlreadyClosedException e) {
+  DoSomething();
+}
+```
+[MSDN on throwing exceptions](http://msdn.microsoft.com/en-us/library/seyhszts(v=vs.110).aspx)
 
 ## Windows App Development 
 
