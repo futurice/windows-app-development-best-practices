@@ -4,7 +4,7 @@ Lessons learned from Windows 8.x and Windows Phone 8.x app developers at Futuric
 
 To keep this document easily approachable, it aims to be concise and practical: Each subtitle is an actual practice and contains short, but very practical description of what to do and what not to do. Some reasoning is included, but more detailed explanations and discussions are only included as external links. 
 
-Feedback is welcomed, but check the [guidelines](https://github.com/futurice/android-best-practices/tree/master/CONTRIBUTING.md) first. Also, check the Issues section of this repository to participate in discussions around various subtopics.
+Feedback is welcomed, but check the [guidelines](https://github.com/futurice/android-best-practices/tree/master/CONTRIBUTING.md) first. Also, check the [Issues](https://github.com/futurice/win-client-dev-good-practices/issues) section of this repository to participate in discussions around various subtopics.
 
 -----------------------------
 
