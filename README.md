@@ -200,6 +200,31 @@ try {
 ```
 [MSDN on throwing exceptions](http://msdn.microsoft.com/en-us/library/seyhszts(v=vs.110).aspx)
 
+### Use [CultureInfo.InvariantCulture](http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo.invariantculture) for serializations
+
+When ever you are serializing values that can be represented differently in different cultures, make sure that you serialize and deserialize them with the same culture. If you don't define the culture explicitly, the APIs normally use the culture of the current thread, which is often set by a setting in the operating system. CultureInfo.InvariantCulture is an IFormatProvider that exists exactly for the purpose of hardocoding the culture for serializations.
+
+For example, serialization of DateTime, double, float, and decimal depend on culture. If you serialize these values using the OS provided culture, and the culture has changed when you deserialize, you are likely to run into runtime exceptions. as the expected date format, or the decimal separator might've changed.
+
+So, don't do this:
+```C#
+string serializedDateTime = dateTime.ToString();
+// Write serializedDateTime to a presisten storage.
+...
+// Load serializedDateTime from presistent storage.
+// If the thread culture was, let's say, en-us when you serialized the datetime, and now it has been changed for example to fi-fi, you would get an FormatException: "String was not recognized as a valid DateTime".
+DateTime dateTime = DateTime.Parse(serializedDateTime);
+```
+Do this:
+```C#
+string serializedDateTime = dateTime.ToString(System.Globalization.CultureInfo.InvariantCulture);
+// Write serializedDateTime to a presisten storage.
+...
+// Load serializedDateTime from presistent storage.
+// No matter what the current thread culture during the serialization and deserialization, it will use the special InvariantCulture date formatting settings, and just work.
+DateTime dateTime = DateTime.Parse(serializedDateTime, System.Globalization.CultureInfo.InvariantCulture);
+```
+
 ## Windows App Development 
 
 ### Do not hardcode a Name for your custom controls
