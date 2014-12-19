@@ -225,6 +225,10 @@ string serializedDateTime = dateTime.ToString(System.Globalization.CultureInfo.I
 DateTime dateTime = DateTime.Parse(serializedDateTime, System.Globalization.CultureInfo.InvariantCulture);
 ```
 
+### Unblock downloaded DLLs before referencing them in your projects 
+
+For security reasons, Windows usually 'blocks' files downloaded from the internet. If you try to add a reference to such a DLL in Visual Studio, you get an incorrect error message: "A reference to a higher version or incompatible assembly cannot be added to the project." Whenever you get the error, go to Properties of the DLL file and click Unblock. You should now be able to add the reference.
+
 ## Windows App Development 
 
 ### Do not hardcode a Name for your custom controls
