@@ -227,7 +227,7 @@ DateTime dateTime = DateTime.Parse(serializedDateTime, System.Globalization.Cult
 
 ### Unblock downloaded DLLs before referencing them in your projects 
 
-For security reasons, Windows usually 'blocks' files downloaded from the internet. If you try to add a reference to such a DLL in Visual Studio, you get an incorrect error message: "A reference to a higher version or incompatible assembly cannot be added to the project." Whenever you get the error, go to Properties of the DLL file and click Unblock. You should now be able to add the reference.
+For security reasons, Windows usually 'blocks' files downloaded from the internet. If you try to add a reference to such a DLL in Visual Studio, you get an incorrect error message: _"A reference to a higher version or incompatible assembly cannot be added to the project."_ Whenever you get the error, go to Properties of the DLL file and click Unblock. You should now be able to add the reference.
 
 ## Windows App Development 
 
