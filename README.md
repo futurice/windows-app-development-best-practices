@@ -281,7 +281,9 @@ It actually binds to the property PropertyName in the object in the DataContext 
 
 Dependent animations are animations that depend on the UI thread, the major drawback is performance. Independent animations are animations that can be run independent of the UI thread and therefore don't burden it and remain smooth even if the UI thread is blocked.
 
-Acording to [MSDN](http://msdn.microsoft.com/en-us/library/windows/apps/hh994638.aspx), all of these types of animations are guaranteed to be independent.
+For implementing animations you should use [Storyboards](http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.animation.storyboard.aspx).
+
+According to [MSDN](http://msdn.microsoft.com/en-us/library/windows/apps/hh994638.aspx), all of the following types of animations are guaranteed to be independent:
 * [Object animations using key frames](http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.animation.objectanimationusingkeyframes.aspx)
 * Zero-duration animations
 * Animations to the Canvas.Left and Canvas.Top properties
