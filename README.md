@@ -282,15 +282,15 @@ It actually binds to the property PropertyName in the object in the DataContext 
 Dependent animations are animations that depend on the UI thread, the major drawback is performance. Independent animations are animations that can be run independent of the UI thread and therefore don't burden it and remain smooth even if the UI thread is blocked.
 
 Acording to [MSDN](http://msdn.microsoft.com/en-us/library/windows/apps/hh994638.aspx), all of these types of animations are guaranteed to be independent.
-* [Object animations using key frames](http://msdn.microsoft.com/en-us/library/system.windows.media.animation.objectanimationusingkeyframes%28v=vs.110%29.aspx)
+* [Object animations using key frames](http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.animation.objectanimationusingkeyframes.aspx)
 * Zero-duration animations
 * Animations to the Canvas.Left and Canvas.Top properties
 * Animations to the UIElement.Opacity property
 * Animations to properties of type Brush when targeting the SolidColorBrush.Color subproperty
 * Animations to the following UIElement properties when targeting subproperties of the return value types
- * RenderTransform: For example, set RenderTransform to ScaleTransform and animate it's ScaleX instead of animating UIElement.Width
- * Projection 
- * Clip
+ * [RenderTransform](http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.uielement.rendertransform.aspx): For example, set RenderTransform to ScaleTransform and animate it's ScaleX instead of animating UIElement.Width
+ * [Projection](http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.uielement.projection.aspx): E.g. for 3D-effects 
+ * [Clip](http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.uielement.clip.aspx)
 
 Additionally you should use animations from the [Windows.UI.Xaml.Media.Animation](http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.animation.aspx) namespace when possible. The animations have "Theme" in their class name, and are described in [Quickstart: Animating your UI using library animations](http://msdn.microsoft.com/en-us/library/windows/apps/xaml/hh452703.aspx).
 
