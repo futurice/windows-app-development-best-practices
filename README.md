@@ -277,6 +277,23 @@ This happens because "{Binding PropertyName}" is short for:
 ```
 It actually binds to the property PropertyName in the object in the DataContext property of its self. When DataContext is not set, it's automatically inherited from the Parent.
 
+### Use independent animations over dependent ones
+
+Dependent animations are animations that depend on the UI thread, the major drawback is performance. Independent animations are animations that can be run independent of the UI thread and therefore don't burden it and remain smooth even if the UI thread is blocked.
+
+Acording to [MSDN](http://msdn.microsoft.com/en-us/library/windows/apps/hh994638.aspx), all of these types of animations are guaranteed to be independent.
+* [Object animations using key frames](http://msdn.microsoft.com/en-us/library/system.windows.media.animation.objectanimationusingkeyframes%28v=vs.110%29.aspx)
+* Zero-duration animations
+* Animations to the Canvas.Left and Canvas.Top properties
+* Animations to the UIElement.Opacity property
+* Animations to properties of type Brush when targeting the SolidColorBrush.Color subproperty
+* Animations to the following UIElement properties when targeting subproperties of the return value types
+ * RenderTransform: For example, set RenderTransform to ScaleTransform and animate it's ScaleX instead of animating UIElement.Width
+ * Projection 
+ * Clip
+
+Additionally you should use animations from the [Windows.UI.Xaml.Media.Animation](http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.animation.aspx) namespace when possible. The animations have "Theme" in their class name, and are described in [Quickstart: Animating your UI using library animations](http://msdn.microsoft.com/en-us/library/windows/apps/xaml/hh452703.aspx).
+
 ### Use [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute or a [LINQ expression](http://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) to help with notifying property changes.
 
 Many MVVM frameworks already help you with notifying property changes from your viewmodels. However, if you don't use any of those, create a base viewmodel class for yourself. Be aware of the performance overhead in creating a LINQ expressions though.
