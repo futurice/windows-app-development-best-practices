@@ -1,14 +1,12 @@
-# Good practices in Windows apps development
+# Best practices in developing (universal) apps for Windows Runtime
 
-Lessons learned from Windows 8.x and Windows Phone 8.x app developers around the world, maintained by [Futurice](http://futurice.com/). If you are interested in iOS or Android development, be sure to check our [**iOS**](https://github.com/futurice/ios-good-practices) and [**Android**](https://github.com/futurice/android-best-practices) documents as well.
+This repository is maintained by [Futurice](http://futurice.com/), but contributions from anyone are highly encouraged! If you are interested in iOS or Android development, be sure to check our [**iOS**](https://github.com/futurice/ios-good-practices) and [**Android**](https://github.com/futurice/android-best-practices) documents as well.
 
-To keep this document easily approachable, it aims to be concise and practical: Each subtitle is an actual practice and contains short, but very practical description of what to do and what not to do. Some reasoning is included, but more detailed explanations and discussions are only included as external links. 
+To keep this document easily approachable, it aims to be concise and practical: Each subtitle is an actual practice and contains short, but very practical description of what to do and what not to do. Some reasoning is included, but more detailed explanations and discussions are only included as external links. The listing tries to start of by taking care of the most common issues and end with the rarest ones.
 
 Feedback and contributions are wholeheartedly welcomed! Feel free to fork and send a pull request, or just participate in the discussion at [Issues](https://github.com/futurice/win-client-dev-good-practices/issues).
 
 -----------------------------
-
-## General C# development with Visual Studio
 
 ### Use Visual Studio Pro or greater
 
@@ -35,6 +33,14 @@ According to [NuGet docs:](http://docs.nuget.org/docs/reference/package-restore)
 >- Compatibility with ASP.NET Web Site projects created in Visual Studio.
 
 You are using the old package restore if you have clicked the "Enable NuGet Package Restore" -button in Visual Studio. If so, you should migrate: [NuGet doc](http://docs.nuget.org/docs/workflows/migrating-to-automatic-package-restore) or [with pictures](http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore). 
+
+### Refer to the right documentation
+
+When searching for the official documentation for a class, it's easy to end up somewhere else than the documentation for Universal Apps. Generally Universal Apps utilize the new WinRT API (available for all languages) and the .NET for Universal Apps (available for managed languages). Many of the classes used in Universal Apps have existed (possible with differences) in incompatible .NET versions. Therefore, if you search e.g. for UIElement, you might end up at http://msdn.microsoft.com/en-us/library/system.windows.uielement%28v=vs.110%29.aspx, while the correct documentation for the WinRT class can be found at http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.uielement.aspx.
+
+You know that you are in the correct documentation if it lists Windows Store Apps or Windows Runtime Apps as a supported platform.  
+
+The landing base for Universal Apps API documentation cant be found at: http://msdn.microsoft.com/en-us/library/windows/apps/br211369.aspx
 
 ### Split code into small methods to improve stacktraces and the callstack view
 
@@ -132,21 +138,6 @@ MyItems.Add(new MyItem("spoon"));
 Handle(sItems.Last()); // returns the lastSItem
 ```
 
-### Don't be fooled by the IObservable<TSource> Timeout<TSource, TTimeout>(this IObservable<TSource> source, IObservable<TTimeout> firstTimeout, Func<TSource, IObservable<TTimeout>> timeoutDurationSelector)
-
-Now, this is an interface, so different implementations could behave differently. The following applies at least to the implementation in System.Reactive.Linq.Observable.
-
-It's easy to think that you should just:
-```C#
-.Timeout(Observable.Return(TimeSpan.FromSeconds(10)), vm => Observable.Return(TimeSpan.FromSeconds(1)))
-```
-However, that will simply timeout immediately. The correct way to use it is:
-```C#
-// Notice the .Timer
-.Timeout(Observable.Timer(TimeSpan.FromSeconds(10)), i => Observable.Timer(TimeSpan.FromSeconds(1)))
-```
-So, in practice the timeout occurs when the passed IObservable completes, not after the duration of the passed TimeSpan.
-
 ### When rethrowing an exception use just "throw" or include the original exception in the new exception
 
 Sometimes you want to catch an exception and rethrow it as is or with additional information. For example:
@@ -228,16 +219,6 @@ DateTime dateTime = DateTime.Parse(serializedDateTime, System.Globalization.Cult
 ### Unblock downloaded DLLs before referencing them in your projects 
 
 For security reasons, Windows usually 'blocks' files downloaded from the internet. If you try to add a reference to such a DLL in Visual Studio, you get an incorrect error message: _"A reference to a higher version or incompatible assembly cannot be added to the project."_ Whenever you get the error, go to Properties of the DLL file and click Unblock. You should now be able to add the reference.
-
-## Windows App Development 
-
-### Refer to the right documentation
-
-When searching for the official documentation for a class, it's easy to end up somewhere else than the documentation for Universal Apps. Generally Universal Apps utilize the new WinRT API (available for all languages) and the .NET for Universal Apps (available for managed languages). Many of the classes used in Universal Apps have existed (possible with differences) in incompatible .NET versions. Therefore, if you search e.g. for UIElement, you might end up at http://msdn.microsoft.com/en-us/library/system.windows.uielement%28v=vs.110%29.aspx, while the correct documentation for the WinRT class can be found at http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.uielement.aspx.
-
-You know that you are in the correct documentation if it lists Windows Store Apps or Windows Runtime Apps as a supported platform.  
-
-The landing base for Universal Apps API documentation cant be found at: http://msdn.microsoft.com/en-us/library/windows/apps/br211369.aspx
 
 ### Do not hardcode a Name for your custom controls
 
@@ -367,6 +348,21 @@ public class ViewModelBase : INotifyPropertyChanged
 ### If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well
 
 If you aren't already using a library that offers you an easy way to bind into your reactive code from XAML, search for a ReactiveProperty and ReactiveCommand helper classes. Or just pick up the ones in [this](https://github.com/tomaszpolanski/Utilities/tree/master/Utilities.Reactive) little reactive utilities library by Futurice's Tomasz Polanski.
+
+### Don't be fooled by the IObservable<TSource> Timeout<TSource, TTimeout>(this IObservable<TSource> source, IObservable<TTimeout> firstTimeout, Func<TSource, IObservable<TTimeout>> timeoutDurationSelector)
+
+Now, this is an interface, so different implementations could behave differently. The following applies at least to the implementation in System.Reactive.Linq.Observable.
+
+It's easy to think that you should just:
+```C#
+.Timeout(Observable.Return(TimeSpan.FromSeconds(10)), vm => Observable.Return(TimeSpan.FromSeconds(1)))
+```
+However, that will simply timeout immediately. The correct way to use it is:
+```C#
+// Notice the .Timer
+.Timeout(Observable.Timer(TimeSpan.FromSeconds(10)), i => Observable.Timer(TimeSpan.FromSeconds(1)))
+```
+So, in practice the timeout occurs when the passed IObservable completes, not after the duration of the passed TimeSpan.
 
 ## License
 
