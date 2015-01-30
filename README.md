@@ -347,7 +347,7 @@ public class ViewModelBase : INotifyPropertyChanged
 
 ### If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well
 
-If you aren't already using a library that offers you an easy way to bind into your reactive code from XAML, search for a ReactiveProperty and ReactiveCommand helper classes. Or just pick up the ones in [this](https://github.com/tomaszpolanski/Utilities/tree/master/Utilities.Reactive) little reactive utilities library by Futurice's Tomasz Polanski.
+If you aren't already using a library that offers you an easy way to bind into your reactive code from XAML, search for a ReactiveProperty and ReactiveCommand helper classes.
 
 ### Don't be fooled by the IObservable<TSource> Timeout<TSource, TTimeout>(this IObservable<TSource> source, IObservable<TTimeout> firstTimeout, Func<TSource, IObservable<TTimeout>> timeoutDurationSelector)
 
