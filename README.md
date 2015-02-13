@@ -266,6 +266,19 @@ This happens because "{Binding PropertyName}" is short for:
 ```
 It actually binds to the property PropertyName in the object in the DataContext property of its self. When DataContext is not set, it's automatically inherited from the Parent.
 
+### Don't make forward references with StaticResource or ThemeResource keywords
+
+Altough writting something like the following might not fail, it carries a performance penalty compared to defining the MyColor resource before the MyBrush resource.
+```XML
+<ResourceDictionary>
+    <SolidColorBrush x:Key="MyBrush" Color="{StaticResource MyColor}" />
+    <Color x:Key="MyColor" Value="Black" />   
+```
+
+Additionally, in some cases a forward reference will throw a runtime exception. 
+
+[Source](https://msdn.microsoft.com/en-us/library/dn263118.aspx)
+
 ### Use independent animations over dependent ones
 
 Dependent animations are animations that depend on the UI thread, the major drawback is performance. Independent animations are animations that can be run independent of the UI thread and therefore don't burden it and remain smooth even if the UI thread is blocked.
