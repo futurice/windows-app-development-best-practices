@@ -8,9 +8,11 @@ Feedback and contributions are wholeheartedly welcomed! Feel free to fork and se
 
 -----------------------------
 
-### Use Visual Studio Pro or greater
+### Use Visual Studio Community/Pro or greater
 
-Visual Studio is the de facto IDE for developing Windows apps. The free express versions are good for getting started, but lack some important features, such as support for [extensions](https://visualstudiogallery.msdn.microsoft.com/). Pro version adds support for all the different project types in a single installation, additional productivity features, support for extensions, and some team collaboration features. Premium mainly adds built in testing support beyond simple unit testing, and Ultimate adds enhanced debugging, architecture, and code analysis tools.
+Visual Studio is the de facto IDE for developing Windows apps. The [Community edition](http://www.visualstudio.com/products/visual-studio-community-vs) gives you the same features as the [Pro editon](http://www.visualstudio.com/products/visual-studio-professional-with-msdn-vs) for free, but has some [restrictions on use in organizations](http://www.visualstudio.com/support/legal/dn877550). [Premium](http://www.visualstudio.com/products/visual-studio-premium-with-msdn-vs) mainly adds built in testing support beyond simple unit testing, and [Ultimate](http://www.visualstudio.com/products/visual-studio-ultimate-with-MSDN-vs) adds enhanced debugging, architecture, and code analysis tools. 
+
+The free express versions are good for getting started, but lack some important features, such as support for [extensions](https://visualstudiogallery.msdn.microsoft.com/), the ability to have all the different project types in a single installation and some team collaboration features. Since the Community editon has all the features of the Express editions we recommend not using the Express editions.
 
 ### Use Productivity Power Tools ([2013](https://visualstudiogallery.msdn.microsoft.com/dbcb8670-889e-4a54-a226-a48a15e4cace))
 
