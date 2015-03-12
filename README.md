@@ -364,6 +364,14 @@ public class ViewModelBase : INotifyPropertyChanged
 
 If you aren't already using a library that offers you an easy way to bind into your reactive code from XAML, search for a ReactiveProperty and ReactiveCommand helper classes.
 
+### If you have problems deploying to the emulator, try disabling your anti-virus
+
+At least Symantec Endpoint Protection is known to cause an issue in which the Visual Studio just keeps on deploying your app to the emulator forever and never completes.
+
+### If you have prolems with Visual Studio stability, try disabling the XAML designer
+
+In some cases XAML designer seems to crash and freeze Visual Studio a lot. Following [these](http://blog.spinthemoose.com/2013/03/24/disable-the-xaml-designer-in-visual-studio/) instructions might help. If you need the XAML designer, it's better to use Expression Blend.
+
 ### Don't be fooled by the IObservable<TSource> Timeout<TSource, TTimeout>(this IObservable<TSource> source, IObservable<TTimeout> firstTimeout, Func<TSource, IObservable<TTimeout>> timeoutDurationSelector)
 
 Now, this is an interface, so different implementations could behave differently. The following applies at least to the implementation in System.Reactive.Linq.Observable.
