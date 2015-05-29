@@ -360,6 +360,12 @@ public class ViewModelBase : INotifyPropertyChanged
 }
 ```
 
+### If your app crashes only when NOT debugging, check your App.OnSuspending/OnResuming
+
+When your app is attached to the debugger, it doesn't get suspended as it normally does. This means that App.OnSuspending and App.OnResuming don't get called when for example using any of the APIs that open a system UI and push your app to background. Now, if you have a bug that causes a crash in either of these methods, you might not get the behavior you expect when NOT debugging.
+
+Easy way to check is to place a breakpoint into the methods and use the Lifecycle Events tool in Visual Studio to get your app suspended while debugging.
+
 ### If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well
 
 If you aren't already using a library that offers you an easy way to bind into your reactive code from XAML, search for a ReactiveProperty and ReactiveCommand helper classes.
