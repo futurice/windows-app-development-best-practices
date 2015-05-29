@@ -360,6 +360,20 @@ public class ViewModelBase : INotifyPropertyChanged
 }
 ```
 
+### Only use async void methods for UI event handlers
+
+In async void UI event handlers unhandled exceptions are treated the same as for non-async methods. They end up in the App.UnhandledException handler. However, outside the dispatcher unhandled exceptions from async void methods (async lambdas as well) are thrown on the thread pool and will terminate the process immediately. In plain english this means that if you forget to catch any exception thrown within an async method run outside the dispatcher, you risk crashing your app without any notification.
+
+### To log and handle unhandled exceptions subscribe to App.UnhandledException and TaskScheduler.UnobservedTaskException
+
+Most of the unhandled exceptions thrown end up in the App.UnhandledException handler, however if the "Always use or await the return value of an async method" -pratice is not followed, they end up in the TaskScheduler.UnobservedTaskException instead.  
+
+Sources: [filipekberg.se](http://www.filipekberg.se/2012/09/20/avoid-shooting-yourself-in-the-foot-with-tasks-and-async/), [msdn](https://msdn.microsoft.com/en-us/library/windows/apps/dn263110.aspx)
+
+### Always use or await the return value of an async method
+
+If your async method throws an unhandled exception, and the method is not awaited, the return value is not used, or the Exception property of the Task object is not accessed, The exception is 'Unobserved'. Unobserved Task exceptions end up in the [TaskScheduler.UnobservedTaskException](https://msdn.microsoft.com/en-us/library/system.threading.tasks.taskscheduler.unobservedtaskexception%28v=vs.110%29.aspx) handler, where it might be too late to recover.
+
 ### If your app crashes only when NOT debugging, check your App.OnSuspending/OnResuming
 
 When your app is attached to the debugger, it doesn't get suspended as it normally does. This means that App.OnSuspending and App.OnResuming don't get called when for example using any of the APIs that open a system UI and push your app to background. Now, if you have a bug that causes a crash in either of these methods, you might not get the behavior you expect when NOT debugging.
