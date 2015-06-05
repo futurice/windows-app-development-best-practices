@@ -360,19 +360,19 @@ public class ViewModelBase : INotifyPropertyChanged
 }
 ```
 
-### Only use async void methods for UI event handlers
-
-In async void UI event handlers unhandled exceptions are treated the same as for non-async methods. They end up in the App.UnhandledException handler. However, outside the dispatcher unhandled exceptions from async void methods (async lambdas as well) are thrown on the thread pool and will terminate the process immediately. In plain english this means that if you forget to catch any exception thrown within an async method run outside the dispatcher, you risk crashing your app without any notification.
-
 ### To log and handle unhandled exceptions subscribe to App.UnhandledException and TaskScheduler.UnobservedTaskException
 
-Most of the unhandled exceptions thrown end up in the App.UnhandledException handler, however if the "Always use or await the return value of an async method" -pratice is not followed, they end up in the TaskScheduler.UnobservedTaskException instead.  
+Most of the unhandled exceptions end up in the App.UnhandledException handler, however if the "Always use or await the return value of an async method" -pratice is not followed, they end up in the TaskScheduler.UnobservedTaskException instead.  
 
 Sources: [filipekberg.se](http://www.filipekberg.se/2012/09/20/avoid-shooting-yourself-in-the-foot-with-tasks-and-async/), [msdn](https://msdn.microsoft.com/en-us/library/windows/apps/dn263110.aspx)
 
 ### Always use or await the return value of an async method
 
-If your async method throws an unhandled exception, and the method is not awaited, the return value is not used, or the Exception property of the Task object is not accessed, The exception is 'Unobserved'. Unobserved Task exceptions end up in the [TaskScheduler.UnobservedTaskException](https://msdn.microsoft.com/en-us/library/system.threading.tasks.taskscheduler.unobservedtaskexception%28v=vs.110%29.aspx) handler, where it might be too late to recover.
+Exceptions from synchronous methods propagate up the callstack regardless if you use the possible return value or not. Awaitable methods work a bit differently. When an unhandled exception is thrown within an awaitable method, the exception is wrapped into the task object returned by the method. The exception is only propagated when you either await the task/method, or try to access the task's Result. When you access the Result or await the method within a try block, you can catch the unhandled exceptions from the awaitable method normally. Additionally, you can observe the exception by accessing the task's Exception property. If you let the exception go through unobserved, it'll fire the [TaskScheduler.UnobservedTaskException](https://msdn.microsoft.com/en-us/library/system.threading.tasks.taskscheduler.unobservedtaskexception%28v=vs.110%29.aspx) when the task is carbage collected.
+
+### Only use async void methods for UI event handlers
+
+In async void UI event handlers unhandled exceptions are treated the same as for non-async methods. They end up in the App.UnhandledException handler. However, outside the dispatcher unhandled exceptions from async void methods (async lambdas as well) are thrown on the thread pool and will terminate the process immediately. In plain english this means that if you forget to catch any exception thrown within an async void method run outside the dispatcher, you risk crashing your app without any notification.
 
 ### If your app crashes only when NOT debugging, check your App.OnSuspending/OnResuming
 
