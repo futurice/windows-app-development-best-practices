@@ -366,7 +366,7 @@ Most of the unhandled exceptions end up in the App.UnhandledException handler, h
 
 Sources: [filipekberg.se](http://www.filipekberg.se/2012/09/20/avoid-shooting-yourself-in-the-foot-with-tasks-and-async/), [msdn](https://msdn.microsoft.com/en-us/library/windows/apps/dn263110.aspx)
 
-### Always use or await the return value of an async method
+### Always use or await the return value of an awaitable method
 
 Exceptions from synchronous methods propagate up the call stack regardless if you use the possible return value or not. Awaitable methods work a bit differently. When an unhandled exception is thrown within an awaitable method, the exception is wrapped into the task object returned by the method. The exception is only propagated when you either await the task/method, or try to access a completed task's Result. When you access the Result or await the method within a try block, you can catch the unhandled exceptions from the awaitable method normally. Additionally, you can observe the exception by accessing the task's Exception property. However, be aware that reading the Exception property effectively 'catches' the exception. Be careful to not unintentionally swallow the exception this way. If you let the exception go through unobserved, the [TaskScheduler.UnobservedTaskException](https://msdn.microsoft.com/en-us/library/system.threading.tasks.taskscheduler.unobservedtaskexception%28v=vs.110%29.aspx) will be fired when the task is garbage collected.
 
