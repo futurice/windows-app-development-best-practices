@@ -376,6 +376,12 @@ When your app is attached to the debugger, it doesn't get suspended as it normal
 
 Easy way to check is to place a breakpoint into the methods and use the Lifecycle Events tool in Visual Studio to get your app suspended while debugging.
 
+### Utilize the memory dumps when debugger doesn't cut it
+
+On newer WP8 firmwares you can to got Settings->Feedback and turn on storing the dumps on the device. The dumps will be stored in Documents\Debug folder on your phone. On Windows 8 you can merge [this registry entry](https://github.com/futurice/windows-app-development-best-practices/blob/utilize_dumps/misc/EnableDumps.reg) to enable storing dumps into C:\crashdumps. Remember to replace the YOUR_EXE_NAME in the .reg with the name of your app's exe. On Window 8, you can also generate dumps manually by right clicking your app in the Task Manager and choosing "create dump file".
+
+Dumps can be analyzed for example using [Visual Studio](https://msdn.microsoft.com/en-us/library/d5zhxt22.aspx) or [WinDbg](https://msdn.microsoft.com/en-us/library/windows/hardware/ff538058(v=vs.85).aspx).
+
 ### If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well
 
 If you aren't already using a library that offers you an easy way to bind into your reactive code from XAML, search for a ReactiveProperty and ReactiveCommand helper classes.
