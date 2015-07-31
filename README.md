@@ -281,6 +281,12 @@ Additionally, in some cases a forward reference will throw a runtime exception.
 
 [Source](https://msdn.microsoft.com/en-us/library/dn263118.aspx)
 
+### Use ItemsStackPanel over VirtualizingStackPanel
+
+ItemsStackPanel was added into Windows 8.1 and should be used over VirtualizingStackPanel. If item grouping is used, VirtualizingStackPanel realizes the whole group of items even if only the first one was required. ItemsStackPanel handles items virtualization correctly also when groups are used and will therefore offer better performance.
+
+Source: [MSDN Blog](http://blogs.msdn.com/b/alainza/archive/2014/09/04/listview-basics-and-virtualization-concepts.aspx) 
+
 ### Use independent animations over dependent ones
 
 Dependent animations are animations that depend on the UI thread, the major drawback is performance. Independent animations are animations that can be run independent of the UI thread and therefore don't burden it and remain smooth even if the UI thread is blocked.
