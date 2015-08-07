@@ -80,9 +80,11 @@ public void TraceMessage(string message,
 //  source line number: 31
 ```
 
-### Use [HttpClient](http://msdn.microsoft.com/en-us/library/system.net.http.httpclient(v=vs.118).aspx) for your HTTP needs
+### Use [Windows.Web.Http.HttpClient](https://msdn.microsoft.com/en-US/library/windows/apps/xaml/windows.web.http.httpclient) for your HTTP needs
 
-Out of the different HTTP APIs available, HttpClient is the new one that supports async/await and automatic request decompression. Using it the async/await -way keeps your code short and readable.
+Out of the different HTTP APIs available, HttpClient(s) are the newest ones that support async/await and automatic request decompression. Notice that there are two of them now: System.Net.Http.HttpClient and Windows.Web.Http.HttpClient. The latter was added to Windows 8.1 and is a WinRT API instead of a .NET API. More importantly System.Net.Http might be made unavailable for Windows Store Apps in the future. Additionally, the Windows.Web.Http classes offer HTTP/2 support, better caching, and better configurability all around.
+
+Sources: [MSDN](https://msdn.microsoft.com/en-us/library/windows/apps/xaml/Dn469431.aspx), [Channel9](https://channel9.msdn.com/Events/Build/2013/4-092)
 
 ### Know the timers
 
