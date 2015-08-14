@@ -210,6 +210,47 @@ try {
 ```
 [MSDN on throwing exceptions](http://msdn.microsoft.com/en-us/library/seyhszts(v=vs.110).aspx)
 
+### Use ContinueWith and Task.Exception to handle exceptions from async methods in expected cases
+
+Some APIs like to throw exceptions even on expected cases. Check, for example, the next practice for explanation on why this is not necessarily the best kind of behavior. One good example of such API is Windows.Web.Http.HttpClient, which throws Exceptions on network errors. A network error is hardly an unexpected event. Especially if your app is supposed to fallback to a cached/alternative value in such cases. Fortunately, there's a way to utilize Task on asynchronous methods to avoid getting the exception thrown into your code while still handling it. For example, here we convert all network errors to  HttpStatusCode.RequestTimeout without letting an exception to be thrown:
+
+```C#
+var client = new HttpClient();
+var request = new HttpRequestMessage(HttpMethod.Get, new Uri("http://www.futurice.com"));
+
+var responseTcs = new TaskCompletionSource<HttpResponseMessage>();
+await client.SendRequestAsync(request)
+    .AsTask()
+    .ContinueWith(task => {
+        HttpResponseMessage response = null;
+
+        if (task.Status == TaskStatus.Faulted) {
+            // You will have to access the task.Exception property to mark the Exception 'observed' otherwise it'll end up in TaskScheduler.UnobservedTaskException
+            // Use GetBaseException() to get the original exception from the AggregateException.
+            var exception = task.Exception.GetBaseException();
+            response = new HttpResponseMessage(HttpStatusCode.RequestTimeout);
+            response.ReasonPhrase = exception.ToString();
+            response.RequestMessage = request;
+        }
+        else {
+            response = task.Result;
+        }
+
+        responseTcs.TrySetResult(response);
+    });
+
+HttpResponseMessage responseMessage = await responseTcs.Task;
+```
+
+### Set Visual Studio to break debugger every time a CLR exception is thrown
+
+If you have followed the practices above, exceptions should only be thrown in/into your code as a result of a programming error or something unrecoverable such as an OutOfMemoryException. Generally, When you make an error, you want to be notified about it as loud and clear as possible. The default behavior for Visual Studio is to only break debugger on uncaught exceptions. Now, if you have some generic catches in place to swallow exceptions, for example from some of your secondary components, such as analytics, you'd miss the unwanted behavior.
+
+On Visual studio 2013 go to: Debug -> Exceptions... and check the "Thrown" cloumn checkbox on the Common Language Runtime Exceptions.
+On Visual studio 2015 go to: Debug -> Windows -> Exception Settings
+
+If you are using any synchronous APIs that throw exceptions even in expected cases, you might have to leave those unchecked. Also, you might want to uncheck TaskCanceledException and OperationCanceledException.
+
 ### Use [CultureInfo.InvariantCulture](http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo.invariantculture) for serializations
 
 When ever you are serializing values that can be represented differently in different cultures, make sure that you serialize and deserialize them with the same culture. If you don't define the culture explicitly, the APIs normally use the culture of the current thread, which is often set by a setting in the operating system. CultureInfo.InvariantCulture is an IFormatProvider that exists exactly for the purpose of hardocoding the culture for serializations.
