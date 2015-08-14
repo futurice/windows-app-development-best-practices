@@ -84,6 +84,21 @@ public void TraceMessage(string message,
 
 Out of the different HTTP APIs available, HttpClient(s) are the newest ones that support async/await and automatic request decompression. Notice that there are two of them now: System.Net.Http.HttpClient and Windows.Web.Http.HttpClient. The latter was added to Windows 8.1 and is a WinRT API instead of a .NET API. More importantly System.Net.Http might be made unavailable for Windows Store Apps in the future. Additionally, the Windows.Web.Http classes offer HTTP/2 support, better caching, and better configurability all around.
 
+One useful thing to know about the Windows.Web.Http.HttpClient is that it throws an Exception for network errors that prevent a succesful HTTP-connection. You can get the actual reason with Windows.Web.WebError.GetStatus(HRESULT). For example:
+```C#
+var client = new HttpClient();
+var request = new HttpRequestMessage(HttpMethod.Get, new Uri("http://www.futurice.com"));
+try {
+    // Http-errors are returned in the response, and no exception is thrown
+    HttpResponseMessage response = await client.SendRequestAsync(request);
+}
+// It really is just an exception, can't catch a more specific type
+catch (Exception ex) {
+    WebErrorStatus error = WebError.GetStatus(ex.HResult);
+    // For example, if your device could not connect to the internet at all, the error would be WebErrorStatus.HostNameNotResolved
+}
+```
+
 Sources: [MSDN](https://msdn.microsoft.com/en-us/library/windows/apps/xaml/Dn469431.aspx), [Channel9](https://channel9.msdn.com/Events/Build/2013/4-092)
 
 ### Know the timers
