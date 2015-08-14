@@ -212,7 +212,7 @@ try {
 
 ### Use ContinueWith and Task.Exception to handle exceptions from async methods in expected cases
 
-Some APIs like to throw exceptions even on expected cases. Check for example the next practice for explanation why this is not necessarily the best behavior. One good example is Windows.Web.Http.HttpClient which throws Exceptions on network errors. A network error is hardly an unexpected event. Especially if your app is supposed to fallback to a cached/alternative value in such cases. Fortunately, there's a way to utilize the Task on asynchronous methods to avoid exposing the exception into your code in the usual way. For example, here we convert all network errors to the HttpStatusCode.RequestTimeout:
+Some APIs like to throw exceptions even on expected cases. Check, for example, the next practice for explanation on why this is not necessarily the best kind of behavior. One good example of such API is Windows.Web.Http.HttpClient, which throws Exceptions on network errors. A network error is hardly an unexpected event. Especially if your app is supposed to fallback to a cached/alternative value in such cases. Fortunately, there's a way to utilize Task on asynchronous methods to avoid getting the exception thrown into your code while still handling it. For example, here we convert all network errors to  HttpStatusCode.RequestTimeout without letting an exception to be thrown:
 
 ```C#
 var client = new HttpClient();
@@ -244,9 +244,12 @@ HttpResponseMessage responseMessage = await responseTcs.Task;
 
 ### Set Visual Studio to break debugger every time a CLR exception is thrown
 
-If you have followed the practices above, exceptions should only be thrown in/into your code as a result of a programming error or something unrecoverable such as OutOfMemoryException. When ever either of these are exposed, you want to be notified about it as loud and clear as possible. The default behavior for Visual Studio is to only break debugger on uncaught exceptions. Now, if you have some generic catches in place to swallow exceptions, for example from some of your secondary components, such as analytics, you'd miss the unvanted behavior in these.
+If you have followed the practices above, exceptions should only be thrown in/into your code as a result of a programming error or something unrecoverable such as an OutOfMemoryException. Generally, When you make an error, you want to be notified about it as loud and clear as possible. The default behavior for Visual Studio is to only break debugger on uncaught exceptions. Now, if you have some generic catches in place to swallow exceptions, for example from some of your secondary components, such as analytics, you'd miss the unwanted behavior.
 
-To set VS to break on every CLR exception go to: Debug/Exceptions... and check the "Thrown" cloumn checkbox on the Common Language Runtime Exceptions.
+On Visual studio 2013 go to: Debug -> Exceptions... and check the "Thrown" cloumn checkbox on the Common Language Runtime Exceptions.
+On Visual studio 2015 go to: Debug -> Windows -> Exception Settings
+
+If you are using any synchronous APIs that throw exceptions even in expected cases, you might have to leave those unchecked. Also, you might want to uncheck TaskCanceledException and OperationCanceledException.
 
 ### Use [CultureInfo.InvariantCulture](http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo.invariantculture) for serializations
 
