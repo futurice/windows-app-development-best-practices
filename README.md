@@ -276,6 +276,10 @@ string serializedDateTime = dateTime.ToString(System.Globalization.CultureInfo.I
 DateTime dateTime = DateTime.Parse(serializedDateTime, System.Globalization.CultureInfo.InvariantCulture);
 ```
 
+### Uninstall the app installed from the store before trying to sideload the same app
+
+You don't actually always need to uninstall it first, but sometimes you can get an unrelated error when trying to sideload app that is already installed to the same device from store. So, if you get an error that doesn't seem to make sense when sideloading, make sure the app isn't already installed to the device.
+
 ### Unblock downloaded DLLs before referencing them in your projects 
 
 For security reasons, Windows usually 'blocks' files downloaded from the internet. If you try to add a reference to such a DLL in Visual Studio, you get an incorrect error message: _"A reference to a higher version or incompatible assembly cannot be added to the project."_ Whenever you get the error, go to Properties of the DLL file and click Unblock. You should now be able to add the reference.
