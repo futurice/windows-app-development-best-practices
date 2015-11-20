@@ -19,6 +19,44 @@ Tags indicate the context in which the practice applies in.
 - #C6: C# 6
 
 -----------------------------
+## Table of content
+- [Use Visual Studio Community/Pro or greater](#use-visual-studio-communitypro-or-greater)
+- [Use Productivity Power Tools (2013)](#use-productivity-power-tools-2013)
+- [Use NuGet](#use-nuget)
+- [Refer to the right documentation](#refer-to-the-right-documentation)
+- [Split code into small methods to improve stacktraces and the callstack view](#split-code-into-small-methods-to-improve-stacktraces-and-the-callstack-view)
+- [Use caller information attributes when tracing](#use-caller-information-attributes-when-tracing)
+- [Use Windows.Web.Http.HttpClient for your HTTP needs](#use-windowswebhttphttpclient-for-your-http-needs)
+- [Know the timers](#know-the-timers)
+- [Use yield when returning an IEnumerable](#use-yield-when-returning-an-ienumerable)
+- [Explicitly convert LINQ queries into collections to avoid unnecessary re-evaluation](#explicitly-convert-linq-queries-into-collections-to-avoid-unnecessary-re-evaluation)
+- [When rethrowing an exception use just "throw" or include the original exception in the new exception](#when-rethrowing-an-exception-use-just-throw-or-include-the-original-exception-in-the-new-exception)
+- [Log Exception.ToString()](#log-exceptiontostring)
+- [Catch exactly the exception you expect](#catch-exactly-the-exception-you-expect)
+- [Only throw exceptions in exceptional cases](#only-throw-exceptions-in-exceptional-cases)
+- [Use ContinueWith and Task.Exception to handle exceptions from async methods in expected cases](#use-continuewith-and-taskexception-to-handle-exceptions-from-async-methods-in-expected-cases)
+- [Set Visual Studio to break debugger every time a CLR exception is thrown](#set-visual-studio-to-break-debugger-every-time-a-clr-exception-is-thrown)
+- [Use CultureInfo.InvariantCulture for serializations](#use-cultureinfoinvariantculture-for-serializations)
+- [Uninstall the app installed from the store before trying to sideload the same app](#uninstall-the-app-installed-from-the-store-before-trying-to-sideload-the-same-app)
+- [Unblock downloaded DLLs before referencing them in your projects](#unblock-downloaded-dlls-before-referencing-them-in-your-projects)
+- [Do not hardcode a Name for your custom controls](#do-not-hardcode-a-name-for-your-custom-controls)
+- [Be very careful when binding into multiple dependency properties of a dependency object](#be-very-careful-when-binding-into-multiple-dependency-properties-of-a-dependency-object)
+- [Don't make forward references with StaticResource or ThemeResource keywords](#dont-make-forward-references-with-staticresource-or-themeresource-keywords)
+- [Use ItemsStackPanel over VirtualizingStackPanel](#use-itemsstackpanel-over-virtualizingstackpanel)
+- [Use independent animations over dependent ones](#use-independent-animations-over-dependent-ones)
+- [Use CallerMemberName attribute](#use-callermembername-attribute)
+- [Use LINQ expression when notifying changes to other properties](#use-linq-expression-when-notifying-changes-to-other-properties)
+- [Use the nameof operator when notifying changes to other properties](#use-the-nameof-operator-when-notifying-changes-to-other-properties)
+- [To log and handle unhandled exceptions subscribe to App.UnhandledException and TaskScheduler.UnobservedTaskException](#to-log-and-handle-unhandled-exceptions-subscribe-to-appunhandledexception-and-taskschedulerunobservedtaskexception)
+- [Always use or await the return value of an awaitable method](#always-use-or-await-the-return-value-of-an-awaitable-method)
+- [If your app crashes only when NOT debugging, check your App.OnSuspending/OnResuming](#if-your-app-crashes-only-when-not-debugging-check-your-apponsuspendingonresuming)
+- [Utilize the memory dumps when debugger doesn't cut it](#utilize-the-memory-dumps-when-debugger-doesnt-cut-it)
+- [If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well](#if-youre-using-rx-in-your-viewmodels-use-reactiveproperties-and-reactivecommands-as-well)
+- [If you have problems deploying to the emulator, try disabling your anti-virus](#if-you-have-problems-deploying-to-the-emulator-try-disabling-your-anti-virus)
+- [If you have problems with Visual Studio stability, try disabling the XAML designer](#if-you-have-problems-with-visual-studio-stability-try-disabling-the-xaml-designer)
+- [Don't be fooled by the IObservable.Timeout](#dont-be-fooled-by-the-iobservable-timeoutthis-iobservable-source-iobservable-firsttimeout-func-timeoutdurationselector)
+
+-----------------------------
 
 ### Use Visual Studio Community/Pro or greater
 | #VS13 #W81 #C5
