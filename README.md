@@ -20,7 +20,8 @@ Tags indicate the context in which the practice applies in.
 
 -----------------------------
 
-### Use Visual Studio Community/Pro or greater | #VS13 #W81 #C5
+### Use Visual Studio Community/Pro or greater
+| #VS13 #W81 #C5
 
 Visual Studio is the de facto IDE for developing Windows apps. The [Community edition](http://www.visualstudio.com/products/visual-studio-community-vs) gives you the same features as the [Pro editon](http://www.visualstudio.com/products/visual-studio-professional-with-msdn-vs) for free, but has some [restrictions on use in organizations](http://www.visualstudio.com/support/legal/dn877550). [Premium](http://www.visualstudio.com/products/visual-studio-premium-with-msdn-vs) mainly adds built in testing support beyond simple unit testing, and [Ultimate](http://www.visualstudio.com/products/visual-studio-ultimate-with-MSDN-vs) adds enhanced debugging, architecture, and code analysis tools. 
 
