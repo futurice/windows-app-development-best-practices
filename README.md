@@ -26,7 +26,7 @@ Visual Studio is the de facto IDE for developing Windows apps. The [Community ed
 
 The free express versions are good for getting started, but lack some important features, such as support for [extensions](https://visualstudiogallery.msdn.microsoft.com/), the ability to have all the different project types in a single installation and some team collaboration features. Since the Community editon has all the features of the Express editions we recommend not using the Express editions.
 
-### Use Productivity Power Tools | #VS13 #W81 #C5 ([2013](https://visualstudiogallery.msdn.microsoft.com/dbcb8670-889e-4a54-a226-a48a15e4cace))
+### Use Productivity Power Tools ([2013](https://visualstudiogallery.msdn.microsoft.com/dbcb8670-889e-4a54-a226-a48a15e4cace)) | #VS13 #W81 #C5
 
 A free visual studio productivity extension from Microsoft. It lacks some features of the commercial counterparts like [JustCode](http://www.telerik.com/products/justcode.aspx) or [ReSharper](https://www.jetbrains.com/resharper/), but doesn't seem to slow the IDE down at all either.
 
@@ -34,7 +34,7 @@ A free visual studio productivity extension from Microsoft. It lacks some featur
 
 Nuget is Microsoft's take on a package manager. There's a Visual Studio extension called NuGet Package Manager preinstalled in newer Visual Studios. Bottom line: [Use it](http://docs.nuget.org/docs/start-here/managing-nuget-packages-using-the-dialog) for external references when you don't need to include the source code in your Solution.
 
-#### Use [Package Restore](http://docs.nuget.org/docs/reference/package-restore) | #VS15 #VS13 #UWP #W81 #C6 #C5
+#### Use [Package Restore](http://docs.nuget.org/docs/reference/package-restore)
 
 According to [NuGet docs:](http://docs.nuget.org/docs/reference/package-restore)
 >Beginning with NuGet 2.7, the NuGet Visual Studio extension integrates into Visual Studio's build events and restores missing packages when a build begins.
@@ -292,7 +292,7 @@ DateTime dateTime = DateTime.Parse(serializedDateTime, System.Globalization.Cult
 
 You don't actually always need to uninstall it first, but sometimes you can get an unrelated error when trying to sideload app that is already installed to the same device from store. So, if you get an error that doesn't seem to make sense when sideloading, make sure the app isn't already installed to the device.
 
-### Unblock downloaded DLLs before referencing them in your projects  | #VS2015 #VS2013 #UWP #W81 #C6 #C5
+### Unblock downloaded DLLs before referencing them in your projects | #VS2015 #VS2013 #UWP #W81 #C6 #C5
 
 For security reasons, Windows usually 'blocks' files downloaded from the internet. If you try to add a reference to such a DLL in Visual Studio, you get an incorrect error message: _"A reference to a higher version or incompatible assembly cannot be added to the project."_ Whenever you get the error, go to Properties of the DLL file and click Unblock. You should now be able to add the reference.
 
@@ -456,41 +456,41 @@ For example:
 NotifyPropertyChanged(nameof(MyPropertyWhoseGetterShouldNowReturnNewValue));
 ```
 
-### To log and handle unhandled exceptions subscribe to App.UnhandledException and TaskScheduler.UnobservedTaskException
+### To log and handle unhandled exceptions subscribe to App.UnhandledException and TaskScheduler.UnobservedTaskException | #VS2015 #VS2013 #UWP #W81 #C6 #C5
 
 Most of the unhandled exceptions end up in the App.UnhandledException handler, however if the "Always use or await the return value of an async method" -pratice is not followed, they end up in the TaskScheduler.UnobservedTaskException instead.  
 
 Sources: [filipekberg.se](http://www.filipekberg.se/2012/09/20/avoid-shooting-yourself-in-the-foot-with-tasks-and-async/), [msdn](https://msdn.microsoft.com/en-us/library/windows/apps/dn263110.aspx)
 
-### Always use or await the return value of an awaitable method
+### Always use or await the return value of an awaitable method | #VS2015 #VS2013 #UWP #W81 #C6 #C5
 
 Exceptions from synchronous methods propagate up the call stack regardless if you use the possible return value or not. Awaitable methods work a bit differently. When an unhandled exception is thrown within an awaitable method, the exception is wrapped into the task object returned by the method. The exception is only propagated when you either await the task/method, or try to access a completed task's Result. When you access the Result or await the method within a try block, you can catch the unhandled exceptions from the awaitable method normally. Additionally, you can observe the exception by accessing the task's Exception property. However, be aware that reading the Exception property effectively 'catches' the exception. Be careful to not unintentionally swallow the exception this way. If you let the exception go through unobserved, the [TaskScheduler.UnobservedTaskException](https://msdn.microsoft.com/en-us/library/system.threading.tasks.taskscheduler.unobservedtaskexception%28v=vs.110%29.aspx) will be fired when the task is garbage collected.
 
-### If your app crashes only when NOT debugging, check your App.OnSuspending/OnResuming
+### If your app crashes only when NOT debugging, check your App.OnSuspending/OnResuming | #VS2015 #VS2013 #UWP #W81 #C6 #C5
 
 When your app is attached to the debugger, it doesn't get suspended as it normally does. This means that App.OnSuspending and App.OnResuming don't get called when for example using any of the APIs that open a system UI and push your app to background. Now, if you have a bug that causes a crash in either of these methods, you might not get the behavior you expect when NOT debugging.
 
 Easy way to check is to place a breakpoint into the methods and use the Lifecycle Events tool in Visual Studio to get your app suspended while debugging.
 
-### Utilize the memory dumps when debugger doesn't cut it
+### Utilize the memory dumps when debugger doesn't cut it | #VS2015 #VS2013 #UWP #W81 #C6 #C5
 
 On newer WP8 firmwares you can to got Settings->Feedback and turn on storing the dumps on the device. The dumps will be stored in Documents\Debug folder on your phone. On Windows 8 you can merge [this registry entry](https://github.com/futurice/windows-app-development-best-practices/blob/utilize_dumps/misc/EnableDumps.reg) to enable storing dumps into C:\crashdumps. Remember to replace the YOUR_EXE_NAME in the .reg with the name of your app's exe. On Window 8, you can also generate dumps manually by right clicking your app in the Task Manager and choosing "create dump file".
 
 Dumps can be analyzed for example using [Visual Studio](https://msdn.microsoft.com/en-us/library/d5zhxt22.aspx) or [WinDbg](https://msdn.microsoft.com/en-us/library/windows/hardware/ff538058(v=vs.85).aspx).
 
-### If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well
+### If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well | #VS2015 #VS2013 #UWP #W81 #C6 #C5
 
 If you aren't already using a library that offers you an easy way to bind into your reactive code from XAML, search for a ReactiveProperty and ReactiveCommand helper classes.
 
-### If you have problems deploying to the emulator, try disabling your anti-virus
+### If you have problems deploying to the emulator, try disabling your anti-virus | #VS2015 #VS2013 #UWP #W81 #C6 #C5
 
 At least Symantec Endpoint Protection is known to cause an issue in which the Visual Studio just keeps on deploying your app to the emulator forever and never completes.
 
-### If you have prolems with Visual Studio stability, try disabling the XAML designer
+### If you have problems with Visual Studio stability, try disabling the XAML designer | #VS2013 #W81 #C6 #C5
 
 In some cases XAML designer seems to crash and freeze Visual Studio a lot. Following [these](http://blog.spinthemoose.com/2013/03/24/disable-the-xaml-designer-in-visual-studio/) instructions might help. If you need the XAML designer, it's better to use Expression Blend.
 
-### Don't be fooled by the IObservable<TSource> Timeout<TSource, TTimeout>(this IObservable<TSource> source, IObservable<TTimeout> firstTimeout, Func<TSource, IObservable<TTimeout>> timeoutDurationSelector)
+### Don't be fooled by the IObservable<TSource> Timeout<TSource, TTimeout>(this IObservable<TSource> source, IObservable<TTimeout> firstTimeout, Func<TSource, IObservable<TTimeout>> timeoutDurationSelector) | #VS2015 #VS2013 #UWP #W81 #C6 #C5
 
 Now, this is an interface, so different implementations could behave differently. The following applies at least to the implementation in System.Reactive.Linq.Observable.
 
