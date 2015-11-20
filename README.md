@@ -6,18 +6,20 @@ To keep this document easily approachable, it aims to be concise and practical: 
 
 Feedback and contributions are wholeheartedly welcomed! Feel free to fork and send a pull request, or just participate in the discussion at [Issues](https://github.com/futurice/win-client-dev-good-practices/issues).
 
-## Tags
+-----------------------------
+
+#### Tags
 Tags indicate the context in which the practice applies in.
 
--#W8.1: Windows Phone 8.1 and Windows 8.1 store apps
--#UWP: Universal Windows Apps (Win 10 apps)
--#VS201X: The visual studio version
--#C6: C# 6
--#C5: C# 5
+- #W81: Windows Phone 8.1 and Windows 8.1 store apps
+- #UWP: Universal Windows Apps (Win 10 apps)
+- #VS201X: The visual studio version
+- #C6: C# 6
+- #C5: C# 5
 
 -----------------------------
 
-### Use Visual Studio Community/Pro or greater | #W8.1 #UWP
+### Use Visual Studio Community/Pro or greater | #W81 #UWP
 
 Visual Studio is the de facto IDE for developing Windows apps. The [Community edition](http://www.visualstudio.com/products/visual-studio-community-vs) gives you the same features as the [Pro editon](http://www.visualstudio.com/products/visual-studio-professional-with-msdn-vs) for free, but has some [restrictions on use in organizations](http://www.visualstudio.com/support/legal/dn877550). [Premium](http://www.visualstudio.com/products/visual-studio-premium-with-msdn-vs) mainly adds built in testing support beyond simple unit testing, and [Ultimate](http://www.visualstudio.com/products/visual-studio-ultimate-with-MSDN-vs) adds enhanced debugging, architecture, and code analysis tools. 
 
