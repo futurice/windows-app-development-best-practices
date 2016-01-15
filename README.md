@@ -557,10 +557,14 @@ If you aren't already using a library that offers you an easy way to bind into y
 
 At least Symantec Endpoint Protection is known to cause an issue in which the Visual Studio just keeps on deploying your app to the emulator forever and never completes.
 
-### If you have problems with Visual Studio stability, try disabling the XAML designer
-| #VS13 #W81 #C6 #C5
+### If you have problems with Visual Studio stability, try disabling the XAML Designer
+| #VS15 #VS13 #W81 #C6 #C5
 
-In some cases XAML designer seems to crash and freeze Visual Studio a lot. Following [these](http://blog.spinthemoose.com/2013/03/24/disable-the-xaml-designer-in-visual-studio/) instructions might help. If you need the XAML designer, it's better to use Expression Blend.
+In some cases XAML designer seems to cause Visual Studio to crash and freeze quite a bit. It might be helpful to disable the designer completely and just use Blend when you need to.
+
+On Visual Studio 2015, go to Tools -> Options -> XAML Designer -> Enable XAML Designer.
+
+On Visual Studio 2013, follow [these](http://blog.spinthemoose.com/2013/03/24/disable-the-xaml-designer-in-visual-studio/) instructions. 
 
 ### Don't be fooled by the IObservable<TSource> Timeout<TSource, TTimeout>(this IObservable<TSource> source, IObservable<TTimeout> firstTimeout, Func<TSource, IObservable<TTimeout>> timeoutDurationSelector)
 | #VS15 #VS13 #UWP #W81 #C6 #C5
