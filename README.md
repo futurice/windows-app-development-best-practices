@@ -54,6 +54,7 @@ Tags indicate the context in which the practice applies in.
 - [If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well](#if-youre-using-rx-in-your-viewmodels-use-reactiveproperties-and-reactivecommands-as-well)
 - [If you have problems deploying to the emulator, try disabling your anti-virus](#if-you-have-problems-deploying-to-the-emulator-try-disabling-your-anti-virus)
 - [If you have problems with Visual Studio stability, try disabling the XAML designer](#if-you-have-problems-with-visual-studio-stability-try-disabling-the-xaml-designer)
+- [Use the Live Visual Tree and the Live Property Explorer](#use-the-live-visual-tree-and-the-live-property-explorer) 
 - [Don't be fooled by the IObservable.Timeout](#dont-be-fooled-by-the-iobservable-timeoutthis-iobservable-source-iobservable-firsttimeout-func-timeoutdurationselector)
 
 -----------------------------
@@ -564,7 +565,14 @@ In some cases XAML designer seems to cause Visual Studio to crash and freeze qui
 
 On Visual Studio 2015, go to Tools -> Options -> XAML Designer -> Enable XAML Designer.
 
-On Visual Studio 2013, follow [these](http://blog.spinthemoose.com/2013/03/24/disable-the-xaml-designer-in-visual-studio/) instructions. 
+On Visual Studio 2013, follow [these](http://blog.spinthemoose.com/2013/03/24/disable-the-xaml-designer-in-visual-studio/) instructions.
+
+### Use the Live Visual Tree and the Live Property Explorer
+| #VS15 #UWP #W81
+
+The VS 2015 XAML inspection tools are a great asset when tweaking and debugging your UI. Unfortunately the Live Property Explorer doesn't save the changes you make to your XAML. However, after you found a good value for a property, you can click 'go to source' and modify the XAML while debugging. The XAML changes you make won't take effect until you relaunch the app, but at least you have now 'saved' the value you want to use. Notice that you have to be running your app on Windows 10 (device or emulator) to be able to use these tools.
+
+You can find the official documentation on how to use them [here](https://msdn.microsoft.com/en-us/library/mt270227.aspx).
 
 ### Don't be fooled by the IObservable<TSource> Timeout<TSource, TTimeout>(this IObservable<TSource> source, IObservable<TTimeout> firstTimeout, Func<TSource, IObservable<TTimeout>> timeoutDurationSelector)
 | #VS15 #VS13 #UWP #W81 #C6 #C5
