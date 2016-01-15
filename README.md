@@ -550,7 +550,7 @@ Dumps can be analyzed for example using [Visual Studio](https://msdn.microsoft.c
 ### If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
-If you aren't already using a library that offers you an easy way to bind into your reactive code from XAML, search for a ReactiveProperty and ReactiveCommand helper classes.
+If you aren't already using a library that offers you an easy way to bind into your reactive code from XAML, [here's](https://github.com/runceel/ReactiveProperty) one that offers ReactiveProperty, ReactiveCommand and some other useful classes.
 
 ### If you have problems deploying to the emulator, try disabling your anti-virus
 | #VS15 #VS13 #UWP #W81 #C6 #C5
