@@ -55,7 +55,7 @@ Tags indicate the context in which the practice applies in.
 - [If you have problems deploying to the emulator, try disabling your anti-virus](#if-you-have-problems-deploying-to-the-emulator-try-disabling-your-anti-virus)
 - [If you have problems with Visual Studio stability, try disabling the XAML designer](#if-you-have-problems-with-visual-studio-stability-try-disabling-the-xaml-designer)
 - [Use the Live Visual Tree and the Live Property Explorer](#use-the-live-visual-tree-and-the-live-property-explorer) 
-- [Don't be fooled by the IObservable.Timeout](#dont-be-fooled-by-the-iobservable-timeoutthis-iobservable-source-iobservable-firsttimeout-func-timeoutdurationselector)
+- [Don't be fooled by the IObservable duration parameters in IObservable extension methods](#dont-be-fooled-by-the-iobservable-duration-parameters-in-iobservable-extension-methods)
 
 -----------------------------
 
@@ -574,21 +574,20 @@ The VS 2015 XAML inspection tools are a great asset when tweaking and debugging 
 
 You can find the official documentation on how to use them [here](https://msdn.microsoft.com/en-us/library/mt270227.aspx).
 
-### Don't be fooled by the IObservable<TSource> Timeout<TSource, TTimeout>(this IObservable<TSource> source, IObservable<TTimeout> firstTimeout, Func<TSource, IObservable<TTimeout>> timeoutDurationSelector)
+### Don't be fooled by the IObservable duration parameters in IObservable extension methods
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
-Now, this is an interface, so different implementations could behave differently. The following applies at least to the implementation in System.Reactive.Linq.Observable.
+In System.Reactive.Linq, at least Delay, Timeout, Throttle, and GroupByUntil extension methods for IObservable have overloads that take an IObservable parameter of type TDelay, TTimeout, TThrottle, or TDuration. These parameters are always used to indicate a duration and the duration is considered to be passed when the given IObservable completes. The actual type of the IObservable doesn't matter, but most of the time you'll want to use Observable.Timer to create the parameter.
 
-It's easy to think that you should just:
+For example, you could think that the following code makes all items of the observable timeout after one second:
 ```C#
-.Timeout(Observable.Return(TimeSpan.FromSeconds(10)), vm => Observable.Return(TimeSpan.FromSeconds(1)))
+.Timeout(vm => Observable.Return(TimeSpan.FromSeconds(1)))
 ```
-However, that will simply timeout immediately. The correct way to use it is:
+However, that will simply timeout immediately. A correct way to use these parameters is for example:
 ```C#
 // Notice the .Timer
-.Timeout(Observable.Timer(TimeSpan.FromSeconds(10)), i => Observable.Timer(TimeSpan.FromSeconds(1)))
+.Timeout(i => Observable.Timer(TimeSpan.FromSeconds(1)))
 ```
-So, in practice the timeout occurs when the passed IObservable completes, not after the duration of the passed TimeSpan.
 
 ## License
 
