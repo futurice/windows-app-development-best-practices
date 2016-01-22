@@ -591,6 +591,7 @@ However, that will simply timeout immediately. A correct way to use these parame
 ```
 
 ### Put XAML in Class Libraries into their own ResourceDictionary
+| #VS15 #VS13 #UWP #W81 #C6 #C5
 
 In some cases it might be tempting to load a XAML snippet with System.Windows.Markup.XamlReader.Parse(yourXamlString) directly in C#. However, if your XAML references for example a control in another class library, the user of your library has to add a reference to that library as well. Otherwise an exception will be thrown when the XamlReader tries to parse the XAML.
 
