@@ -56,6 +56,7 @@ Tags indicate the context in which the practice applies in.
 - [If you have problems with Visual Studio stability, try disabling the XAML designer](#if-you-have-problems-with-visual-studio-stability-try-disabling-the-xaml-designer)
 - [Use the Live Visual Tree and the Live Property Explorer](#use-the-live-visual-tree-and-the-live-property-explorer) 
 - [Don't be fooled by the IObservable duration parameters in IObservable extension methods](#dont-be-fooled-by-the-iobservable-duration-parameters-in-iobservable-extension-methods)
+- [Put XAML in Class Libraries into their own ResourceDictionary](#put-xaml-in-class-libraries-into-their-own-resourcedictionary)
 
 -----------------------------
 
@@ -587,6 +588,27 @@ However, that will simply timeout immediately. A correct way to use these parame
 ```C#
 // Notice the .Timer
 .Timeout(i => Observable.Timer(TimeSpan.FromSeconds(1)))
+```
+
+### Put XAML in Class Libraries into their own ResourceDictionary
+
+In some cases it might be tempting to load a XAML snippet with System.Windows.Markup.XamlReader.Parse(yourXamlString) directly in C#. However, if your XAML references for example a control in another class library, the user of your library has to add a reference to that library as well. Otherwise an exception will be thrown when the XamlReader tries to parse the XAML.
+
+First add for example a Resources.xaml into your project, and add the ResourceDictionary with it's contents into the file. You can then load the ResourceDictionary by creating a new ResourceDictionary instance and setting it's source as follows:
+```C#
+var libraryResources = new ResourceDictionary {
+    Source = new Uri($"ms-appx:///NameOfMyClassLibrary/Resources.xaml", UriKind.Absolute)
+};
+```
+
+Now you can also merge the ResourceDictionary to the app's App.xaml dictionary. Then the named resources can be accessed via Application.Current.Resources and be overridden in the App.xaml.
+
+```C#
+// Merging the library resources into the app's main ResourceDictionary
+Application.Current.Resources.MergedDictionaries.Add(libraryResources);
+
+// Accessing the resource (or it's overridden counterpart)
+Application.Current.Resources["libraryResourceKey"]
 ```
 
 ## License
