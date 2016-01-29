@@ -27,7 +27,7 @@ Tags indicate the context in which the practice applies in.
 - [Use Package Restore](#use-package-restore)
 - [Refer to the right documentation](#refer-to-the-right-documentation)
 - [Use the Live Visual Tree and the Live Property Explorer](#use-the-live-visual-tree-and-the-live-property-explorer)
-- 
+
 ###Debugging and Exceptions
 - [Use caller information attributes when tracing](#use-caller-information-attributes-when-tracing)
 - [Log Exception.ToString()](#log-exceptiontostring)
@@ -38,7 +38,7 @@ Tags indicate the context in which the practice applies in.
 - [When rethrowing an exception use just "throw" or include the original exception in the new exception](#when-rethrowing-an-exception-use-just-throw-or-include-the-original-exception-in-the-new-exception)
 - [Use ContinueWith and Task.Exception to handle exceptions from async methods in expected cases](#use-continuewith-and-taskexception-to-handle-exceptions-from-async-methods-in-expected-cases)
 - [Utilize the memory dumps when debugger doesn't cut it](#utilize-the-memory-dumps-when-debugger-doesnt-cut-it)
-- 
+
 ###Architecture
 - [Use Windows.Web.Http.HttpClient for your HTTP needs](#use-windowswebhttphttpclient-for-your-http-needs)
 - [Use CultureInfo.InvariantCulture for serializations](#use-cultureinfoinvariantculture-for-serializations)
@@ -52,7 +52,7 @@ Tags indicate the context in which the practice applies in.
 - [Put XAML in Class Libraries into their own ResourceDictionary](#put-xaml-in-class-libraries-into-their-own-resourcedictionary)
 - [If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well](#if-youre-using-rx-in-your-viewmodels-use-reactiveproperties-and-reactivecommands-as-well)
 - [Don't be fooled by the IObservable duration parameters in IObservable extension methods](#dont-be-fooled-by-the-iobservable-duration-parameters-in-iobservable-extension-methods)
-- 
+
 ###Code Cleanliness
 - [Split code into small methods to improve stacktraces and the callstack view](#split-code-into-small-methods-to-improve-stacktraces-and-the-callstack-view)
 - [Always use or await the return value of an awaitable method](#always-use-or-await-the-return-value-of-an-awaitable-method)
@@ -60,7 +60,7 @@ Tags indicate the context in which the practice applies in.
 - [Use LINQ expression when notifying changes to other properties](#use-linq-expression-when-notifying-changes-to-other-properties)
 - [Use the nameof operator when notifying changes to other properties](#use-the-nameof-operator-when-notifying-changes-to-other-properties)
 - [Don't make forward references with StaticResource or ThemeResource keywords](#dont-make-forward-references-with-staticresource-or-themeresource-keywords)
-- 
+
 ###Troubleshooting
 - [Uninstall the app installed from the store before trying to sideload the same app](#uninstall-the-app-installed-from-the-store-before-trying-to-sideload-the-same-app)
 - [Unblock downloaded DLLs before referencing them in your projects](#unblock-downloaded-dlls-before-referencing-them-in-your-projects)
