@@ -22,7 +22,7 @@ Tags indicate the context in which the practice applies in.
 ## Table of contents
 ###Tooling and Documentation
 - [Use Visual Studio Community/Pro or greater](#use-visual-studio-communitypro-or-greater)
-- [Use Productivity Power Tools (2013)](#use-productivity-power-tools-2013)
+- [Use Productivity Power Tools (2013)](#use-productivity-power-tools-2013-2015)
 - [Use NuGet](#use-nuget)
 - [Use Package Restore](#use-package-restore)
 - [Refer to the right documentation](#refer-to-the-right-documentation)
