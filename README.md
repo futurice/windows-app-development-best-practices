@@ -45,7 +45,6 @@ Tags indicate the context in which the practice applies in.
 - [Know the timers](#know-the-timers)
 - [Use yield when returning an IEnumerable](#use-yield-when-returning-an-ienumerable)
 - [Explicitly convert LINQ queries into collections to avoid unnecessary re-evaluation](#explicitly-convert-linq-queries-into-collections-to-avoid-unnecessary-re-evaluation)
-- [Do not hardcode a Name for your custom controls](#do-not-hardcode-a-name-for-your-custom-controls)
 - [Be very careful when binding into multiple dependency properties of a dependency object](#be-very-careful-when-binding-into-multiple-dependency-properties-of-a-dependency-object)
 - [Use ItemsStackPanel over VirtualizingStackPanel](#use-itemsstackpanel-over-virtualizingstackpanel)
 - [Use independent animations over dependent ones](#use-independent-animations-over-dependent-ones)
@@ -372,22 +371,6 @@ var lastSItem = sItems.Last();
 MyItems.Add(new MyItem("spoon"));
 Handle(sItems.Last()); // returns the lastSItem
 ```
-
-### Do not hardcode a Name for your custom controls
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
-When writing custom or user controls, do not set the control's Name property with a fixed value. In XAML this would mean setting the x:Name attribute for the root element.
-
-Each dependency object in a PresentationFrameworkCollection has to have an unique Name, and if you end up adding two controls with the same name into the same PresentationFrameworkCollection, you'll end up with:
-```groovy
-{System.ArgumentException: Value does not fall within the expected range.
-   at MS.Internal.XcpImports.CheckHResult(UInt32 hr)
-   at MS.Internal.XcpImports.Collection_AddValue[T](PresentationFrameworkCollection`1 collection, CValue value)
-   at MS.Internal.XcpImports.Collection_AddDependencyObject[T](PresentationFrameworkCollection`1 collection, DependencyObject value)
-   at System.Windows.PresentationFrameworkCollection`1.AddDependencyObject(DependencyObject value)
-```
-
-When you don't set the Name yourself, the framework will generate a unique name for each instance.
 
 ### Be very careful when binding into multiple dependency properties of a dependency object
 | #VS15 #VS13 #UWP #W81 #C6 #C5
