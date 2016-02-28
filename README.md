@@ -54,7 +54,7 @@ Tags indicate the context in which the practice applies in.
 
 ###Code Cleanliness
 - [Split code into small methods to improve stacktraces and the callstack view](#split-code-into-small-methods-to-improve-stacktraces-and-the-callstack-view)
-- [Use await for asynchronous execution](#use-await-for-asynchronous-execution)
+- [Always use or await the return value of an awaitable method](#always-use-or-await-the-return-value-of-an-awaitable-method)
 - [Use CallerMemberName attribute](#use-callermembername-attribute)
 - [Use LINQ expression when notifying changes to other properties](#use-linq-expression-when-notifying-changes-to-other-properties)
 - [Use the nameof operator when notifying changes to other properties](#use-the-nameof-operator-when-notifying-changes-to-other-properties)
@@ -479,16 +479,18 @@ However, that will simply timeout immediately. A correct way to use these parame
 
 Code is often split into small methods for reusability. However, there are reasons to split your methods even if you don't plan to reuse them. Method name documents the intent of the code it encloses. This gives you more informative callstack view while debugging and better stacktraces from your exceptions. The stacktraces part applies especially to release builds, where source code line information is lost.
 
-### Use await for asynchronous execution
+### Always use or await the return value of an awaitable method
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
-Prefer using awaitable methods comparing to synchronous methods. Awaitable method should return Task or Task<>. Avoid using void awaitable methods unless it's really needed. Follow Microsoft [best practices for asynchronous programming](https://msdn.microsoft.com/en-us/magazine/jj991977.aspx?f=255&MSPPError=-2147217396)
-#### Handle exceptions in awaitable methods
 Exceptions from synchronous methods propagate up the call stack regardless if you use the possible return value or not. Awaitable methods work a bit differently. When an unhandled exception is thrown within an awaitable method, the exception is wrapped into the task object returned by the method. The exception is only propagated when you either await the task/method, or try to access a completed task's Result. When you access the Result or await the method within a try block, you can catch the unhandled exceptions from the awaitable method normally. Additionally, you can observe the exception by accessing the task's Exception property. However, be aware that reading the Exception property effectively 'catches' the exception. Be careful to not unintentionally swallow the exception this way. If you let the exception go through unobserved, the [TaskScheduler.UnobservedTaskException](https://msdn.microsoft.com/en-us/library/system.threading.tasks.taskscheduler.unobservedtaskexception%28v=vs.110%29.aspx) will be fired when the task is garbage collected.
 
-There is also another way for handling exceptions. Use the method [Task.ContinueWith();](https://msdn.microsoft.com/en-us/library/dd270696(v=vs.110).aspx) for executing an action on finished task. In case an exception in awaitable method, this method will be called anyway and it's possible to get an exception details inside. It's possible to specify on which context this method will be executed.
-#### Prevent deadlocks in await methods
-In some cases using awaited methods can produce deadlocks ([link 1](http://blog.stephencleary.com/2012/07/dont-block-on-async-code.html), [link 2](http://blog.ciber.no/2014/05/19/using-task-configureawaitfalse-to-prevent-deadlocks-in-async-code/)). In order to prevent deadlocks the method `Task.ConfigureAwait(false);`.
+### Use ConfigureAwait to avoid deadlocks when making a blocking call for an awaitable method
+It's possible to get a deadlock using blocking call of the awaitable method. The following example produces deadlock.
+```
+var task = FetchData();
+var result = task.Result;
+```
+In order to prevent getting deadlock use the method `Task.ConfigureAwait(false);`. It should be called on awaitable method inside `FetchData()`. Extended example of handling deadlocks can be found [here](http://blog.stephencleary.com/2012/07/dont-block-on-async-code.html).
 
 ### Use [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute
 | #VS15 #VS13 #UWP #W81 #C6 #C5
