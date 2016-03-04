@@ -52,7 +52,7 @@ Tags indicate the context in which the practice applies in.
 - [If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well](#if-youre-using-rx-in-your-viewmodels-use-reactiveproperties-and-reactivecommands-as-well)
 - [Don't be fooled by the IObservable duration parameters in IObservable extension methods](#dont-be-fooled-by-the-iobservable-duration-parameters-in-iobservable-extension-methods)
 
-###Code Cleanliness
+###Code Quality
 - [Split code into small methods to improve stacktraces and the callstack view](#split-code-into-small-methods-to-improve-stacktraces-and-the-callstack-view)
 - [Always use or await the return value of an awaitable method](#always-use-or-await-the-return-value-of-an-awaitable-method)
 - [Use CallerMemberName attribute](#use-callermembername-attribute)
@@ -473,7 +473,7 @@ However, that will simply timeout immediately. A correct way to use these parame
 .Timeout(i => Observable.Timer(TimeSpan.FromSeconds(1)))
 ```
 
-##Code Cleanliness
+##Code Quality
 ### Split code into small methods to improve stacktraces and the callstack view
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
