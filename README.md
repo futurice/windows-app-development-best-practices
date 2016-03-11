@@ -486,6 +486,8 @@ Code is often split into small methods for reusability. However, there are reaso
 Exceptions from synchronous methods propagate up the call stack regardless if you use the possible return value or not. Awaitable methods work a bit differently. When an unhandled exception is thrown within an awaitable method, the exception is wrapped into the task object returned by the method. The exception is only propagated when you either await the task/method, or try to access a completed task's Result. When you access the Result or await the method within a try block, you can catch the unhandled exceptions from the awaitable method normally. Additionally, you can observe the exception by accessing the task's Exception property. However, be aware that reading the Exception property effectively 'catches' the exception. Be careful to not unintentionally swallow the exception this way. If you let the exception go through unobserved, the [TaskScheduler.UnobservedTaskException](https://msdn.microsoft.com/en-us/library/system.threading.tasks.taskscheduler.unobservedtaskexception%28v=vs.110%29.aspx) will be fired when the task is garbage collected.
 
 ### Use ConfigureAwait to avoid deadlocks when making a blocking call for an awaitable method
+| #VS15 #VS13 #UWP #W81 #C6 #C5
+
 It's possible to cause a deadlock by making a blocking call (eg. .Result or .Wait()) on an incompleted Task that has been returned by an awaitable method. You should always avoid blocking on async code, but sometimes it's necessary as an intermediate solution when refactoring synchronous code to be asynchronous. 
 
 The following is an example of such deadlock:
