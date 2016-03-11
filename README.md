@@ -42,7 +42,7 @@ Tags indicate the context in which the practice applies in.
 ###Architecture
 - [Use Windows.Web.Http.HttpClient for your HTTP needs](#use-windowswebhttphttpclient-for-your-http-needs)
 - [Use CultureInfo.InvariantCulture for serializations](#use-cultureinfoinvariantculture-for-serializations)
-- [Always add en-US as a supported language for your app if your users know English](#always-add-enus-as-a-supported-language-for-your-app-if-your-users-know-English)
+- [Always add en-US as a supported language for your app if your users know English](#always-add-en-us-as-a-supported-language-for-your-app-if-your-users-know-english)
 - [Know the timers](#know-the-timers)
 - [Use yield when returning an IEnumerable](#use-yield-when-returning-an-ienumerable)
 - [Explicitly convert LINQ queries into collections to avoid unnecessary re-evaluation](#explicitly-convert-linq-queries-into-collections-to-avoid-unnecessary-re-evaluation)
