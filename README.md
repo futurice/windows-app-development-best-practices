@@ -55,6 +55,7 @@ Tags indicate the context in which the practice applies in.
 ###Code Quality
 - [Split code into small methods to improve stacktraces and the callstack view](#split-code-into-small-methods-to-improve-stacktraces-and-the-callstack-view)
 - [Always use or await the return value of an awaitable method](#always-use-or-await-the-return-value-of-an-awaitable-method)
+- [Use ConfigureAwait to avoid deadlocks when making a blocking call for an awaitable method](#use-configureawait-to-avoid-deadlocks-when-making-a-blocking-call-for-an-awaitable-method)
 - [Use CallerMemberName attribute](#use-callermembername-attribute)
 - [Use LINQ expression when notifying changes to other properties](#use-linq-expression-when-notifying-changes-to-other-properties)
 - [Use the nameof operator when notifying changes to other properties](#use-the-nameof-operator-when-notifying-changes-to-other-properties)
@@ -483,6 +484,19 @@ Code is often split into small methods for reusability. However, there are reaso
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
 Exceptions from synchronous methods propagate up the call stack regardless if you use the possible return value or not. Awaitable methods work a bit differently. When an unhandled exception is thrown within an awaitable method, the exception is wrapped into the task object returned by the method. The exception is only propagated when you either await the task/method, or try to access a completed task's Result. When you access the Result or await the method within a try block, you can catch the unhandled exceptions from the awaitable method normally. Additionally, you can observe the exception by accessing the task's Exception property. However, be aware that reading the Exception property effectively 'catches' the exception. Be careful to not unintentionally swallow the exception this way. If you let the exception go through unobserved, the [TaskScheduler.UnobservedTaskException](https://msdn.microsoft.com/en-us/library/system.threading.tasks.taskscheduler.unobservedtaskexception%28v=vs.110%29.aspx) will be fired when the task is garbage collected.
+
+### Use ConfigureAwait to avoid deadlocks when making a blocking call for an awaitable method
+It's possible to cause a deadlock by doing a blocking call (eg. .Result or Wait()) on an awaitable method. The following example can produce a deadlock (the method `_networkManager.LoadData()` doesn't use `ConfigureAwait(false)` inside).
+```
+async Task<String> FetchData()
+{
+    return await _networkManager.RequestData();
+}
+...
+var task = FetchData();
+var result = task.Result;
+```
+In order to prevent getting deadlock use the method `Task.ConfigureAwait(false);`. It should be called on awaitable method inside `FetchData()`. Extended example of handling deadlocks can be found [here](http://blog.stephencleary.com/2012/07/dont-block-on-async-code.html).
 
 ### Use [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute
 | #VS15 #VS13 #UWP #W81 #C6 #C5
