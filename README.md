@@ -486,17 +486,34 @@ Code is often split into small methods for reusability. However, there are reaso
 Exceptions from synchronous methods propagate up the call stack regardless if you use the possible return value or not. Awaitable methods work a bit differently. When an unhandled exception is thrown within an awaitable method, the exception is wrapped into the task object returned by the method. The exception is only propagated when you either await the task/method, or try to access a completed task's Result. When you access the Result or await the method within a try block, you can catch the unhandled exceptions from the awaitable method normally. Additionally, you can observe the exception by accessing the task's Exception property. However, be aware that reading the Exception property effectively 'catches' the exception. Be careful to not unintentionally swallow the exception this way. If you let the exception go through unobserved, the [TaskScheduler.UnobservedTaskException](https://msdn.microsoft.com/en-us/library/system.threading.tasks.taskscheduler.unobservedtaskexception%28v=vs.110%29.aspx) will be fired when the task is garbage collected.
 
 ### Use ConfigureAwait to avoid deadlocks when making a blocking call for an awaitable method
-It's possible to cause a deadlock by doing a blocking call (eg. .Result or Wait()) on an awaitable method. The following example can produce a deadlock (the method `_networkManager.LoadData()` doesn't use `ConfigureAwait(false)` inside).
+It's possible to cause a deadlock by making a blocking call (eg. .Result or .Wait()) on an incompleted Task that has been returned by an awaitable method. You should always avoid blocking on async code, but sometimes it's necessary as an intermediate solution when refactoring synchronous code to be asynchronous. 
+
+The following is an example of such deadlock:
 ```
-async Task<String> FetchData()
-{
-    return await _networkManager.RequestData();
-}
-...
 var task = FetchData();
+// task.Result will block the context until the Task returned by FetchData completes
 var result = task.Result;
+...
+async Task<String> FetchData() {
+	// With await, execution tries to continue on the captured context by default. However, as the context is blocked by task.Result, the execution can't continue and an deadlock occurs.
+	return await _networkManager.RequestData();
+}
 ```
-In order to prevent getting deadlock use the method `Task.ConfigureAwait(false);`. It should be called on awaitable method inside `FetchData()`. Extended example of handling deadlocks can be found [here](http://blog.stephencleary.com/2012/07/dont-block-on-async-code.html).
+In order to prevent the deadlock use `Task.ConfigureAwait(false);` to change await's continuation behavior to not try to marshal back to the captured context. 
+
+The following is an example on how to use ConfigureAwait to avoid the deadlock:
+```
+var task = FetchData();
+// task.Result will block the context until the Task returned by FetchData completes
+var result = task.Result;
+...
+async Task<String> FetchData() {
+	// After RequestData completes, execution won't try to marshal back to the captured context (that is blocked), the Task returned by FetchData can complete, and the execution can continue as expected.
+	return await _networkManager.RequestData();
+}
+```
+
+More info on the topic can be found in [Stephen Cleray's blog post](http://blog.stephencleary.com/2012/07/dont-block-on-async-code.html).
 
 ### Use [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute
 | #VS15 #VS13 #UWP #W81 #C6 #C5
