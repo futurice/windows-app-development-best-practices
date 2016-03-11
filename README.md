@@ -529,7 +529,7 @@ private static T RunAsyncTaskAndWait<T>(Task<T> task) {
 }
 ```
 
-More info on the topic can be found in [Stephen Cleray's blog post](http://blog.stephencleary.com/2012/07/dont-block-on-async-code.html).
+More info on the topic can be found in [Stephen Cleary's blog post](http://blog.stephencleary.com/2012/07/dont-block-on-async-code.html).
 
 ### Use [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute
 | #VS15 #VS13 #UWP #W81 #C6 #C5
