@@ -489,20 +489,20 @@ Exceptions from synchronous methods propagate up the call stack regardless if yo
 It's possible to cause a deadlock by making a blocking call (eg. .Result or .Wait()) on an incompleted Task that has been returned by an awaitable method. You should always avoid blocking on async code, but sometimes it's necessary as an intermediate solution when refactoring synchronous code to be asynchronous. 
 
 The following is an example of such deadlock:
-```
+```C#
 var task = FetchData();
 // task.Result will block the context until the Task returned by FetchData completes
 var result = task.Result;
 ...
 async Task<String> FetchData() {
-	// With await, execution tries to continue on the captured context by default. However, as the context is blocked by task.Result, the execution can't continue and an deadlock occurs.
+	// With await, execution tries to continue on the captured context by default. However, as the context is blocked by task.Result, the execution can't continue and a deadlock occurs.
 	return await _networkManager.RequestData();
 }
 ```
 In order to prevent the deadlock use `Task.ConfigureAwait(false);` to change await's continuation behavior to not try to marshal back to the captured context. 
 
 The following is an example on how to use ConfigureAwait to avoid the deadlock:
-```
+```C#
 var task = FetchData();
 // task.Result will block the context until the Task returned by FetchData completes
 var result = task.Result;
@@ -510,6 +510,20 @@ var result = task.Result;
 async Task<String> FetchData() {
 	// After RequestData completes, execution won't try to marshal back to the captured context (that is blocked), the Task returned by FetchData can complete, and the execution can continue as expected.
 	return await _networkManager.RequestData();
+}
+```
+
+There is also another way to utilize ConfigureAwait to avoid the deadlock, as demonstrated by [a utility method in Azure ActiveDirectory library for DotNet](https://github.com/AzureAD/azure-activedirectory-library-for-dotnet/blob/master/src/ADAL.CommonWinRT/CryptographyHelper.cs#L83):
+```C#
+private static T RunAsyncTaskAndWait<T>(Task<T> task) {
+    try {
+        Task.Run(async () => await task.ConfigureAwait(false)).Wait();
+        return task.Result;
+    }
+    catch (AggregateException ae) {
+        // Any exception thrown as a result of running task will cause AggregateException to be thrown with actual exception as inner.
+        throw ae.InnerExceptions[0];
+    }
 }
 ```
 
