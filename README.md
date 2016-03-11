@@ -42,6 +42,7 @@ Tags indicate the context in which the practice applies in.
 ###Architecture
 - [Use Windows.Web.Http.HttpClient for your HTTP needs](#use-windowswebhttphttpclient-for-your-http-needs)
 - [Use CultureInfo.InvariantCulture for serializations](#use-cultureinfoinvariantculture-for-serializations)
+- [Always add en-US as a supported language for your app if your users know English](#always-add-en-us-as-a-supported-language-for-your-app-if-your-users-know-english)
 - [Know the timers](#know-the-timers)
 - [Use yield when returning an IEnumerable](#use-yield-when-returning-an-ienumerable)
 - [Explicitly convert LINQ queries into collections to avoid unnecessary re-evaluation](#explicitly-convert-linq-queries-into-collections-to-avoid-unnecessary-re-evaluation)
@@ -313,6 +314,13 @@ DateTime dateTime = DateTime.Parse(serializedDateTime, System.Globalization.Cult
 ```
 
 Sources: [MSDN](https://msdn.microsoft.com/en-us/library/windows/apps/xaml/Dn469431.aspx), [Channel9](https://channel9.msdn.com/Events/Build/2013/4-092)
+
+### Always add en-US as a supported language for your app if your users know English
+| #VS15 #VS13 #UWP #W81 #C6 #C5
+
+Windows 10 store limits the visibility of apps based on their supported languages and the selected language of the device. For example, if your app is only set up to support Finnish, it won't show up on devices that have their primary language set to English or Swedish - A very common case in Finland. Exempt to this rule seems to be en-US, which seems to act as a 'locale for everybody'. If your app (also) supports en-US it will be visible in the store (apparently) for all languages.
+
+You could just set your app's default language to en-US, but still have all of your content in your chosen language. However, that would make your app appear in the store as only supporting en-US. Additionally, if you need to support more than one non-'en-US' language, you need to add Strings/en-US/WhatEver.resw to your project. Now, this .resw would be accessed to retrieve strings on devices that don't have any of your other languages set up, or if English comes before any of your other languages. You could fill (clone) this .resw with the values that you want to be used in these cases. Or instead of adding a dummy resw, you could link one of your other .resw files to the en-US folder. There's also [ApplicationLanguages.PrimaryLanguageOverride](https://msdn.microsoft.com/en-us/library/windows/apps/windows.globalization.applicationlanguages.primarylanguageoverride.aspx) which you can set to override the app language.
 
 ### Know the timers
 | #VS15 #VS13 #UWP #W81 #C6 #C5
