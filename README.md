@@ -66,7 +66,7 @@ Tags indicate the context in which the practice applies in.
 - [Uninstall the app installed from the store before trying to sideload the same app](#uninstall-the-app-installed-from-the-store-before-trying-to-sideload-the-same-app)
 - [Unblock downloaded DLLs before referencing them in your projects](#unblock-downloaded-dlls-before-referencing-them-in-your-projects)
 - [If your app crashes only when NOT debugging, check your App.OnSuspending/OnResuming](#if-your-app-crashes-only-when-not-debugging-check-your-apponsuspendingonresuming)
-- [If you have problems starting up or deploying to an emulator, try disabling your antivirus](#if-you-have-problems-starting-up-or-deploying-to-an-emulator-try-disabling-your-antivirus)
+- [If starting up an emulator or deploying to it never completes, try disabling your antivirus](#if-starting-up-an-emulator-or-deploying-to-it-never-completes-try-disabling-your-antivirus)
 - [If you have problems with Visual Studio stability, try disabling the XAML designer](#if-you-have-problems-with-visual-studio-stability-try-disabling-the-xaml-designer) 
 
 -----------------------------
@@ -650,10 +650,13 @@ When your app is attached to the debugger, it doesn't get suspended as it normal
 
 Easy way to check is to place a breakpoint into the methods and use the Lifecycle Events tool in Visual Studio to get your app suspended while debugging.
 
-### If you have problems starting up or deploying to an emulator, try disabling your antivirus
+### If starting up an emulator or deploying to it never completes, try disabling your antivirus
 | #VS15 #VS13 #W81 #C6 #C5
 
 At least Symantec Endpoint Protection is known to cause starting up an (WP8.1) emulator or deploying to it never completing. Just disabling the antivirus for a few seconds when the process seems stuck should enable it to continue. In some cases the problem only occurs when starting the emulator and you can keep the antivirus on while deploying.
+
+### If your app crashes only when NOT debugging, check your App.OnSuspending/OnResuming
+| #VS15 #VS13 #UWP #W81 #C6 #C5
 
 ### If you have problems with Visual Studio stability, try disabling the XAML Designer
 | #VS15 #VS13 #W81 #C6 #C5
