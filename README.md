@@ -29,6 +29,7 @@ Tags indicate the context in which the practice applies in.
 - [Use the Live Visual Tree and the Live Property Explorer](#use-the-live-visual-tree-and-the-live-property-explorer)
 
 ###Debugging and Exceptions
+- [Regularly test UWP apps with a Native Debug build](regularly-test-uwp-apps-with-a-native-debug-build)
 - [Use caller information attributes when tracing](#use-caller-information-attributes-when-tracing)
 - [Log Exception.ToString()](#log-exceptiontostring)
 - [To log and handle unhandled exceptions subscribe to App.UnhandledException and TaskScheduler.UnobservedTaskException](#to-log-and-handle-unhandled-exceptions-subscribe-to-appunhandledexception-and-taskschedulerunobservedtaskexception)
@@ -121,6 +122,13 @@ The VS 2015 XAML inspection tools are a great asset when tweaking and debugging 
 You can find the official documentation on how to use them [here](https://msdn.microsoft.com/en-us/library/mt270227.aspx).
 
 ##Debugging and Exceptions
+### Regularly test UWP apps with a Native Debug build
+| #VS15 #UWP #C6
+
+UWP apps are compiled with .NET Native toolchain for release builds, but normal debug builds run on the .NET virtual machine. Virtual machine builds compile much faster and offer better debugging possibilities, while native builds offer better runtime performance. The catch is though, that in some (special cases) your release build might behave slightly differently. To spot these cases as early as possible, it's a good idea to regularly test with a debug build compiled with .NET Native toolchain. To make this possible you have to add a custom build configuration to you solution.
+
+TODO: Add instructions!
+
 ### Use [caller information attributes](http://msdn.microsoft.com/en-us/library/hh534540(v=vs.110).aspx) when tracing
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
