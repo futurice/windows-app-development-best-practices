@@ -67,6 +67,7 @@ Tags indicate the context in which the practice applies in.
 - [Unblock downloaded DLLs before referencing them in your projects](#unblock-downloaded-dlls-before-referencing-them-in-your-projects)
 - [If your app crashes only when NOT debugging, check your App.OnSuspending/OnResuming](#if-your-app-crashes-only-when-not-debugging-check-your-apponsuspendingonresuming)
 - [If starting up an emulator or deploying to it never completes, try disabling your antivirus](#if-starting-up-an-emulator-or-deploying-to-it-never-completes-try-disabling-your-antivirus)
+- [If starting up an emulator never completes or gives an error, try deleting it in Hyper-V Manager](#if-starting-up-an-emulator-never-completes-or-gives-an-error-try-deleting-it-in-hyper-v-manager)
 - [If you have problems with Visual Studio stability, try disabling the XAML designer](#if-you-have-problems-with-visual-studio-stability-try-disabling-the-xaml-designer) 
 
 -----------------------------
@@ -655,8 +656,10 @@ Easy way to check is to place a breakpoint into the methods and use the Lifecycl
 
 At least Symantec Endpoint Protection is known to cause starting up an (WP8.1) emulator or deploying to it never completing. Just disabling the antivirus for a few seconds when the process seems stuck should enable it to continue. In some cases the problem only occurs when starting the emulator and you can keep the antivirus on while deploying.
 
-### If your app crashes only when NOT debugging, check your App.OnSuspending/OnResuming
-| #VS15 #VS13 #UWP #W81 #C6 #C5
+### If starting up an emulator never completes or gives an error, try deleting it in Hyper-V Manager
+| #VS15 #UWP #C6 #C5
+
+If your emulator gets stuck or shows an error when starting up, reinstalling the virtual machine might help. Kill the stuck or faulted emulator. Open Hyper-V Manager, right click the virtual machine for the problematic emulator, and choose Delete. Redeploying to the emulator from Visual Studio should reinstall the virtual machine, and hopefully get rid of the issue. 
 
 ### If you have problems with Visual Studio stability, try disabling the XAML Designer
 | #VS15 #VS13 #W81 #C6 #C5
