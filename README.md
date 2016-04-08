@@ -125,9 +125,18 @@ You can find the official documentation on how to use them [here](https://msdn.m
 ### Regularly test UWP apps with a Native Debug build
 | #VS15 #UWP #C6
 
-UWP apps are compiled with .NET Native toolchain for release builds, but normal debug builds run on the .NET virtual machine. Virtual machine builds compile much faster and offer better debugging possibilities, while native builds offer better runtime performance. The catch is though, that in some (special cases) your release build might behave slightly differently. To spot these cases as early as possible, it's a good idea to regularly test with a debug build compiled with .NET Native toolchain. To make this possible you have to add a custom build configuration to you solution.
+UWP apps are compiled with .NET Native tool chain for release builds, but normal debug builds run on the .NET virtual machine. Virtual machine builds compile much faster and offer better debugging possibilities, while native builds offer better runtime performance. The catch is though, that in some (special cases) your release build might behave slightly differently. To find these cases as early as possible, it's a good idea to regularly test with a debug build compiled with the .NET Native tool chain. To make this possible you have to add a custom build configuration to you solution.
 
-TODO: Add instructions!
+1. Go to Build -> Configuration Manager
+2. Choose "Debug" as the "Active solution configuration"
+3. Open the "Configuration" drop down menu for your app project and choose "<New...>"
+4. Name the new configuration for example "Debug-native", pick Debug from the Copy Settings drop down menu, check "Create new solution configurations", and click "OK".
+5. Make sure you're active Solution configuration is now the new "Debug-native" configuration
+6. Select your app project and go to Project -> Properties
+7. Go to the Build tab and check "Compile with .NET Natie tool chain"
+8. Repeat the step 7. for all of your target platforms by switching the "Active solution platform" in Build -> Configuration manager in between.  
+
+For more info goto https://msdn.microsoft.com/en-us/library/dn584397(v=vs.110).aspx
 
 ### Use [caller information attributes](http://msdn.microsoft.com/en-us/library/hh534540(v=vs.110).aspx) when tracing
 | #VS15 #VS13 #UWP #W81 #C6 #C5
