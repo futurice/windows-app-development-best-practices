@@ -29,7 +29,7 @@ Tags indicate the context in which the practice applies in.
 - [Use the Live Visual Tree and the Live Property Explorer](#use-the-live-visual-tree-and-the-live-property-explorer)
 
 ###Debugging and Exceptions
-- [Regularly test UWP apps with a Native Debug build](regularly-test-uwp-apps-with-a-native-debug-build)
+- [Regularly debug UWP apps with a .NET Native Debug build](regularly-debug-uwp-apps-with-a-net-native-debug-build)
 - [Use caller information attributes when tracing](#use-caller-information-attributes-when-tracing)
 - [Log Exception.ToString()](#log-exceptiontostring)
 - [To log and handle unhandled exceptions subscribe to App.UnhandledException and TaskScheduler.UnobservedTaskException](#to-log-and-handle-unhandled-exceptions-subscribe-to-appunhandledexception-and-taskschedulerunobservedtaskexception)
@@ -122,10 +122,10 @@ The VS 2015 XAML inspection tools are a great asset when tweaking and debugging 
 You can find the official documentation on how to use them [here](https://msdn.microsoft.com/en-us/library/mt270227.aspx).
 
 ##Debugging and Exceptions
-### Regularly test UWP apps with a Native Debug build
+### Regularly debug UWP apps with a .NET Native Debug build
 | #VS15 #UWP #C6
 
-UWP apps are compiled with .NET Native tool chain for release builds, but normal debug builds run on the .NET virtual machine. Virtual machine builds compile much faster and offer better debugging possibilities, while native builds offer better runtime performance. The catch is though, that in some (special cases) your release build might behave slightly differently. To find these cases as early as possible, it's a good idea to regularly test with a debug build compiled with the .NET Native tool chain. To make this possible you have to add a custom build configuration to you solution.
+UWP app Debug builds are JIT-compiled, while Release builds are AOT-compiled using the .NET Native tool chain. JIT builds compile much faster and offer better debugging experience, while native builds offer better runtime performance. The catch is though, that in some (special cases) your Release build might behave differently to your Debug build. To find these cases as early as possible, it's a good idea to regularly debug with a Debug build compiled with the .NET Native tool chain. To enable you to easily switch between "native debug" and other build configurations, you need to add a new solution configuration:
 
 1. Go to Build -> Configuration Manager
 2. Choose "Debug" as the "Active solution configuration"
@@ -133,10 +133,12 @@ UWP apps are compiled with .NET Native tool chain for release builds, but normal
 4. Name the new configuration for example "Debug-native", pick Debug from the Copy Settings drop down menu, check "Create new solution configurations", and click "OK".
 5. Make sure you're active Solution configuration is now the new "Debug-native" configuration
 6. Select your app project and go to Project -> Properties
-7. Go to the Build tab and check "Compile with .NET Natie tool chain"
-8. Repeat the step 7. for all of your target platforms by switching the "Active solution platform" in Build -> Configuration manager in between.  
+7. Go to the Build tab and select "All platforms" from the "Platform" drop down menu 
+8. Check "Compile with .NET Native tool chain"
 
-For more info goto https://msdn.microsoft.com/en-us/library/dn584397(v=vs.110).aspx
+If you run into the fore mentioned exceptions look at [this MSDN page](https://msdn.microsoft.com/en-us/library/dn600165(v=vs.110).aspx#Step6) for help.
+
+For more information on .NET Native compilation go to: [MSDN](https://msdn.microsoft.com/en-us/library/dn584397(v=vs.110).aspx)
 
 ### Use [caller information attributes](http://msdn.microsoft.com/en-us/library/hh534540(v=vs.110).aspx) when tracing
 | #VS15 #VS13 #UWP #W81 #C6 #C5
