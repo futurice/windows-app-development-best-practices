@@ -29,7 +29,7 @@ Tags indicate the context in which the practice applies in.
 - [Use the Live Visual Tree and the Live Property Explorer](#use-the-live-visual-tree-and-the-live-property-explorer)
 
 ###Debugging and Exceptions
-- [Regularly debug UWP apps with a .NET Native Debug build](regularly-debug-uwp-apps-with-a-net-native-debug-build)
+- [Regularly debug UWP apps with a .NET Native Debug build](#regularly-debug-uwp-apps-with-a-net-native-debug-build)
 - [Use caller information attributes when tracing](#use-caller-information-attributes-when-tracing)
 - [Log Exception.ToString()](#log-exceptiontostring)
 - [To log and handle unhandled exceptions subscribe to App.UnhandledException and TaskScheduler.UnobservedTaskException](#to-log-and-handle-unhandled-exceptions-subscribe-to-appunhandledexception-and-taskschedulerunobservedtaskexception)
