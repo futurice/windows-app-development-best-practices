@@ -351,6 +351,14 @@ You could just set your app's default language to en-US, but still have all of y
 
 There are different timers for different purposes. For example [DispatcherTimer for WinRT](http://msdn.microsoft.com/en-us/library/windows/apps/xaml/windows.ui.xaml.dispatchertimer.aspx), [DispatcherTimer for WP Silverlight](http://msdn.microsoft.com/en-us/library/windows/apps/system.windows.threading.dispatchertimer(v=vs.105).aspx) and [ThreadPoolTimer](http://msdn.microsoft.com/en-us/library/windows/apps/windows.system.threading.threadpooltimer.aspx). Additionally there are [Observable.Timer](http://msdn.microsoft.com/en-us/library/system.reactive.linq.observable.timer(v=vs.103).aspx), [Task.Delay](http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.delay(v=vs.110).aspx), and last (and least) [Thread.Sleep](http://msdn.microsoft.com/en-us/library/system.threading.thread.sleep(v=vs.110).aspx).
 
+### Use lazy properties
+| #VS15 #VS13 #UWP #W81 #C6
+
+```C#
+private IAuthenticationProvider _authenticationProvider;
+public IAuthenticationProvider AuthenticationProvider => _authenticationProvider ?? (_authenticationProvider = new AuthenticationProvider());
+```
+
 ### Use [yield](http://msdn.microsoft.com/en-us/library/9k7k7cf0.aspx) when returning an IEnumerable
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
