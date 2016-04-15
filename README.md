@@ -108,11 +108,15 @@ You are using the old package restore if you have clicked the "Enable NuGet Pack
 ### Refer to the right documentation
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
-When searching for the official documentation for a class, it's easy to end up somewhere else than the documentation for Universal Apps. Generally Universal Apps utilize the new WinRT API (available for all languages) and the .NET for Universal Apps (available for managed languages). Many of the classes used in Universal Apps have existed (possible with differences) in incompatible .NET versions. Therefore, if you search e.g. for UIElement, you might end up at http://msdn.microsoft.com/en-us/library/system.windows.uielement%28v=vs.110%29.aspx, while the correct documentation for the WinRT class can be found at http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.uielement.aspx.
+When searching for the official documentation for a class, it's easy to end up somewhere else than the documentation for Universal Apps. Generally there are two sets of APIs for Universal Apps: The WinRT API, which is available for .NET languages, C++, and JavaScript, and the .NET for Universal Apps which is available for .NET languages only. Notice that F# is currently not supported for UWP apps. 
 
-You know that you are in the correct documentation if it lists Windows Store Apps or Windows Runtime Apps as a supported platform.  
+Many of the classes used in Universal apps have existed (possible with differences) in incompatible .NET versions. Therefore, if you search e.g. for UIElement, you might end up at http://msdn.microsoft.com/en-us/library/system.windows.uielement%28v=vs.110%29.aspx, while the correct documentation for the WinRT class can be found at http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.uielement.aspx.
 
-The landing base for Universal Apps API documentation cant be found at: http://msdn.microsoft.com/en-us/library/windows/apps/br211369.aspx
+To make sure you're in the correct documentation, check the bottom of the page for Windows Store Apps, Windows Runtime Apps, or Windows 10 device family support.
+
+The landing base for Universal Apps API documentation can be found at: http://msdn.microsoft.com/en-us/library/windows/apps/br211369.aspx
+
+In addition there's a landing page for [UWP development](https://developer.microsoft.com/en-us/windows/windows-apps), as well as specific landing pages for [Design](https://developer.microsoft.com/en-us/windows/design), [Develop](https://developer.microsoft.com/en-us/windows/develop), and [Publish](https://developer.microsoft.com/en-us/windows/publish) related content. [Design/Controls and patterns](https://developer.microsoft.com/en-us/windows/design/controls-patterns) can be especially helpful for picking the right controls for your UI.  
 
 ### Use the Live Visual Tree and the Live Property Explorer
 | #VS15 #UWP #W81
