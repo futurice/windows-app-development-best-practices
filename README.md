@@ -352,12 +352,19 @@ You could just set your app's default language to en-US, but still have all of y
 There are different timers for different purposes. For example [DispatcherTimer for WinRT](http://msdn.microsoft.com/en-us/library/windows/apps/xaml/windows.ui.xaml.dispatchertimer.aspx), [DispatcherTimer for WP Silverlight](http://msdn.microsoft.com/en-us/library/windows/apps/system.windows.threading.dispatchertimer(v=vs.105).aspx) and [ThreadPoolTimer](http://msdn.microsoft.com/en-us/library/windows/apps/windows.system.threading.threadpooltimer.aspx). Additionally there are [Observable.Timer](http://msdn.microsoft.com/en-us/library/system.reactive.linq.observable.timer(v=vs.103).aspx), [Task.Delay](http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.delay(v=vs.110).aspx), and last (and least) [Thread.Sleep](http://msdn.microsoft.com/en-us/library/system.threading.thread.sleep(v=vs.110).aspx).
 
 ### Use lazy properties
-| #VS15 #VS13 #UWP #W81 #C6
+| #VS15 #VS13 #UWP #W81 #C6 #C5
+
+It's common for a codebase to implement features that are not used in every user session or are only needed late during the session. In these cases it's always a good idea to consider lazy initialization to avoid unnecessary processing. 
+
+Properties are a great way to make initialization of an object lazy. C#6 allows for a very concise lazy properties for the most simple cases. Note that this approach isn't thread safe.
 
 ```C#
-private IAuthenticationProvider _authenticationProvider;
-public IAuthenticationProvider AuthenticationProvider => _authenticationProvider ?? (_authenticationProvider = new AuthenticationProvider());
+private MyHeavyClass _heavy;
+public MyHeavyClass Heavy => _heavy ?? (_heavy = new MyHeavyClass());
 ```
+
+In cases where thread safety and elaborate exception handling is required Lazy should be used.
+
 
 ### Use [yield](http://msdn.microsoft.com/en-us/library/9k7k7cf0.aspx) when returning an IEnumerable
 | #VS15 #VS13 #UWP #W81 #C6 #C5
