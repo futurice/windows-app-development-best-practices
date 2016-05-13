@@ -45,6 +45,7 @@ Tags indicate the context in which the practice applies in.
 - [Use CultureInfo.InvariantCulture for serializations](#use-cultureinfoinvariantculture-for-serializations)
 - [Always add en-US as a supported language for your app if your users know English](#always-add-en-us-as-a-supported-language-for-your-app-if-your-users-know-english)
 - [Know the timers](#know-the-timers)
+- [Use lazy loading](#use-lazy-loading)
 - [Use yield when returning an IEnumerable](#use-yield-when-returning-an-ienumerable)
 - [Explicitly convert LINQ queries into collections to avoid unnecessary re-evaluation](#explicitly-convert-linq-queries-into-collections-to-avoid-unnecessary-re-evaluation)
 - [Be very careful when binding into multiple dependency properties of a dependency object](#be-very-careful-when-binding-into-multiple-dependency-properties-of-a-dependency-object)
@@ -351,20 +352,24 @@ You could just set your app's default language to en-US, but still have all of y
 
 There are different timers for different purposes. For example [DispatcherTimer for WinRT](http://msdn.microsoft.com/en-us/library/windows/apps/xaml/windows.ui.xaml.dispatchertimer.aspx), [DispatcherTimer for WP Silverlight](http://msdn.microsoft.com/en-us/library/windows/apps/system.windows.threading.dispatchertimer(v=vs.105).aspx) and [ThreadPoolTimer](http://msdn.microsoft.com/en-us/library/windows/apps/windows.system.threading.threadpooltimer.aspx). Additionally there are [Observable.Timer](http://msdn.microsoft.com/en-us/library/system.reactive.linq.observable.timer(v=vs.103).aspx), [Task.Delay](http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.delay(v=vs.110).aspx), and last (and least) [Thread.Sleep](http://msdn.microsoft.com/en-us/library/system.threading.thread.sleep(v=vs.110).aspx).
 
-### Use lazy properties
+### Use lazy loading
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
-It's common for a codebase to implement features that are not used in every user session or are only needed late during the session. In these cases it's always a good idea to consider lazy initialization to avoid unnecessary processing. 
+Lazy loading is a concept of deferring loading of an object until the object is actually needed. It doesn't necessary creation of a new instance of an object, but often involves a heavy operation that returns an object. Lazy can save memory and unnecessary processing in cases where running a heavy operation or creation of a heavy object is only needed in optional or late run paths.
 
-Properties are a great way to make initialization of an object lazy. C#6 allows for a very concise lazy properties for the most simple cases. Note that this approach isn't thread safe.
+C# 6 allows for a very concise and low overhead lazy properties for the simplest cases. Note that this approach isn't thread safe and doesn't consider null to be a legitimate 'loaded' value, but should work just fine for constrained cases.
 
 ```C#
 private MyHeavyClass _heavy;
-public MyHeavyClass Heavy => _heavy ?? (_heavy = new MyHeavyClass());
+public MyHeavyClass Heavy => _heavy ?? (_heavy = HeavyOperation());
 ```
 
-In cases where thread safety and elaborate exception handling is required Lazy should be used.
+Now, accessing Heavy would either return the instance from _heavy, or if it's null, call HeavyOperation, set the return value to _heavy and return it to the caller of Heavy. Notice that if HeavyOperation returns null, it will be called again on the next time Heavy is accessed.
 
+There are at least three other ways to implement lazy loading in .NET: Lazy<T>, LazyInitializer, and ThreadLocal<T>. All of these are explained at [MSDN](https://msdn.microsoft.com/en-us/library/dd997286(v=vs.110).aspx), but to summarize:
+- [Lazy<T>](https://msdn.microsoft.com/en-us/library/dd642331(v=vs.110).aspx) should be used when thread safety is required.
+- [LazyInitializer](https://msdn.microsoft.com/en-us/library/system.threading.lazyinitializer(v=vs.110).aspx) should be used in cases where the overhead of wrapping values into a Lazy<T> is not acceptable.
+- [ThreadLocal<T>](https://msdn.microsoft.com/en-us/library/dd642243(v=vs.110).aspx) should be used for per thread lazy loading.
 
 ### Use [yield](http://msdn.microsoft.com/en-us/library/9k7k7cf0.aspx) when returning an IEnumerable
 | #VS15 #VS13 #UWP #W81 #C6 #C5
