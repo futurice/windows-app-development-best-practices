@@ -355,7 +355,7 @@ There are different timers for different purposes. For example [DispatcherTimer 
 ### Use lazy loading
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
-Lazy loading is a concept of deferring loading of an object until the object is actually needed. It doesn't necessary creation of a new instance of an object, but often involves a heavy operation that returns an object. Lazy can save memory and unnecessary processing in cases where running a heavy operation or creation of a heavy object is only needed in optional or late run paths.
+Lazy loading is a concept of deferring loading of an object until the object is actually needed. It doesn't necessary mean creation of a new instance of an object, but often involves a heavy operation that returns an object. Lazy can save memory and unnecessary processing in cases where running a heavy operation or creation of a heavy object is only needed in optional or late execution paths.
 
 C# 6 allows for a very concise and low overhead lazy properties for the simplest cases. Note that this approach isn't thread safe and doesn't consider null to be a legitimate 'loaded' value, but should work just fine for constrained cases.
 
