@@ -563,7 +563,7 @@ var result = task.Result;
 ...
 async Task<String> FetchData() {
 	// After RequestData completes, execution won't try to marshal back to the captured context (that is blocked), the Task returned by FetchData can complete, and the execution can continue as expected.
-	return await _networkManager.RequestData();
+	return await _networkManager.RequestData().ConfigureAwait(false);
 }
 ```
 
