@@ -50,7 +50,7 @@ Tags indicate the context in which the practice applies in.
 - [Explicitly convert LINQ queries into collections to avoid unnecessary re-evaluation](#explicitly-convert-linq-queries-into-collections-to-avoid-unnecessary-re-evaluation)
 - [Be very careful when binding into multiple dependency properties of a dependency object](#be-very-careful-when-binding-into-multiple-dependency-properties-of-a-dependency-object)
 - [Use ItemsStackPanel over VirtualizingStackPanel](#use-itemsstackpanel-over-virtualizingstackpanel)
-- [Use templated controls over user controls](#Use-templated-controls-over-user-controls)
+- [Use templated controls over user controls](#use-templated-controls-over-user-controls)
 - [Use independent animations over dependent ones](#use-independent-animations-over-dependent-ones)
 - [Put XAML in Class Libraries into their own ResourceDictionary](#put-xaml-in-class-libraries-into-their-own-resourcedictionary)
 - [If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well](#if-youre-using-rx-in-your-viewmodels-use-reactiveproperties-and-reactivecommands-as-well)
@@ -474,7 +474,7 @@ The issue with UserControls is that their XAML is parsed every time an instance 
 
 To create a new templated control select Project -> Add -> Add New Item -> Templated Control. This will add a new class that inherits from Control and sets the DefaultStyleKey in it's constructor, as well as adds an empty default style for the control into Generic.xaml file in your project.
 
-To avoid having to create a new control every time you just want to make a piece of XAML reusable, you can create a templated control that doesn't set the DefaultStyleKey and then just set the controls Style/Template to your reusable Style/Template when you instantiate the control.
+To avoid having to create a new control every time you just want to make a piece of XAML reusable, you can create a templated control that doesn't set the DefaultStyleKey and then just set the control's Style/Template to your reusable Style/Template when you instantiate the control.
 
 For example:
 ```XAML
@@ -491,7 +491,7 @@ For example:
 <local:TemplateControl Template={StaticResource LogoWithBordersTemplate} />
 ```
 
-Or with extra reusability with data binding, template binding and styling
+Enable more reusability with data bindings, template bindings and styling:
 ```XAML
 ...
 <ResourceDictionary>
@@ -521,7 +521,7 @@ Or with extra reusability with data binding, template binding and styling
   Foreground="Yellow"/>
 ```
 
-Templated controls and user controls have been discussed in [this](https://github.com/futurice/windows-app-development-best-practices/issues/6) issue.
+Templated controls and user controls have also been discussed in [this](https://github.com/futurice/windows-app-development-best-practices/issues/6) issue.
 
 ### Use independent animations over dependent ones
 | #VS15 #VS13 #UWP #W81 #C6 #C5
