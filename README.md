@@ -50,6 +50,7 @@ Tags indicate the context in which the practice applies in.
 - [Explicitly convert LINQ queries into collections to avoid unnecessary re-evaluation](#explicitly-convert-linq-queries-into-collections-to-avoid-unnecessary-re-evaluation)
 - [Be very careful when binding into multiple dependency properties of a dependency object](#be-very-careful-when-binding-into-multiple-dependency-properties-of-a-dependency-object)
 - [Use ItemsStackPanel over VirtualizingStackPanel](#use-itemsstackpanel-over-virtualizingstackpanel)
+- [Use templated controls over user controls](#use-templated-controls-over-user-controls)
 - [Use independent animations over dependent ones](#use-independent-animations-over-dependent-ones)
 - [Put XAML in Class Libraries into their own ResourceDictionary](#put-xaml-in-class-libraries-into-their-own-resourcedictionary)
 - [If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well](#if-youre-using-rx-in-your-viewmodels-use-reactiveproperties-and-reactivecommands-as-well)
@@ -463,6 +464,64 @@ It actually binds to the property PropertyName in the object in the DataContext 
 ItemsStackPanel was added into Windows 8.1 and should be used over VirtualizingStackPanel. If item grouping is used, VirtualizingStackPanel realizes the whole group of items even if only the first one was required. ItemsStackPanel handles items virtualization correctly also when groups are used and will therefore offer better performance.
 
 Source: [MSDN Blog](http://blogs.msdn.com/b/alainza/archive/2014/09/04/listview-basics-and-virtualization-concepts.aspx) 
+
+### Use templated controls over user controls
+| #VS15 #VS13 #UWP #W81 #C6 #C5
+
+There are two main ways to 'package' a piece of UI into a reusable component. User controls inherit from UserControl and are composed of a C#/VB file and an attached XAML file. Essentially both of them are partial definitions of the same class. Templated controls are classes inherited from Control and have their Template property set to a ControlTemplate defined in XAML. 
+
+The issue with UserControls is that their XAML is parsed every time an instance of the control is created. Additionally, UserControls are loaded even if they are created with Collapsed Visibility, while Templated Controls are only be loaded when their Visibility is set to Visible. These details can have significant effect on performance, especially if the controls are used in list items. Templated controls also offer better reusability with re-templating and styling.
+
+To create a new templated control select Project -> Add -> Add New Item -> Templated Control. This will add a new class that inherits from Control and sets the DefaultStyleKey in it's constructor, as well as adds an empty default style for the control into Generic.xaml file in your project.
+
+To avoid having to create a new control every time you just want to make a piece of XAML reusable, you can create a templated control that doesn't set the DefaultStyleKey and then just set the control's Style/Template to your reusable Style/Template when you instantiate the control.
+
+For example:
+```XAML
+...
+<ResourceDictionary>
+  <ControlTemplate x:Key="LogoWithBordersTemplate" TargetType="local:TemplateControl">
+    <Border Padding="15" BorderThickness="2" BorderBrush="Black"
+    	<Image Source="Logo.png" />
+    </Border>
+  </ControlTemplate>
+</ResourceDictionary>
+...
+
+<local:TemplateControl Template={StaticResource LogoWithBordersTemplate} />
+```
+
+Enable more reusability with data bindings, template bindings and styling:
+```XAML
+...
+<ResourceDictionary>
+<Style x:Key="LogoWithBordersStyle" TargetType="local:TemplateControl">
+  <Setter Property="Foreground" Value="Red" />
+  <Setter Property="Template>
+    <Setter.Value>
+      <ControlTemplate x:Key="LogoWithBordersTemplate" TargetType="local:TemplateControl">
+        <Border Padding="15" BorderThickness="2" BorderBrush="{TemplateBinding Foreground}"
+    	  <Image Source="{Binding Logo}" />
+        </Border>
+      </ControlTemplate>
+    </Setter.Value>
+  </Setter>
+</ResourceDictionary>
+...
+
+<!-- Borders are Red -->
+<local:TemplateControl
+  Style={StaticResource LogoWithBordersStyle} 
+  DataContext={Binding SelectedCompany}/>
+
+<!-- Borders are Yellow -->
+<local:TemplateControl
+  Style={StaticResource LogoWithBordersStyle} 
+  DataContext={Binding SelectedCompany}
+  Foreground="Yellow"/>
+```
+
+Templated controls and user controls have also been discussed in [this](https://github.com/futurice/windows-app-development-best-practices/issues/6) issue.
 
 ### Use independent animations over dependent ones
 | #VS15 #VS13 #UWP #W81 #C6 #C5
