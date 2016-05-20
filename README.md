@@ -50,6 +50,7 @@ Tags indicate the context in which the practice applies in.
 - [Explicitly convert LINQ queries into collections to avoid unnecessary re-evaluation](#explicitly-convert-linq-queries-into-collections-to-avoid-unnecessary-re-evaluation)
 - [Be very careful when binding into multiple dependency properties of a dependency object](#be-very-careful-when-binding-into-multiple-dependency-properties-of-a-dependency-object)
 - [Use ItemsStackPanel over VirtualizingStackPanel](#use-itemsstackpanel-over-virtualizingstackpanel)
+- [Use custom controls over UserControls](#Use-custom-controls-over-usercontrols)
 - [Use independent animations over dependent ones](#use-independent-animations-over-dependent-ones)
 - [Put XAML in Class Libraries into their own ResourceDictionary](#put-xaml-in-class-libraries-into-their-own-resourcedictionary)
 - [If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well](#if-youre-using-rx-in-your-viewmodels-use-reactiveproperties-and-reactivecommands-as-well)
@@ -463,6 +464,16 @@ It actually binds to the property PropertyName in the object in the DataContext 
 ItemsStackPanel was added into Windows 8.1 and should be used over VirtualizingStackPanel. If item grouping is used, VirtualizingStackPanel realizes the whole group of items even if only the first one was required. ItemsStackPanel handles items virtualization correctly also when groups are used and will therefore offer better performance.
 
 Source: [MSDN Blog](http://blogs.msdn.com/b/alainza/archive/2014/09/04/listview-basics-and-virtualization-concepts.aspx) 
+
+### Use Templated Controls over UserControls
+
+There are two main ways to 'package' a piece of UI into a reusable component. UserControls inherit from UserControl and are composed of a codebehind file and an attached XAML file. Essentially both of them are partial definitions of the same class. Templated Controls are classes inherited from Control which have their Template property set to a ControlTemplate defined in XAML. 
+
+The issue with UserControls is that their XAML is parsed every time an instance of the control is created. Additionally, UserControls are loaded even if they are created with Visibility=Collapsed, while Templated Controls would only be loaded when their Visibility is set to Visible. These details can have significant effect on performance, especially if the controls are used in list items.  
+
+
+
+The XAML for the control is usually placed into a ResourceDictionary 
 
 ### Use independent animations over dependent ones
 | #VS15 #VS13 #UWP #W81 #C6 #C5
