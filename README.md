@@ -65,6 +65,10 @@ Tags indicate the context in which the practice applies in.
 - [Use the nameof operator when notifying changes to other properties](#use-the-nameof-operator-when-notifying-changes-to-other-properties)
 - [Don't make forward references with StaticResource or ThemeResource keywords](#dont-make-forward-references-with-staticresource-or-themeresource-keywords)
 
+###Gotchas
+- [Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl](#visual-states-have-to-be-defined-in-the-root-element-of-a-controltemplate-datatemplate-page-or-usercontrol)
+- [Key times have to be set for key frames in a key framed animation](#key-times-have-to-be-set-for-key-frames-in-a-key-framed-animation)
+
 ###Troubleshooting
 - [Uninstall the app installed from the store before trying to sideload the same app](#uninstall-the-app-installed-from-the-store-before-trying-to-sideload-the-same-app)
 - [Unblock downloaded DLLs before referencing them in your projects](#unblock-downloaded-dlls-before-referencing-them-in-your-projects)
@@ -732,6 +736,28 @@ Altough writting something like the following might not fail, it carries a perfo
 Additionally, in some cases a forward reference will throw a runtime exception. 
 
 [Source](https://msdn.microsoft.com/en-us/library/dn263118.aspx)
+
+##Gotchas
+### Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl
+| #VS15 #VS13 #UWP #W81 #C6 #C5
+```XML
+<ControlTemplate, DataTemplate, Page, or UserControl>
+	<AnyControl>
+		<VisualStateManager.VisualStateGroups>
+		<!-- Visual states defined here will work as expected -->
+		</VisualStateManager.VisualStateGroups>
+		
+		<AnyControl>
+			<VisualStateManager.VisualStateGroups>
+				<!-- You will not get any kind of an error or exception, but visual states defined here will not work as expected -->
+			</VisualStateManager.VisualStateGroups>
+...
+```
+
+### Key times have to be set for key frames in a key framed animation
+| #VS15 #VS13 #UWP #W81 #C6 #C5
+
+When using a key framed animation (such as ObjectAnimationUsingKeyFrames), the KeyTime property of the key frames has to be set (even if you want it to be zero), or the key frame will never be applied.
 
 ##Troubleshooting
 ### Uninstall the app installed from the store before trying to sideload the same app
