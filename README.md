@@ -65,8 +65,8 @@ Tags indicate the context in which the practice applies in.
 - [Don't make forward references with StaticResource or ThemeResource keywords](#dont-make-forward-references-with-staticresource-or-themeresource-keywords)
 
 ###Gotchas
-- [Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl](#Visual-states-have-to-be-defined-in-the-root-element-of-a-ControlTemplate-DataTemplate-Page-or-UserControl)
-- [Key times have to be set for key frames in a key framed animation](#Key-times-have-to-be-set-for-key-frames-in-a-key-framed-animation)
+- [Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl](#visual-states-have-to-be-defined-in-the-root-element-of-a-controltemplate-datatemplate-page-or-usercontrol)
+- [Key times have to be set for key frames in a key framed animation](#key-times-have-to-be-set-for-key-frames-in-a-key-framed-animation)
 
 ###Troubleshooting
 - [Uninstall the app installed from the store before trying to sideload the same app](#uninstall-the-app-installed-from-the-store-before-trying-to-sideload-the-same-app)
@@ -692,7 +692,7 @@ Additionally, in some cases a forward reference will throw a runtime exception.
 		
 		<AnyControl>
 			<VisualStateManager.VisualStateGroups>
-				<!-- You will not get any kind of an exception, but visual states defined here will not work as expected -->
+				<!-- You will not get any kind of an error or exception, but visual states defined here will not work as expected -->
 			</VisualStateManager.VisualStateGroups>
 ...
 ```
