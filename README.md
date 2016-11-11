@@ -48,13 +48,11 @@ Tags indicate the context in which the practice applies in.
 - [Use lazy loading](#use-lazy-loading)
 - [Use yield when returning an IEnumerable](#use-yield-when-returning-an-ienumerable)
 - [Explicitly convert LINQ queries into collections to avoid unnecessary re-evaluation](#explicitly-convert-linq-queries-into-collections-to-avoid-unnecessary-re-evaluation)
-- [Be very careful when binding into multiple dependency properties of a dependency object](#be-very-careful-when-binding-into-multiple-dependency-properties-of-a-dependency-object)
 - [Use ItemsStackPanel over VirtualizingStackPanel](#use-itemsstackpanel-over-virtualizingstackpanel)
 - [Use templated controls over user controls](#use-templated-controls-over-user-controls)
 - [Use independent animations over dependent ones](#use-independent-animations-over-dependent-ones)
 - [Put XAML in Class Libraries into their own ResourceDictionary](#put-xaml-in-class-libraries-into-their-own-resourcedictionary)
 - [If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well](#if-youre-using-rx-in-your-viewmodels-use-reactiveproperties-and-reactivecommands-as-well)
-- [Don't be fooled by the IObservable duration parameters in IObservable extension methods](#dont-be-fooled-by-the-iobservable-duration-parameters-in-iobservable-extension-methods)
 
 ###Code Quality
 - [Split code into small methods to improve stacktraces and the callstack view](#split-code-into-small-methods-to-improve-stacktraces-and-the-callstack-view)
@@ -68,6 +66,8 @@ Tags indicate the context in which the practice applies in.
 ###Gotchas
 - [Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl](#visual-states-have-to-be-defined-in-the-root-element-of-a-controltemplate-datatemplate-page-or-usercontrol)
 - [Key times have to be set for key frames in a key framed animation](#key-times-have-to-be-set-for-key-frames-in-a-key-framed-animation)
+- [Don't be fooled by the IObservable duration parameters in IObservable extension methods](#dont-be-fooled-by-the-iobservable-duration-parameters-in-iobservable-extension-methods)
+- [Be very careful when binding into multiple dependency properties of a dependency object](#be-very-careful-when-binding-into-multiple-dependency-properties-of-a-dependency-object)
 
 ###Troubleshooting
 - [Uninstall the app installed from the store before trying to sideload the same app](#uninstall-the-app-installed-from-the-store-before-trying-to-sideload-the-same-app)
@@ -428,38 +428,6 @@ MyItems.Add(new MyItem("spoon"));
 Handle(sItems.Last()); // returns the lastSItem
 ```
 
-### Be very careful when binding into multiple dependency properties of a dependency object
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
-There are two possible suprises:
-
-#### Order matters
-
-For example: [1](http://www.weseman.net/blog/development/c/order-in-xaml-is-important-when-using-data-binding/) and [2](http://discoveringdotnet.alexeyev.org/2011/03/order-in-xaml-is-important.html)
-
-#### Binding to DataContext changes the default binding source
-
-For example, the following xaml looks for the AdVisiblity in MyAdViewModel, not in the MyPageViewModel. Changing the order of the bindings doesn't make a difference. (However, does it first look in MyPageViewModel and then in MyAdViewModel).
-
-```XML
-<Grid>
-    <Grid.DataContext>
-        <MyPageViewModel AdVisiblity="Collapsed">
-            <MyPageViewModel.AdContext>
-                <MyAdViewModel Url="www.bystuff.com" Text="Buy Stuff!"/>
-            </MyPageViewModel.AdContext>
-        </MyPageViewModel>
-    </Grid.DataContext>
-    
-    <AdControl Visibility="{Binding AdVisibility}" DataContext="{Binding AdContext}"/> 
-</Grid>
-```
-This happens because "{Binding PropertyName}" is short for:
-```XML
-"{Binding Path=DataContext.PropertyName, Source={RelativeSource Self}"
-```
-It actually binds to the property PropertyName in the object in the DataContext property of its self. When DataContext is not set, it's automatically inherited from the Parent.
-
 ### Use ItemsStackPanel over VirtualizingStackPanel
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
@@ -571,21 +539,6 @@ Application.Current.Resources["libraryResourceKey"]
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
 If you aren't already using a library that offers you an easy way to bind into your reactive code from XAML, [here's](https://github.com/runceel/ReactiveProperty) one that offers ReactiveProperty, ReactiveCommand and some other useful classes.
-
-### Don't be fooled by the IObservable duration parameters in IObservable extension methods
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
-In System.Reactive.Linq, at least Delay, Timeout, Throttle, and GroupByUntil extension methods for IObservable have overloads that take an IObservable parameter of type TDelay, TTimeout, TThrottle, or TDuration. These parameters are always used to indicate a duration and the duration is considered to be passed when the given IObservable completes. The actual type of the IObservable doesn't matter, but most of the time you'll want to use Observable.Timer to create the parameter.
-
-For example, you could think that the following code makes all items of the observable timeout after one second:
-```C#
-.Timeout(vm => Observable.Return(TimeSpan.FromSeconds(1)))
-```
-However, that will simply timeout immediately. A correct way to use these parameters is for example:
-```C#
-// Notice the .Timer
-.Timeout(i => Observable.Timer(TimeSpan.FromSeconds(1)))
-```
 
 ##Code Quality
 ### Split code into small methods to improve stacktraces and the callstack view
@@ -758,6 +711,53 @@ Additionally, in some cases a forward reference will throw a runtime exception.
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
 When using a key framed animation (such as ObjectAnimationUsingKeyFrames), the KeyTime property of the key frames has to be set (even if you want it to be zero), or the key frame will never be applied.
+
+### Don't be fooled by the IObservable duration parameters in IObservable extension methods
+| #VS15 #VS13 #UWP #W81 #C6 #C5
+
+In System.Reactive.Linq, at least Delay, Timeout, Throttle, and GroupByUntil extension methods for IObservable have overloads that take an IObservable parameter of type TDelay, TTimeout, TThrottle, or TDuration. These parameters are always used to indicate a duration and the duration is considered to be passed when the given IObservable completes. The actual type of the IObservable doesn't matter, but most of the time you'll want to use Observable.Timer to create the parameter.
+
+For example, you could think that the following code makes all items of the observable timeout after one second:
+```C#
+.Timeout(vm => Observable.Return(TimeSpan.FromSeconds(1)))
+```
+However, that will simply timeout immediately. A correct way to use these parameters is for example:
+```C#
+// Notice the .Timer
+.Timeout(i => Observable.Timer(TimeSpan.FromSeconds(1)))
+```
+
+### Be very careful when binding into multiple dependency properties of a dependency object
+| #VS15 #VS13 #UWP #W81 #C6 #C5
+
+There are two possible suprises:
+
+#### Order matters
+
+For example: [1](http://www.weseman.net/blog/development/c/order-in-xaml-is-important-when-using-data-binding/) and [2](http://discoveringdotnet.alexeyev.org/2011/03/order-in-xaml-is-important.html)
+
+#### Binding to DataContext changes the default binding source
+
+For example, the following xaml looks for the AdVisiblity in MyAdViewModel, not in the MyPageViewModel. Changing the order of the bindings doesn't make a difference. (However, does it first look in MyPageViewModel and then in MyAdViewModel).
+
+```XML
+<Grid>
+    <Grid.DataContext>
+        <MyPageViewModel AdVisiblity="Collapsed">
+            <MyPageViewModel.AdContext>
+                <MyAdViewModel Url="www.bystuff.com" Text="Buy Stuff!"/>
+            </MyPageViewModel.AdContext>
+        </MyPageViewModel>
+    </Grid.DataContext>
+    
+    <AdControl Visibility="{Binding AdVisibility}" DataContext="{Binding AdContext}"/> 
+</Grid>
+```
+This happens because "{Binding PropertyName}" is short for:
+```XML
+"{Binding Path=DataContext.PropertyName, Source={RelativeSource Self}"
+```
+It actually binds to the property PropertyName in the object in the DataContext property of its self. When DataContext is not set, it's automatically inherited from the Parent.
 
 ##Troubleshooting
 ### Uninstall the app installed from the store before trying to sideload the same app
