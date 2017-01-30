@@ -27,6 +27,7 @@ Tags indicate the context in which the practice applies in.
 - [Use Package Restore](#use-package-restore)
 - [Refer to the right documentation](#refer-to-the-right-documentation)
 - [Use the Live Visual Tree and the Live Property Explorer](#use-the-live-visual-tree-and-the-live-property-explorer)
+- [If you get a certificate error when sideloading an UWP app, install the cert from the package](#if-you-get-a-certificate-error-when-sideloading-an-uwp-app-install-the-cert-from-the-package)
 
 ###Debugging and Exceptions
 - [Regularly debug UWP apps with a .NET Native Debug build](#regularly-debug-uwp-apps-with-a-net-native-debug-build)
@@ -130,6 +131,11 @@ In addition there's a landing page for [UWP development](https://developer.micro
 The VS 2015 XAML inspection tools are a great asset when tweaking and debugging your UI. Unfortunately the Live Property Explorer doesn't save the changes you make to your XAML. However, after you find a good value for a property, you can click 'go to source' and modify the XAML while debugging. The XAML changes you make won't take effect until you relaunch the app, but at least you have now 'saved' the value you want to use. Notice that you have to be running your app on Windows 10 (device or emulator) to be able to use these tools.
 
 You can find the official documentation on how to use them [here](https://msdn.microsoft.com/en-us/library/mt270227.aspx).
+
+### If you get a certificate error when sideloading an UWP app, install the cert from the package
+| #UWP
+
+On Windows 10 Anniversary Update (10.0.14393) or newer, you can enable Sideload Apps or Developer Mode in Settings and simply double click an .appx or .appxbundle to install an UWP app. However, if you haven't installed the certificate that was used to create the app package, you will get an error. You can install the certificate by opening the .appx or .appxbundle Properties -> Digital Signatures -> Details -> View Certificate -> Details -> Install Certificate. Select Local Machine as the Store Location Group and Trusted People as the Store Location.
 
 ##Debugging and Exceptions
 ### Regularly debug UWP apps with a .NET Native Debug build
