@@ -20,7 +20,7 @@ Tags indicate the context in which the practice applies in.
 
 -----------------------------
 ## Table of contents
-###Tooling and Documentation
+### Tooling and Documentation
 - [Use Visual Studio Community/Pro or greater](#use-visual-studio-communitypro-or-greater)
 - [Use Productivity Power Tools (2013)](#use-productivity-power-tools-2013-2015)
 - [Use NuGet](#use-nuget)
@@ -29,7 +29,7 @@ Tags indicate the context in which the practice applies in.
 - [Use the Live Visual Tree and the Live Property Explorer](#use-the-live-visual-tree-and-the-live-property-explorer)
 - [If you get a certificate error when sideloading an UWP app, install the cert from the package](#if-you-get-a-certificate-error-when-sideloading-an-uwp-app-install-the-cert-from-the-package)
 
-###Debugging and Exceptions
+### Debugging and Exceptions
 - [Regularly debug UWP apps with a .NET Native Debug build](#regularly-debug-uwp-apps-with-a-net-native-debug-build)
 - [Use caller information attributes when tracing](#use-caller-information-attributes-when-tracing)
 - [Log Exception.ToString()](#log-exceptiontostring)
@@ -41,7 +41,7 @@ Tags indicate the context in which the practice applies in.
 - [Use ContinueWith and Task.Exception to handle exceptions from async methods in expected cases](#use-continuewith-and-taskexception-to-handle-exceptions-from-async-methods-in-expected-cases)
 - [Utilize the memory dumps when debugger doesn't cut it](#utilize-the-memory-dumps-when-debugger-doesnt-cut-it)
 
-###Architecture
+### Architecture
 - [Use Windows.Web.Http.HttpClient for your HTTP needs](#use-windowswebhttphttpclient-for-your-http-needs)
 - [Use CultureInfo.InvariantCulture for serializations](#use-cultureinfoinvariantculture-for-serializations)
 - [Always add en-US store description for your app if your users know English](#always-add-en-us-store-description-for-your-app-if-your-users-know-english)
@@ -55,7 +55,7 @@ Tags indicate the context in which the practice applies in.
 - [Put XAML in Class Libraries into their own ResourceDictionary](#put-xaml-in-class-libraries-into-their-own-resourcedictionary)
 - [If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well](#if-youre-using-rx-in-your-viewmodels-use-reactiveproperties-and-reactivecommands-as-well)
 
-###Code Quality
+### Code Quality
 - [Split code into small methods to improve stacktraces and the callstack view](#split-code-into-small-methods-to-improve-stacktraces-and-the-callstack-view)
 - [Always use or await the return value of an awaitable method](#always-use-or-await-the-return-value-of-an-awaitable-method)
 - [Use ConfigureAwait to avoid deadlocks when making a blocking call for an awaitable method](#use-configureawait-to-avoid-deadlocks-when-making-a-blocking-call-for-an-awaitable-method)
@@ -64,13 +64,13 @@ Tags indicate the context in which the practice applies in.
 - [Use the nameof operator when notifying changes to other properties](#use-the-nameof-operator-when-notifying-changes-to-other-properties)
 - [Don't make forward references with StaticResource or ThemeResource keywords](#dont-make-forward-references-with-staticresource-or-themeresource-keywords)
 
-###Gotchas
+### Gotchas
 - [Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl](#visual-states-have-to-be-defined-in-the-root-element-of-a-controltemplate-datatemplate-page-or-usercontrol)
 - [Key times have to be set for key frames in a key framed animation](#key-times-have-to-be-set-for-key-frames-in-a-key-framed-animation)
 - [Don't be fooled by the IObservable duration parameters in IObservable extension methods](#dont-be-fooled-by-the-iobservable-duration-parameters-in-iobservable-extension-methods)
 - [Be very careful when binding into multiple dependency properties of a dependency object](#be-very-careful-when-binding-into-multiple-dependency-properties-of-a-dependency-object)
 
-###Troubleshooting
+### Troubleshooting
 - [Uninstall the app installed from the store before trying to sideload the same app](#uninstall-the-app-installed-from-the-store-before-trying-to-sideload-the-same-app)
 - [Unblock downloaded DLLs before referencing them in your projects](#unblock-downloaded-dlls-before-referencing-them-in-your-projects)
 - [If your app crashes only when NOT debugging, check your App.OnSuspending/OnResuming](#if-your-app-crashes-only-when-not-debugging-check-your-apponsuspendingonresuming)
@@ -80,7 +80,7 @@ Tags indicate the context in which the practice applies in.
 
 -----------------------------
 
-##Tooling and Documentation
+## Tooling and Documentation
 ### Use Visual Studio Community/Pro or greater
 | #VS13 #W81 #C5
 
@@ -137,7 +137,7 @@ You can find the official documentation on how to use them [here](https://msdn.m
 
 On Windows 10 Anniversary Update (10.0.14393) or newer, you can enable Sideload Apps or Developer Mode in Settings and simply double click an .appx or .appxbundle to install an UWP app. However, if you haven't installed the certificate that was used to create the app package, you will get an error. You can install the certificate by opening the .appx or .appxbundle Properties -> Digital Signatures -> Details -> View Certificate -> Details -> Install Certificate. Select Local Machine as the Store Location Group and Trusted People as the Store Location.
 
-##Debugging and Exceptions
+## Debugging and Exceptions
 ### Regularly debug UWP apps with a .NET Native Debug build
 | #VS15 #UWP #C6
 
@@ -303,7 +303,7 @@ On newer WP8 firmwares you can to got Settings->Feedback and turn on storing the
 
 Dumps can be analyzed for example using [Visual Studio](https://msdn.microsoft.com/en-us/library/d5zhxt22.aspx) or [WinDbg](https://msdn.microsoft.com/en-us/library/windows/hardware/ff538058(v=vs.85).aspx).
 
-##Architecture
+## Architecture
 ### Use [Windows.Web.Http.HttpClient](https://msdn.microsoft.com/en-US/library/windows/apps/xaml/windows.web.http.httpclient) for your HTTP needs
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
@@ -546,7 +546,7 @@ Application.Current.Resources["libraryResourceKey"]
 
 If you aren't already using a library that offers you an easy way to bind into your reactive code from XAML, [here's](https://github.com/runceel/ReactiveProperty) one that offers ReactiveProperty, ReactiveCommand and some other useful classes.
 
-##Code Quality
+## Code Quality
 ### Split code into small methods to improve stacktraces and the callstack view
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
@@ -696,7 +696,7 @@ Additionally, in some cases a forward reference will throw a runtime exception.
 
 [Source](https://msdn.microsoft.com/en-us/library/dn263118.aspx)
 
-##Gotchas
+## Gotchas
 ### Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 ```XML
@@ -765,7 +765,7 @@ This happens because "{Binding PropertyName}" is short for:
 ```
 It actually binds to the property PropertyName in the object in the DataContext property of its self. When DataContext is not set, it's automatically inherited from the Parent.
 
-##Troubleshooting
+## Troubleshooting
 ### Uninstall the app installed from the store before trying to sideload the same app
 | #VS15 #VS13 #UWP #W81 #C6 #C5
 
