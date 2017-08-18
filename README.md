@@ -3,7 +3,7 @@ This repository is maintained by [Futurice](http://futurice.com/), but contribut
 
 To keep this document easily approachable, it aims to be concise and practical: Each subtitle is an actual practice and contains short, but very practical description of what to do and what not to do. Some reasoning is included, but more detailed explanations and discussions are only included as external links. The listing tries to start of by taking care of the most common issues and end with the rarest ones.
 
-Everything in the document should apply to either or both of the two latest stable versions of C#, Visual Studio, or the Universal Windows Platform. If there are relevant differences between the two latest versions, the implications should be described in the text. Practices that don't apply to either of the two latest versions should be removed.
+Everything in the document should apply to either or both of the two latest stable versions of C#, Visual Studio, or the Universal Windows Platform, or to the latest publicly available version of the Windows Store. If there are relevant differences between the two latest versions, the implications should be described in the text. Practices that don't apply to either of the two latest versions should be removed.
 
 Feedback and contributions are wholeheartedly welcomed! Feel free to fork and send a pull request, or just participate in the discussion at [Issues](https://github.com/futurice/win-client-dev-good-practices/issues).
 
