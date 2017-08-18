@@ -619,7 +619,6 @@ Additionally, in some cases a forward reference will throw a runtime exception.
 
 ## Gotchas
 ### Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl
-| #VS15 #VS13 #UWP #W81 #C6 #C5
 ```XML
 <ControlTemplate, DataTemplate, Page, or UserControl>
 	<AnyControl>
