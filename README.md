@@ -11,7 +11,7 @@ Feedback and contributions are wholeheartedly welcomed! Feel free to fork and se
 ## Table of contents
 ### Tooling and Documentation
 - [Use Visual Studio Community/Pro or greater](#use-visual-studio-communitypro-or-greater)
-- [Use Productivity Power Tools](#use-productivity-power-tools-2013-2015)
+- [Use Productivity Power Tools on VS 2015](#use-productivity-power-tools-on-vs-2015)
 - [Use NuGet](#use-nuget)
 - [Use Package Restore](#use-package-restore)
 - [Refer to the right documentation](#refer-to-the-right-documentation)
@@ -109,7 +109,7 @@ The landing base for Universal Apps API documentation can be found at: http://ms
 In addition there's a landing page for [UWP development](https://developer.microsoft.com/en-us/windows/windows-apps), as well as specific landing pages for [Design](https://developer.microsoft.com/en-us/windows/design), [Develop](https://developer.microsoft.com/en-us/windows/develop), and [Publish](https://developer.microsoft.com/en-us/windows/publish) related content. [Design/Controls and patterns](https://developer.microsoft.com/en-us/windows/design/controls-patterns) can be especially helpful for picking the right controls for your UI.  
 
 ### Use the Live Visual Tree and the Live Property Explorer
-The VS 2015 XAML inspection tools are a great asset when tweaking and debugging your UI. Unfortunately the Live Property Explorer doesn't save the changes you make to your XAML. However, after you find a good value for a property, you can click 'go to source' and modify the XAML while debugging. The XAML changes you make won't take effect until you relaunch the app, but at least you have now 'saved' the value you want to use. Notice that you have to be running your app on Windows 10 (device or emulator) to be able to use these tools.
+The VS 2015+ XAML inspection tools are a great asset when tweaking and debugging your UI. Unfortunately the Live Property Explorer doesn't save the changes you make to your XAML. However, after you find a good value for a property, you can click 'go to source' and modify the XAML while debugging. The XAML changes you make won't take effect until you relaunch the app, but at least you have now 'saved' the value you want to use. Notice that you have to be running your app on Windows 10 (device or emulator) to be able to use these tools.
 
 You can find the official documentation on how to use them [here](https://msdn.microsoft.com/en-us/library/mt270227.aspx).
 
