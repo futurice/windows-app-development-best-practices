@@ -71,22 +71,16 @@ Feedback and contributions are wholeheartedly welcomed! Feel free to fork and se
 
 ## Tooling and Documentation
 ### Use Visual Studio Community/Pro or greater
-| #VS13 #W81 #C5
-
 Visual Studio is the de facto IDE for developing Windows apps. The [Community edition](http://www.visualstudio.com/products/visual-studio-community-vs) gives you the same features as the [Pro editon](http://www.visualstudio.com/products/visual-studio-professional-with-msdn-vs) for free, but has some [restrictions on use in organizations](http://www.visualstudio.com/support/legal/dn877550). [Premium](http://www.visualstudio.com/products/visual-studio-premium-with-msdn-vs) mainly adds built in testing support beyond simple unit testing, and [Ultimate](http://www.visualstudio.com/products/visual-studio-ultimate-with-MSDN-vs) adds enhanced debugging, architecture, and code analysis tools. 
 
 The free express versions are good for getting started, but lack some important features, such as support for [extensions](https://visualstudiogallery.msdn.microsoft.com/), the ability to have all the different project types in a single installation and some team collaboration features. Since the Community editon has all the features of the Express editions we recommend not using the Express editions.
 
 ### Use Productivity Power Tools [(2013)](https://visualstudiogallery.msdn.microsoft.com/dbcb8670-889e-4a54-a226-a48a15e4cace) [(2015)](https://visualstudiogallery.msdn.microsoft.com/34ebc6a2-2777-421d-8914-e29c1dfa7f5d)
-| #VS13 #VS15 #UWP #W81 #C6 #C5
-
 A free visual studio productivity extension from Microsoft. It lacks some features of the commercial counterparts like [JustCode](http://www.telerik.com/products/justcode.aspx) or [ReSharper](https://www.jetbrains.com/resharper/), but doesn't seem to slow the IDE down at all either.
 
 There's also [a version for VS 2017](https://marketplace.visualstudio.com/items?itemName=VisualStudioProductTeam.ProductivityPowerPack2017). However, as VS 2017 has some of the features built-in and the renewed Power Tools seem to have some stability and performance issues, the value of installing the addon should be evaluated on case-by-case basis.
 
 ### Use [NuGet](http://www.nuget.org/)
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Nuget is Microsoft's take on a package manager. There's a Visual Studio extension called NuGet Package Manager preinstalled in newer Visual Studios. Bottom line: [Use it](http://docs.nuget.org/docs/start-here/managing-nuget-packages-using-the-dialog) for external references when you don't need to include the source code in your Solution.
 
 #### Use [Package Restore](http://docs.nuget.org/docs/reference/package-restore)
@@ -104,8 +98,6 @@ According to [NuGet docs:](http://docs.nuget.org/docs/reference/package-restore)
 You are using the old package restore if you have clicked the "Enable NuGet Package Restore" -button in Visual Studio. If so, you should migrate: [NuGet doc](http://docs.nuget.org/docs/workflows/migrating-to-automatic-package-restore) or [with pictures](http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore). 
 
 ### Refer to the right documentation
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 When searching for the official documentation for a class, it's easy to end up somewhere else than the documentation for Universal Apps. Generally there are two sets of APIs for Universal Apps: The WinRT API, which is available for .NET languages, C++, and JavaScript, and the .NET for Universal Apps which is available for .NET languages only. Notice that F# is currently not supported for UWP apps. 
 
 Many of the classes used in Universal apps have existed (possible with differences) in incompatible .NET versions. Therefore, if you search e.g. for UIElement, you might end up at http://msdn.microsoft.com/en-us/library/system.windows.uielement%28v=vs.110%29.aspx, while the correct documentation for the WinRT class can be found at http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.uielement.aspx.
@@ -117,21 +109,15 @@ The landing base for Universal Apps API documentation can be found at: http://ms
 In addition there's a landing page for [UWP development](https://developer.microsoft.com/en-us/windows/windows-apps), as well as specific landing pages for [Design](https://developer.microsoft.com/en-us/windows/design), [Develop](https://developer.microsoft.com/en-us/windows/develop), and [Publish](https://developer.microsoft.com/en-us/windows/publish) related content. [Design/Controls and patterns](https://developer.microsoft.com/en-us/windows/design/controls-patterns) can be especially helpful for picking the right controls for your UI.  
 
 ### Use the Live Visual Tree and the Live Property Explorer
-| #VS15 #UWP #W81
-
 The VS 2015 XAML inspection tools are a great asset when tweaking and debugging your UI. Unfortunately the Live Property Explorer doesn't save the changes you make to your XAML. However, after you find a good value for a property, you can click 'go to source' and modify the XAML while debugging. The XAML changes you make won't take effect until you relaunch the app, but at least you have now 'saved' the value you want to use. Notice that you have to be running your app on Windows 10 (device or emulator) to be able to use these tools.
 
 You can find the official documentation on how to use them [here](https://msdn.microsoft.com/en-us/library/mt270227.aspx).
 
 ### If you get a certificate error when sideloading an UWP app, install the cert from the package
-| #UWP
-
 On Windows 10 Anniversary Update (10.0.14393) or newer, you can enable Sideload Apps or Developer Mode in Settings and simply double click an .appx or .appxbundle to install an UWP app. However, if you haven't installed the certificate that was used to create the app package, you will get an error. You can install the certificate by opening the .appx or .appxbundle Properties -> Digital Signatures -> Details -> View Certificate -> Details -> Install Certificate. Select Local Machine as the Store Location Group and Trusted People as the Store Location.
 
 ## Debugging and Exceptions
 ### Regularly debug UWP apps with a .NET Native Debug build
-| #VS15 #UWP #C6
-
 UWP app Debug builds are JIT-compiled, while Release builds are AOT-compiled using the .NET Native tool chain. JIT builds compile much faster and offer better debugging experience, while native builds offer better runtime performance. The catch is though, that in some (special cases) your Release build might behave differently to your Debug build. To find these cases as early as possible, it's a good idea to regularly debug with a Debug build compiled with the .NET Native tool chain. To enable you to easily switch between "native debug" and other build configurations, you need to add a new solution configuration:
 
 1. Go to Build -> Configuration Manager
@@ -148,8 +134,6 @@ If you run into the fore mentioned exceptions look at [this MSDN page](https://m
 For more information on .NET Native compilation go to: [MSDN](https://msdn.microsoft.com/en-us/library/dn584397(v=vs.110).aspx)
 
 ### Use [caller information attributes](http://msdn.microsoft.com/en-us/library/hh534540(v=vs.110).aspx) when tracing
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 When you add CallerMemberName, CallerFilePath, or CallerLineNumber attributes for optional parameters, the parameters get set with the file path, line number, and member name of the caller. The values are set into the method call at compile time, don't have a performance penalty, and are not affected by obfuscation.
 
 [Example from msdn:](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx?cs-save-lang=1&cs-lang=csharp#code-snippet-2)
@@ -181,20 +165,14 @@ public void TraceMessage(string message,
 ```
 
 ### Log Exception.ToString()
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Do not just log Exception.Message, it lacks a lot of useful details. Use Exception.ToString() instead, it contains all the necessary information, including exception type, message, stacktrace, and inner exceptions.
 
 ### To log and handle unhandled exceptions subscribe to App.UnhandledException and TaskScheduler.UnobservedTaskException
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Most of the unhandled exceptions end up in the App.UnhandledException handler, however if the "Always use or await the return value of an async method" -pratice is not followed, they end up in the TaskScheduler.UnobservedTaskException instead.  
 
 Sources: [filipekberg.se](http://www.filipekberg.se/2012/09/20/avoid-shooting-yourself-in-the-foot-with-tasks-and-async/), [msdn](https://msdn.microsoft.com/en-us/library/windows/apps/dn263110.aspx)
 
 ### Only throw exceptions in _exceptional_ cases
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Exceptions are slow and are by definition _exceptions_. Additionally each exception thrown during the normal execution of the codebase makes using the Visual Studio feature to break the debugger when any or some exceptions are thrown a pain. Ideally you could always have the debugger break when a managed exception is thrown. Then, every time your debugger breaks, there's something noteworthy for you to look at. Either there's a programming error, something wrong with your debugging setup, or a device malfunction.
 
 This applies to both designing APIs and using APIs. There's often a way to run a programmatic check to avoid _expected_ exceptions.
@@ -218,15 +196,11 @@ try {
 [MSDN on throwing exceptions](http://msdn.microsoft.com/en-us/library/seyhszts(v=vs.110).aspx)
 
 ### Catch exactly the exception you expect
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 If you expect a NetworkException, write _"catch (NetworkException e)"_, not just _"catch (Exception e)"_. By catching a more general exception, you hide programming errors inside the try-block. For example, a NullReferenceException would be swallowed, and make it a lot harder to notice. Additionally, any recovery code you have in the catch-block might not work as intented for other than the specific exception it was written for.
 
 [A good article on handling exceptions](http://www.codeproject.com/Articles/9538/Exception-Handling-Best-Practices-in-NET)
 
 ### Set Visual Studio to break debugger every time a CLR exception is thrown
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 If you have followed the practices above, exceptions should only be thrown in/into your code as a result of a programming error or something unrecoverable such as an OutOfMemoryException. Generally, When you make an error, you want to be notified about it as loud and clear as possible. The default behavior for Visual Studio is to only break debugger on uncaught exceptions. Now, if you have some generic catches in place to swallow exceptions, for example from some of your secondary components, such as analytics, you'd miss the unwanted behavior.
 
 On Visual studio 2013 go to: Debug -> Exceptions... and check the "Thrown" cloumn checkbox on the Common Language Runtime Exceptions.
@@ -235,8 +209,6 @@ On Visual studio 2015 go to: Debug -> Windows -> Exception Settings
 If you are using any synchronous APIs that throw exceptions even in expected cases, you might have to leave those unchecked. Also, you might want to uncheck TaskCanceledException and OperationCanceledException.
 
 ### When rethrowing an exception use just "throw" or include the original exception in the new exception
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Sometimes you want to catch an exception and rethrow it as is or with additional information. For example:
 ```C#
 try {
@@ -255,8 +227,6 @@ try {
 ```
 
 ### Use ContinueWith and Task.Exception to handle exceptions from async methods in expected cases
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Some APIs like to throw exceptions even on expected cases. Check, for example, the next practice for explanation on why this is not necessarily the best kind of behavior. One good example of such API is Windows.Web.Http.HttpClient, which throws Exceptions on network errors. A network error is hardly an unexpected event. Especially if your app is supposed to fallback to a cached/alternative value in such cases. Fortunately, there's a way to utilize Task on asynchronous methods to avoid getting the exception thrown into your code while still handling it. For example, here we convert all network errors to  HttpStatusCode.RequestTimeout without letting an exception to be thrown:
 
 ```C#
@@ -288,16 +258,12 @@ HttpResponseMessage responseMessage = await responseTcs.Task;
 ```
 
 ### Utilize the memory dumps when debugger doesn't cut it
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 On newer WP8 firmwares you can to got Settings->Feedback and turn on storing the dumps on the device. The dumps will be stored in Documents\Debug folder on your phone. On Windows 8 you can merge [this registry entry](https://github.com/futurice/windows-app-development-best-practices/blob/utilize_dumps/misc/EnableDumps.reg) to enable storing dumps into C:\crashdumps. Remember to replace the YOUR_EXE_NAME in the .reg with the name of your app's exe. On Window 8, you can also generate dumps manually by right clicking your app in the Task Manager and choosing "create dump file".
 
 Dumps can be analyzed for example using [Visual Studio](https://msdn.microsoft.com/en-us/library/d5zhxt22.aspx) or [WinDbg](https://msdn.microsoft.com/en-us/library/windows/hardware/ff538058(v=vs.85).aspx).
 
 ## Architecture
 ### Use [Windows.Web.Http.HttpClient](https://msdn.microsoft.com/en-US/library/windows/apps/xaml/windows.web.http.httpclient) for your HTTP needs
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Out of the different HTTP APIs available, HttpClient(s) are the newest ones that support async/await and automatic request decompression. Notice that there are two of them now: System.Net.Http.HttpClient and Windows.Web.Http.HttpClient. The latter was added to Windows 8.1 and is a WinRT API instead of a .NET API. More importantly System.Net.Http might be made unavailable for Windows Store Apps in the future. Additionally, the Windows.Web.Http classes offer HTTP/2 support, better caching, and better configurability all around.
 
 One useful thing to know about the Windows.Web.Http.HttpClient is that it throws an Exception for network errors that prevent a succesful HTTP-connection. You can get the actual reason with Windows.Web.WebError.GetStatus(HRESULT). For example:
@@ -315,8 +281,6 @@ catch (Exception ex) {
 }
 ```
 ### Use [CultureInfo.InvariantCulture](http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo.invariantculture) for serializations
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 When ever you are serializing values that can be represented differently in different cultures, make sure that you serialize and deserialize them with the same culture. If you don't define the culture explicitly, the APIs normally use the culture of the current thread, which is often set by a setting in the operating system. CultureInfo.InvariantCulture is an IFormatProvider that exists exactly for the purpose of hardocoding the culture for serializations.
 
 For example, serialization of DateTime, double, float, and decimal depend on culture. If you serialize these values using the OS provided culture, and the culture has changed when you deserialize, you are likely to run into runtime exceptions. as the expected date format, or the decimal separator might've changed.
@@ -343,18 +307,12 @@ DateTime dateTime = DateTime.Parse(serializedDateTime, System.Globalization.Cult
 Sources: [MSDN](https://msdn.microsoft.com/en-us/library/windows/apps/xaml/Dn469431.aspx), [Channel9](https://channel9.msdn.com/Events/Build/2013/4-092)
 
 ### Always add en-US store description for your app if your users know English
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Windows 10 store limits the visibility of apps based on the store description languages and the selected language of the device. For example, if your app only has a store description in Finnish, it won't show up on devices that have their primary language set to English or Swedish - A very common case in Finland. Exempt to this rule seems to be en-US, which seems to act as a 'locale for everybody'. If your app (also) has an en-US store description, it is (apparently) visible for all users.
 
 ### Know the timers
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 There are different timers for different purposes. For example [DispatcherTimer for WinRT](http://msdn.microsoft.com/en-us/library/windows/apps/xaml/windows.ui.xaml.dispatchertimer.aspx), [DispatcherTimer for WP Silverlight](http://msdn.microsoft.com/en-us/library/windows/apps/system.windows.threading.dispatchertimer(v=vs.105).aspx) and [ThreadPoolTimer](http://msdn.microsoft.com/en-us/library/windows/apps/windows.system.threading.threadpooltimer.aspx). Additionally there are [Observable.Timer](http://msdn.microsoft.com/en-us/library/system.reactive.linq.observable.timer(v=vs.103).aspx), [Task.Delay](http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.delay(v=vs.110).aspx), and last (and least) [Thread.Sleep](http://msdn.microsoft.com/en-us/library/system.threading.thread.sleep(v=vs.110).aspx).
 
 ### Use lazy loading
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Lazy loading is a concept of deferring loading of an object until the object is actually needed. It doesn't necessary mean creation of a new instance of an object, but often involves a heavy operation that returns an object. Lazy can save memory and unnecessary processing in cases where running a heavy operation or creation of a heavy object is only needed in optional or late execution paths.
 
 C# 6 allows for a very concise and low overhead lazy properties for the simplest cases. Note that this approach isn't thread safe and doesn't consider null to be a legitimate 'loaded' value, but should work just fine for constrained cases.
@@ -372,8 +330,6 @@ There are at least three other ways to implement lazy loading in .NET: Lazy<T>, 
 - [ThreadLocal<T>](https://msdn.microsoft.com/en-us/library/dd642243(v=vs.110).aspx) should be used for per thread lazy loading.
 
 ### Use [yield](http://msdn.microsoft.com/en-us/library/9k7k7cf0.aspx) when returning an IEnumerable
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Rather than writing something like:
 ```C#
 public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
@@ -404,8 +360,6 @@ var firstGalaxy = Galaxies.First();
 ```
 
 ### Explicitly convert LINQ queries into collections to avoid unnecessary re-evaluation
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Probably the #1 thing to know about LINQ is that it creates a query that is executed whenever its items are accessed. Sometimes this is what you actually want. However, often you just want to run the query once but access the resulting items multiple times. To avoid unnecessary re-evaluation and bugs resulting from the query result changing, use ToArray, ToList, etc. extension methods to run the query and store the results into a collection.
 
 So rather than:
@@ -426,15 +380,11 @@ Handle(sItems.Last()); // returns the lastSItem
 ```
 
 ### Use ItemsStackPanel over VirtualizingStackPanel
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 ItemsStackPanel was added into Windows 8.1 and should be used over VirtualizingStackPanel. If item grouping is used, VirtualizingStackPanel realizes the whole group of items even if only the first one was required. ItemsStackPanel handles items virtualization correctly also when groups are used and will therefore offer better performance.
 
 Source: [MSDN Blog](http://blogs.msdn.com/b/alainza/archive/2014/09/04/listview-basics-and-virtualization-concepts.aspx) 
 
 ### Use templated controls over user controls
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 There are two main ways to 'package' a piece of UI into a reusable component. User controls inherit from UserControl and are composed of a C#/VB file and an attached XAML file. Essentially both of them are partial definitions of the same class. Templated controls are classes inherited from Control and have their Template property set to a ControlTemplate defined in XAML. 
 
 The issue with UserControls is that their XAML is parsed every time an instance of the control is created. Additionally, UserControls are loaded even if they are created with Collapsed Visibility, while Templated Controls are only be loaded when their Visibility is set to Visible. These details can have significant effect on performance, especially if the controls are used in list items. Templated controls also offer better reusability with re-templating and styling.
@@ -491,8 +441,6 @@ Enable more reusability with data bindings, template bindings and styling:
 Templated controls and user controls have also been discussed in [this](https://github.com/futurice/windows-app-development-best-practices/issues/6) issue.
 
 ### Use independent animations over dependent ones
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Dependent animations are animations that depend on the UI thread, the major drawback is performance. Independent animations are animations that can be run independent of the UI thread and therefore don't burden it and remain smooth even if the UI thread is blocked.
 
 For implementing animations you should use [Storyboards](http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.animation.storyboard.aspx).
@@ -511,8 +459,6 @@ According to [MSDN](http://msdn.microsoft.com/en-us/library/windows/apps/hh99463
 Additionally you should use animations from the [Windows.UI.Xaml.Media.Animation](http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.animation.aspx) namespace when possible. The animations have "Theme" in their class name, and are described in [Quickstart: Animating your UI using library animations](http://msdn.microsoft.com/en-us/library/windows/apps/xaml/hh452703.aspx).
 
 ### Put XAML in Class Libraries into their own ResourceDictionary
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 In some cases it might be tempting to load a XAML snippet with System.Windows.Markup.XamlReader.Parse(yourXamlString) directly in C#. However, if your XAML references for example a control in another class library, the user of your library has to add a reference to that library as well. Otherwise an exception will be thrown when the XamlReader tries to parse the XAML.
 
 First add for example a Resources.xaml into your project, and add the ResourceDictionary with it's contents into the file. You can then load the ResourceDictionary by creating a new ResourceDictionary instance and setting it's source as follows:
@@ -533,24 +479,16 @@ Application.Current.Resources["libraryResourceKey"]
 ```
 
 ### If you're using Rx in your ViewModels, use ReactiveProperties and ReactiveCommands as well
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 If you aren't already using a library that offers you an easy way to bind into your reactive code from XAML, [here's](https://github.com/runceel/ReactiveProperty) one that offers ReactiveProperty, ReactiveCommand and some other useful classes.
 
 ## Code Quality
 ### Split code into small methods to improve stacktraces and the callstack view
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Code is often split into small methods for reusability. However, there are reasons to split your methods even if you don't plan to reuse them. Method name documents the intent of the code it encloses. This gives you more informative callstack view while debugging and better stacktraces from your exceptions. The stacktraces part applies especially to release builds, where source code line information is lost.
 
 ### Always use or await the return value of an awaitable method
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Exceptions from synchronous methods propagate up the call stack regardless if you use the possible return value or not. Awaitable methods work a bit differently. When an unhandled exception is thrown within an awaitable method, the exception is wrapped into the task object returned by the method. The exception is only propagated when you either await the task/method, or try to access a completed task's Result. When you access the Result or await the method within a try block, you can catch the unhandled exceptions from the awaitable method normally. Additionally, you can observe the exception by accessing the task's Exception property. However, be aware that reading the Exception property effectively 'catches' the exception. Be careful to not unintentionally swallow the exception this way. If you let the exception go through unobserved, the [TaskScheduler.UnobservedTaskException](https://msdn.microsoft.com/en-us/library/system.threading.tasks.taskscheduler.unobservedtaskexception%28v=vs.110%29.aspx) will be fired when the task is garbage collected.
 
 ### Use ConfigureAwait to avoid deadlocks when making a blocking call for an awaitable method
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 It's possible to cause a deadlock by making a blocking call (eg. .Result or .Wait()) on an incompleted Task that has been returned by an awaitable method. You should always avoid blocking on async code, but sometimes it's necessary as an intermediate solution when refactoring synchronous code to be asynchronous. 
 
 The following is an example of such deadlock:
@@ -595,8 +533,6 @@ private static T RunAsyncTaskAndWait<T>(Task<T> task) {
 More info on the topic can be found in [Stephen Cleary's blog post](http://blog.stephencleary.com/2012/07/dont-block-on-async-code.html).
 
 ### Use [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Many MVVM frameworks already help you with notifying property changes from your viewmodels. However, if you don't use any of those, create a base viewmodel class for yourself.
 
 For example:
@@ -636,8 +572,6 @@ public class ViewModelBase : INotifyPropertyChanged
 ```
 
 ### Use [LINQ expression](http://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) when notifying changes to other properties
-| #VS15 #VS13 #W81 #C5
-
 When notifying a change to a property outside of the property setter, you can't use CallerMemberName. Just hardcoding the property name into a string is dangerous as you might misspell it, or the property name might get changed later on. There's a performance overhead in creating a LINQ expressions, but atleast it gives you compile time checking, intellisense, and refactoring support for the property name.
 
 For example:
@@ -664,8 +598,6 @@ public class ViewModelBase : INotifyPropertyChanged
 ```
 
 ### Use the nameof operator when notifying changes to other properties
-| #VS15 #UWP #W81 #C6
-
 When notifying a change to a property outside of the property setter, you can't use CallerMemberName. Just hardcoding the property name into a string is dangerous as you might misspell it, or the property name might get changed later on. Use the C# 6 nameof operator instead to get the name of the property as a string.
 
 For example:
@@ -674,8 +606,6 @@ NotifyPropertyChanged(nameof(MyPropertyWhoseGetterShouldNowReturnNewValue));
 ```
 
 ### Don't make forward references with StaticResource or ThemeResource keywords
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 Altough writting something like the following might not fail, it carries a performance penalty compared to defining the MyColor resource before the MyBrush resource.
 ```XML
 <ResourceDictionary>
@@ -705,13 +635,9 @@ Additionally, in some cases a forward reference will throw a runtime exception.
 ```
 
 ### Key times have to be set for key frames in a key framed animation
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 When using a key framed animation (such as ObjectAnimationUsingKeyFrames), the KeyTime property of the key frames has to be set (even if you want it to be zero), or the key frame will never be applied.
 
 ### Don't be fooled by the IObservable duration parameters in IObservable extension methods
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 In System.Reactive.Linq, at least Delay, Timeout, Throttle, and GroupByUntil extension methods for IObservable have overloads that take an IObservable parameter of type TDelay, TTimeout, TThrottle, or TDuration. These parameters are always used to indicate a duration and the duration is considered to be passed when the given IObservable completes. The actual type of the IObservable doesn't matter, but most of the time you'll want to use Observable.Timer to create the parameter.
 
 For example, you could think that the following code makes all items of the observable timeout after one second:
@@ -725,8 +651,6 @@ However, that will simply timeout immediately. A correct way to use these parame
 ```
 
 ### Be very careful when binding into multiple dependency properties of a dependency object
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 There are two possible suprises:
 
 #### Order matters
@@ -758,35 +682,23 @@ It actually binds to the property PropertyName in the object in the DataContext 
 
 ## Troubleshooting
 ### Uninstall the app installed from the store before trying to sideload the same app
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 You don't actually always need to uninstall it first, but sometimes you can get an unrelated error when trying to sideload app that is already installed to the same device from store. So, if you get an error that doesn't seem to make sense when sideloading, make sure the app isn't already installed to the device.
 
 ### Unblock downloaded DLLs before referencing them in your projects
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 For security reasons, Windows usually 'blocks' files downloaded from the internet. If you try to add a reference to such a DLL in Visual Studio, you get an incorrect error message: _"A reference to a higher version or incompatible assembly cannot be added to the project."_ Whenever you get the error, go to Properties of the DLL file and click Unblock. You should now be able to add the reference.
 
 ### If your app crashes only when NOT debugging, check your App.OnSuspending/OnResuming
-| #VS15 #VS13 #UWP #W81 #C6 #C5
-
 When your app is attached to the debugger, it doesn't get suspended as it normally does. This means that App.OnSuspending and App.OnResuming don't get called when for example using any of the APIs that open a system UI and push your app to background. Now, if you have a bug that causes a crash in either of these methods, you might not get the behavior you expect when NOT debugging.
 
 Easy way to check is to place a breakpoint into the methods and use the Lifecycle Events tool in Visual Studio to get your app suspended while debugging.
 
 ### If starting up an emulator or deploying to it never completes, try disabling your antivirus
-| #VS15 #VS13 #W81 #C6 #C5
-
 At least Symantec Endpoint Protection is known to cause starting up an (WP8.1) emulator or deploying to it never completing. Just disabling the antivirus for a few seconds when the process seems stuck should enable it to continue. In some cases the problem only occurs when starting the emulator and you can keep the antivirus on while deploying.
 
 ### If starting up an emulator never completes or gives an error, try deleting it in Hyper-V Manager
-| #VS15 #UWP #C6 #C5
-
 If your emulator gets stuck or shows an error when starting up, reinstalling the virtual machine might help. Kill the stuck or faulted emulator. Open Hyper-V Manager, right click the virtual machine for the problematic emulator, and choose Delete. Redeploying to the emulator from Visual Studio should reinstall the virtual machine, and hopefully get rid of the issue. 
 
 ### If you have problems with Visual Studio stability, try disabling the XAML Designer
-| #VS15 #VS13 #W81 #C6 #C5
-
 In some cases XAML designer seems to cause Visual Studio to crash and freeze quite a bit. It might be helpful to disable the designer completely and just use Blend when you need to.
 
 On Visual Studio 2015, go to Tools -> Options -> XAML Designer -> Enable XAML Designer.
