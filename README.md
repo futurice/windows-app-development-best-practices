@@ -1,22 +1,11 @@
-# Best practices in developing (universal) apps for Windows Runtime
-
+# Best practices for developing Universal Windows Platform (UWP) apps
 This repository is maintained by [Futurice](http://futurice.com/), but contributions from anyone are highly encouraged! If you are interested in iOS or Android development, be sure to check our [**iOS**](https://github.com/futurice/ios-good-practices) and [**Android**](https://github.com/futurice/android-best-practices) documents as well.
 
 To keep this document easily approachable, it aims to be concise and practical: Each subtitle is an actual practice and contains short, but very practical description of what to do and what not to do. Some reasoning is included, but more detailed explanations and discussions are only included as external links. The listing tries to start of by taking care of the most common issues and end with the rarest ones.
 
+Everything in the document should apply to either or both of the two latest stable versions of C#, Visual Studio, or the Universal Windows Platform. If there are relevant differences between the two latest versions, the implications should be described in the text. Practices that don't apply to either of the two latest versions should be removed.
+
 Feedback and contributions are wholeheartedly welcomed! Feel free to fork and send a pull request, or just participate in the discussion at [Issues](https://github.com/futurice/win-client-dev-good-practices/issues).
-
------------------------------
-
-#### Tags
-Tags indicate the context in which the practice applies in.
-
-- #W81: Windows Phone 8.1 and Windows 8.1 store apps
-- #UWP: Universal Windows Apps (Win 10 apps)
-- #VS13: Visual Studio 2013
-- #VS15: Visual Studio 2015
-- #C5: C# 5
-- #C6: C# 6
 
 -----------------------------
 ## Table of contents
