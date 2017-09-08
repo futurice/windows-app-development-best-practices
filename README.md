@@ -97,15 +97,18 @@ According to [NuGet docs:](http://docs.nuget.org/docs/reference/package-restore)
 You are using the old package restore if you have clicked the "Enable NuGet Package Restore" -button in Visual Studio. If so, you should migrate: [NuGet doc](http://docs.nuget.org/docs/workflows/migrating-to-automatic-package-restore) or [with pictures](http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore). 
 
 ### Refer to the right documentation
-When searching for the official documentation for a class, it's easy to end up somewhere else than the documentation for Universal Apps. Generally there are two sets of APIs for Universal Apps: The WinRT API, which is available for .NET languages, C++, and JavaScript, and the .NET for Universal Apps which is available for .NET languages only. Notice that F# is currently not supported for UWP apps. 
+There are three sets of APIs for UWP apps and the landing base for the documentations can be found at: https://docs.microsoft.com/en-us/uwp/. The three sets of APIs are: 
+- [The Windows UWP Namespaces](https://docs.microsoft.com/en-us/uwp/api/) (aka Windows Runtime (WinRT) APIs). Available for .NET languages, C++, and JavaScript.
+- [The .NET APIs for UWP apps](https://msdn.microsoft.com/library/windows/apps/mt185501.aspx). Available for .NET languages only.
+- [Win32 and COM APIs for UWP apps](https://docs.microsoft.com/en-us/uwp/win32-and-com/win32-and-com-for-uwp-apps). Available for C++/CX only.
 
-Many of the classes used in Universal apps have existed (possible with differences) in incompatible .NET versions. Therefore, if you search e.g. for UIElement, you might end up at http://msdn.microsoft.com/en-us/library/system.windows.uielement%28v=vs.110%29.aspx, while the correct documentation for the WinRT class can be found at http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.uielement.aspx.
+Notice that F# is currently not supported. 
 
-To make sure you're in the correct documentation, check the bottom of the page for Windows Store Apps, Windows Runtime Apps, or Windows 10 device family support.
+Many of the APIs have existed (possible with differences) in incompatible .NET versions. Therefore, if you search e.g. for UIElement, you might end up at http://msdn.microsoft.com/en-us/library/system.windows.uielement%28v=vs.110%29.aspx, while the correct documentation for the UWP version can be found at https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.UIElement.
 
-The landing base for Universal Apps API documentation can be found at: http://msdn.microsoft.com/en-us/library/windows/apps/br211369.aspx
+To make sure you're in the correct documentation, check the page for Windows Store Apps, Universal Windows Platform, or Windows 10 device family support.
 
-In addition there's a landing page for [UWP development](https://developer.microsoft.com/en-us/windows/windows-apps), as well as specific landing pages for [Design](https://developer.microsoft.com/en-us/windows/design), [Develop](https://developer.microsoft.com/en-us/windows/develop), and [Publish](https://developer.microsoft.com/en-us/windows/publish) related content. [Design/Controls and patterns](https://developer.microsoft.com/en-us/windows/design/controls-patterns) can be especially helpful for picking the right controls for your UI.  
+There's also a generic landing page for [UWP development](https://developer.microsoft.com/en-us/windows/windows-apps), as well as specific landing pages for [Design](https://developer.microsoft.com/en-us/windows/design), [Develop](https://developer.microsoft.com/en-us/windows/develop), and [Publish](https://developer.microsoft.com/en-us/windows/publish) related content. [Design/Controls and patterns](https://developer.microsoft.com/en-us/windows/design/controls-patterns) can be especially helpful for picking the right controls for your UI.  
 
 ### Use the Live Visual Tree and the Live Property Explorer
 The VS 2015+ XAML inspection tools are a great asset when tweaking and debugging your UI. Unfortunately the Live Property Explorer doesn't save the changes you make to your XAML. However, after you find a good value for a property, you can click 'go to source' and modify the XAML while debugging. The XAML changes you make won't take effect until you relaunch the app, but at least you have now 'saved' the value you want to use. Notice that you have to be running your app on Windows 10 (device or emulator) to be able to use these tools.
