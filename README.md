@@ -57,6 +57,7 @@ Feedback and contributions are wholeheartedly welcomed! Feel free to fork and se
 - [Key times have to be set for key frames in a key framed animation](#key-times-have-to-be-set-for-key-frames-in-a-key-framed-animation)
 - [Don't be fooled by the IObservable duration parameters in IObservable extension methods](#dont-be-fooled-by-the-iobservable-duration-parameters-in-iobservable-extension-methods)
 - [Be very careful when binding into multiple dependency properties of a dependency object](#be-very-careful-when-binding-into-multiple-dependency-properties-of-a-dependency-object)
+- [Binding only works for the children of FrameworkElements](#binding-only-works-for-the-children-of-frameworkelements)
 
 ### Troubleshooting
 - [Uninstall the app installed from the store before trying to sideload the same app](#uninstall-the-app-installed-from-the-store-before-trying-to-sideload-the-same-app)
@@ -654,6 +655,21 @@ This happens because "{Binding PropertyName}" is short for:
 "{Binding Path=DataContext.PropertyName, Source={RelativeSource Self}"
 ```
 It actually binds to the property PropertyName in the object in the DataContext property of its self. When DataContext is not set, it's automatically inherited from the Parent.
+
+### Binding only works for the children of FrameworkElements
+While it is possible to create an instance of any class with a parameterless constructor in XAML, data bindings created using the [Binding](https://docs.microsoft.com/en-us/windows/uwp/xaml-platform/binding-markup-extension)-keyword only work for DependencyProperties of instances that are children of a FrameworkElement (or it's derivate).
+
+For example:
+```XML
+<Page>
+	<!-- Class does not inherit from FrameworkElement -->
+	<MyCustomClass>
+		<MyCustomClass.Content>
+			<!-- Binding will not evaluate -->
+			<TextBlock Text="{Binding Title}" />
+```
+
+The [x:Bind](https://docs.microsoft.com/en-us/windows/uwp/xaml-platform/x-bind-markup-extension) doesn't have this limitation.
 
 ## Troubleshooting
 ### Uninstall the app installed from the store before trying to sideload the same app
