@@ -48,9 +48,10 @@ Feedback and contributions are wholeheartedly welcomed! Feel free to fork and se
 - [Split code into small methods to improve stacktraces and the callstack view](#split-code-into-small-methods-to-improve-stacktraces-and-the-callstack-view)
 - [Always use or await the return value of an awaitable method](#always-use-or-await-the-return-value-of-an-awaitable-method)
 - [Use ConfigureAwait to avoid deadlocks when making a blocking call for an awaitable method](#use-configureawait-to-avoid-deadlocks-when-making-a-blocking-call-for-an-awaitable-method)
-- [Use CallerMemberName when implementing INotifyPropertyChanged](#use-callermembername-attribute-when-implementing-inotifyPropertyChanged)
+- [Use CallerMemberName when implementing INotifyPropertyChanged](#use-callermembername-when-implementing-inotifypropertychanged)
 - [Use the nameof operator when notifying changes to other properties](#use-the-nameof-operator-when-notifying-changes-to-other-properties)
 - [Don't make forward references with StaticResource or ThemeResource keywords](#dont-make-forward-references-with-staticresource-or-themeresource-keywords)
+- [Use x:Bind instead of Binding when possible](use-x-bind-instead-of-binding-when-possible)
 
 ### Gotchas
 - [Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl](#visual-states-have-to-be-defined-in-the-root-element-of-a-controltemplate-datatemplate-page-or-usercontrol)
@@ -593,6 +594,9 @@ Altough writting something like the following might not fail, it carries a perfo
 Additionally, in some cases a forward reference will throw a runtime exception. 
 
 [Source](https://msdn.microsoft.com/en-us/library/dn263118.aspx)
+
+### Use [x:Bind](https://docs.microsoft.com/en-us/windows/uwp/xaml-platform/x-bind-markup-extension) instead of [Binding](https://docs.microsoft.com/en-us/windows/uwp/xaml-platform/binding-markup-extension) when possible
+x:Bind relies on code generation instead of reflection and therefore has some advantages over the Binding-keyword. Most notably x:Bind can bind anything that is accessible from its scope (including methods and public fields), is type safe, and has better runtime performance. On the other hand, it can not be used everywhere the Binding can, for example in ControlTemplates.
 
 ## Gotchas
 ### Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl
