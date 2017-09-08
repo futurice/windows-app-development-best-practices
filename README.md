@@ -49,7 +49,6 @@ Feedback and contributions are wholeheartedly welcomed! Feel free to fork and se
 - [Always use or await the return value of an awaitable method](#always-use-or-await-the-return-value-of-an-awaitable-method)
 - [Use ConfigureAwait to avoid deadlocks when making a blocking call for an awaitable method](#use-configureawait-to-avoid-deadlocks-when-making-a-blocking-call-for-an-awaitable-method)
 - [Use CallerMemberName attribute](#use-callermembername-attribute)
-- [Use LINQ expression when notifying changes to other properties](#use-linq-expression-when-notifying-changes-to-other-properties)
 - [Use the nameof operator when notifying changes to other properties](#use-the-nameof-operator-when-notifying-changes-to-other-properties)
 - [Don't make forward references with StaticResource or ThemeResource keywords](#dont-make-forward-references-with-staticresource-or-themeresource-keywords)
 
@@ -568,32 +567,6 @@ public class ViewModelBase : INotifyPropertyChanged
 			handler(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}	
-}
-```
-
-### Use [LINQ expression](http://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) when notifying changes to other properties
-When notifying a change to a property outside of the property setter, you can't use CallerMemberName. Just hardcoding the property name into a string is dangerous as you might misspell it, or the property name might get changed later on. There's a performance overhead in creating a LINQ expressions, but atleast it gives you compile time checking, intellisense, and refactoring support for the property name.
-
-For example:
-```C#
-public class ViewModelBase : INotifyPropertyChanged
-{
-	public event PropertyChangedEventHandler PropertyChanged;
-
-	/// <summary>
-	/// Use this to notify a property change from outside of the property's setter.
-	/// For example: NotifyPropertyChanged(() => MyPropertyWhoseGetterShouldNowReturnNewValue);
-	/// </summary>
-	protected void NotifyPropertyChanged<T>(Expression<Func<T>> memberExpression)
-	{
-		var lambda = (memberExpression as LambdaExpression);
-		if (lambda == null) return;
-		
-		var expr = lambda.Body as MemberExpression;
-		if (expr == null) return;
-	
-		NotifyPropertyChanged(expr.Member.Name);
-	}
 }
 ```
 
