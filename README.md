@@ -48,7 +48,7 @@ Feedback and contributions are wholeheartedly welcomed! Feel free to fork and se
 - [Split code into small methods to improve stacktraces and the callstack view](#split-code-into-small-methods-to-improve-stacktraces-and-the-callstack-view)
 - [Always use or await the return value of an awaitable method](#always-use-or-await-the-return-value-of-an-awaitable-method)
 - [Use ConfigureAwait to avoid deadlocks when making a blocking call for an awaitable method](#use-configureawait-to-avoid-deadlocks-when-making-a-blocking-call-for-an-awaitable-method)
-- [Use CallerMemberName attribute](#use-callermembername-attribute)
+- [Use CallerMemberName when implementing INotifyPropertyChanged](#use-callermembername-attribute-when-implementing-inotifyPropertyChanged)
 - [Use the nameof operator when notifying changes to other properties](#use-the-nameof-operator-when-notifying-changes-to-other-properties)
 - [Don't make forward references with StaticResource or ThemeResource keywords](#dont-make-forward-references-with-staticresource-or-themeresource-keywords)
 
@@ -531,8 +531,8 @@ private static T RunAsyncTaskAndWait<T>(Task<T> task) {
 
 More info on the topic can be found in [Stephen Cleary's blog post](http://blog.stephencleary.com/2012/07/dont-block-on-async-code.html).
 
-### Use [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) attribute
-Many MVVM frameworks already help you with notifying property changes from your viewmodels. However, if you don't use any of those, create a base viewmodel class for yourself.
+### Use [CallerMemberName](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute(v=vs.110).aspx) when implementing INotifyPropertyChanged
+Many MVVM frameworks already help you with notifying property changes from your viewmodels. However, if you don't use any of those, create a helper with CallerMemberName for yourself.
 
 For example:
 ```C#
