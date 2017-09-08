@@ -59,6 +59,7 @@ Feedback and contributions are wholeheartedly welcomed! Feel free to fork and se
 - [Don't be fooled by the IObservable duration parameters in IObservable extension methods](#dont-be-fooled-by-the-iobservable-duration-parameters-in-iobservable-extension-methods)
 - [Be very careful when binding into multiple dependency properties of a dependency object](#be-very-careful-when-binding-into-multiple-dependency-properties-of-a-dependency-object)
 - [Binding only works for the children of FrameworkElements](#binding-only-works-for-the-children-of-frameworkelements)
+- [ResourceDictionary code-behind has to be modified for x:Bind to work](#resourcedictionary-code-behind-has-to-be-modified-for-xbind-to-work)
 
 ### Troubleshooting
 - [Uninstall the app installed from the store before trying to sideload the same app](#uninstall-the-app-installed-from-the-store-before-trying-to-sideload-the-same-app)
@@ -674,6 +675,11 @@ For example:
 ```
 
 The [x:Bind](https://docs.microsoft.com/en-us/windows/uwp/xaml-platform/x-bind-markup-extension) doesn't have this limitation.
+
+### ResourceDictionary code-behind has to be modified for x:Bind to work
+For x:Bind to work in XAML placed into a ResourceDictionary, InitializeComponent has to be placed into the code-behind constructor of the ResourceDictionary.
+
+More info can be found [here](https://docs.microsoft.com/en-us/windows/uwp/data-binding/data-binding-in-depth#resource-dictionaries-with-xbind).
 
 ## Troubleshooting
 ### Uninstall the app installed from the store before trying to sideload the same app
