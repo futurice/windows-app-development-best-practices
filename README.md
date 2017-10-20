@@ -681,6 +681,8 @@ For x:Bind to work in XAML placed into a ResourceDictionary, InitializeComponent
 
 More info can be found [here](https://docs.microsoft.com/en-us/windows/uwp/data-binding/data-binding-in-depth#resource-dictionaries-with-xbind).
 
+Additionally, the x:Bindings in a ResourceDictionary will only work while the ResourceDictionary instance is alive. Therefore, if you instantiate the ResourceDictionary in code (new TemplatesResourceDictionary()), make sure that the instance stays alive as long as the realized DataTemplate instances are in use.
+
 ## Troubleshooting
 ### Uninstall the app installed from the store before trying to sideload the same app
 You don't actually always need to uninstall it first, but sometimes you can get an unrelated error when trying to sideload app that is already installed to the same device from store. So, if you get an error that doesn't seem to make sense when sideloading, make sure the app isn't already installed to the device.
