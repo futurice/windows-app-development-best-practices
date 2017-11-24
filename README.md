@@ -54,6 +54,7 @@ Feedback and contributions are wholeheartedly welcomed! Feel free to fork and se
 - [Use x:Bind instead of Binding when possible](use-x-bind-instead-of-binding-when-possible)
 
 ### Gotchas
+- [UI thread is the thread with the smallest Managed ID greater than 0](#ui-thread-is-the-thread-with-the-smallest-managed-id-greater-than-0)
 - [Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl](#visual-states-have-to-be-defined-in-the-root-element-of-a-controltemplate-datatemplate-page-or-usercontrol)
 - [Key times have to be set for key frames in a key framed animation](#key-times-have-to-be-set-for-key-frames-in-a-key-framed-animation)
 - [Don't be fooled by the IObservable duration parameters in IObservable extension methods](#dont-be-fooled-by-the-iobservable-duration-parameters-in-iobservable-extension-methods)
@@ -588,6 +589,7 @@ NotifyPropertyChanged(nameof(MyPropertyWhoseGetterShouldNowReturnNewValue));
 ### Don't make forward references with StaticResource or ThemeResource keywords
 Altough writting something like the following might not fail, it carries a performance penalty compared to defining the MyColor resource before the MyBrush resource.
 ```XML
+
 <ResourceDictionary>
     <SolidColorBrush x:Key="MyBrush" Color="{StaticResource MyColor}" />
     <Color x:Key="MyColor" Value="Black" />   
@@ -601,6 +603,9 @@ Additionally, in some cases a forward reference will throw a runtime exception.
 x:Bind relies on code generation instead of reflection and therefore has some advantages over the Binding-keyword. Most notably x:Bind can bind anything that is accessible from its scope (including methods and public fields), is type safe, and has better runtime performance. On the other hand, it can not be used everywhere the Binding can, for example in ControlTemplates.
 
 ## Gotchas
+### UI thread is the thread with the smallest Managed ID greater than 0
+When looking at the Threads window in Visual Studio, it's not exactly obvious which of the threads is the UI thread in your UWP app. Well, it's the one with the smallest Managed ID greater than 0.
+
 ### Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl
 ```XML
 <ControlTemplate, DataTemplate, Page, or UserControl>
