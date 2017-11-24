@@ -68,6 +68,7 @@ Feedback and contributions are wholeheartedly welcomed! Feel free to fork and se
 - [If starting up an emulator or deploying to it never completes, try disabling your antivirus](#if-starting-up-an-emulator-or-deploying-to-it-never-completes-try-disabling-your-antivirus)
 - [If starting up an emulator never completes or gives an error, try deleting it in Hyper-V Manager](#if-starting-up-an-emulator-never-completes-or-gives-an-error-try-deleting-it-in-hyper-v-manager)
 - [If you have problems with Visual Studio stability, try disabling the XAML designer](#if-you-have-problems-with-visual-studio-stability-try-disabling-the-xaml-designer) 
+- [Make sure your packaged builds have code optimization and .Net native on](#make-sure-your-packaged-builds-have-code-optimization-and-net-native-enabled)
 
 -----------------------------
 
@@ -707,6 +708,13 @@ In some cases XAML designer seems to cause Visual Studio to crash and freeze qui
 On Visual Studio 2015, go to Tools -> Options -> XAML Designer -> Enable XAML Designer.
 
 On Visual Studio 2013, follow [these](http://blog.spinthemoose.com/2013/03/24/disable-the-xaml-designer-in-visual-studio/) instructions.
+
+### Make sure your packaged builds have code optimization and .Net native enabled
+If you try to create an app package with builds for multiple architectures in it, you might get the following unhelpful error message:
+
+>Error 80080204: All app package manifests in a bundle must declare the same values under the XPath *[local-name()='Package']/*[local-name()='Dependencies']
+
+To fix the issue, make sure that you have Optimize Code and Compile with .NET Native tool chain checked in the UWP project properties for *all* of the architectures.
 
 ## License
 
