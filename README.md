@@ -152,18 +152,19 @@ When you add CallerMemberName, CallerFilePath, or CallerLineNumber attributes fo
 
 public void DoProcessing()
 {
-    TraceMessage("Something happened.");
+  TraceMessage("Something happened.");
 }
 
-public void TraceMessage(string message,
-        [CallerMemberName] string memberName = "",
-        [CallerFilePath] string sourceFilePath = "",
-        [CallerLineNumber] int sourceLineNumber = 0)
+public void TraceMessage(
+  string message,
+  [CallerMemberName] string memberName = "",
+  [CallerFilePath] string sourceFilePath = "",
+  [CallerLineNumber] int sourceLineNumber = 0)
 {
-    Trace.WriteLine("message: " + message);
-    Trace.WriteLine("member name: " + memberName);
-    Trace.WriteLine("source file path: " + sourceFilePath);
-    Trace.WriteLine("source line number: " + sourceLineNumber);
+  Trace.WriteLine("message: " + message);
+  Trace.WriteLine("member name: " + memberName);
+  Trace.WriteLine("source file path: " + sourceFilePath);
+  Trace.WriteLine("source line number: " + sourceLineNumber);
 }
 
 // Sample Output: 
@@ -244,24 +245,24 @@ var request = new HttpRequestMessage(HttpMethod.Get, new Uri("http://www.futuric
 
 var responseTcs = new TaskCompletionSource<HttpResponseMessage>();
 await client.SendRequestAsync(request)
-    .AsTask()
-    .ContinueWith(task => {
-        HttpResponseMessage response = null;
+  .AsTask()
+  .ContinueWith(task => {
+    HttpResponseMessage response = null;
 
-        if (task.Status == TaskStatus.Faulted) {
-            // You will have to access the task.Exception property to mark the Exception 'observed' otherwise it'll end up in TaskScheduler.UnobservedTaskException
-            // Use GetBaseException() to get the original exception from the AggregateException.
-            var exception = task.Exception.GetBaseException();
-            response = new HttpResponseMessage(HttpStatusCode.RequestTimeout);
-            response.ReasonPhrase = exception.ToString();
-            response.RequestMessage = request;
-        }
-        else {
-            response = task.Result;
-        }
+    if (task.Status == TaskStatus.Faulted) {
+      // You will have to access the task.Exception property to mark the Exception 'observed' otherwise it'll end up in TaskScheduler.UnobservedTaskException
+      // Use GetBaseException() to get the original exception from the AggregateException.
+      var exception = task.Exception.GetBaseException();
+      response = new HttpResponseMessage(HttpStatusCode.RequestTimeout);
+      response.ReasonPhrase = exception.ToString();
+      response.RequestMessage = request;
+    }
+    else {
+      response = task.Result;
+    }
 
-        responseTcs.TrySetResult(response);
-    });
+    responseTcs.TrySetResult(response);
+  });
 
 HttpResponseMessage responseMessage = await responseTcs.Task;
 ```
@@ -280,13 +281,13 @@ One useful thing to know about the Windows.Web.Http.HttpClient is that it throws
 var client = new HttpClient();
 var request = new HttpRequestMessage(HttpMethod.Get, new Uri("http://www.futurice.com"));
 try {
-    // Http-errors are returned in the response, and no exception is thrown
-    HttpResponseMessage response = await client.SendRequestAsync(request);
+  // Http-errors are returned in the response, and no exception is thrown
+  HttpResponseMessage response = await client.SendRequestAsync(request);
 }
 // It really is just an exception, can't catch a more specific type
 catch (Exception ex) {
-    WebErrorStatus error = WebError.GetStatus(ex.HResult);
-    // For example, if your device could not connect to the internet at all, the error would be WebErrorStatus.HostNameNotResolved
+  WebErrorStatus error = WebError.GetStatus(ex.HResult);
+  // For example, if your device could not connect to the internet at all, the error would be WebErrorStatus.HostNameNotResolved
 }
 ```
 ### Use [CultureInfo.InvariantCulture](http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo.invariantculture) for serializations
@@ -342,25 +343,25 @@ There are at least three other ways to implement lazy loading in .NET: Lazy<T>, 
 Rather than writing something like:
 ```C#
 public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
-    get {
-      return new List<Galaxy>() {
-        new Galaxy { Name = "Tadpole", MegaLightYears = 400 },
-        new Galaxy { Name = "Pinwheel", MegaLightYears = 25 },
-        new Galaxy { Name = "Milky Way", MegaLightYears = 0 },
-        new Galaxy { Name = "Andromeda", MegaLightYears = 3 },
-      };
-    }
+  get {
+    return new List<Galaxy>() {
+      new Galaxy { Name = "Tadpole", MegaLightYears = 400 },
+      new Galaxy { Name = "Pinwheel", MegaLightYears = 25 },
+      new Galaxy { Name = "Milky Way", MegaLightYears = 0 },
+      new Galaxy { Name = "Andromeda", MegaLightYears = 3 },
+    };
+  }
 }
 ```
 Write this instead:
 ```C#
 public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
-    get {
-      yield return new Galaxy { Name = "Tadpole", MegaLightYears = 400 };
-      yield return new Galaxy { Name = "Pinwheel", MegaLightYears = 25 };
-      yield return new Galaxy { Name = "Milky Way", MegaLightYears = 0 };
-      yield return new Galaxy { Name = "Andromeda", MegaLightYears = 3 };
-    }
+  get {
+    yield return new Galaxy { Name = "Tadpole", MegaLightYears = 400 };
+    yield return new Galaxy { Name = "Pinwheel", MegaLightYears = 25 };
+    yield return new Galaxy { Name = "Milky Way", MegaLightYears = 0 };
+    yield return new Galaxy { Name = "Andromeda", MegaLightYears = 3 };
+  }
 }
 ```
 It will automatically return empty IEnumreable if no "yield return" is called. This will avoid null reference exceptions when you're expecting to get an IEnumerable. The yield approach also only runs as far as is required by the possible iterator. For example, the following only creates one Galaxy instance, avoiding unnecessary processing.
@@ -408,7 +409,7 @@ For example:
 <ResourceDictionary>
   <ControlTemplate x:Key="LogoWithBordersTemplate" TargetType="local:TemplateControl">
     <Border Padding="15" BorderThickness="2" BorderBrush="Black"
-    	<Image Source="Logo.png" />
+      <Image Source="Logo.png" />
     </Border>
   </ControlTemplate>
 </ResourceDictionary>
@@ -427,7 +428,7 @@ Enable more reusability with data bindings, template bindings and styling:
     <Setter.Value>
       <ControlTemplate x:Key="LogoWithBordersTemplate" TargetType="local:TemplateControl">
         <Border Padding="15" BorderThickness="2" BorderBrush="{TemplateBinding Foreground}"
-    	  <Image Source="{Binding Logo}" />
+          <Image Source="{Binding Logo}" />
         </Border>
       </ControlTemplate>
     </Setter.Value>
@@ -473,7 +474,7 @@ In some cases it might be tempting to load a XAML snippet with System.Windows.Ma
 First add for example a Resources.xaml into your project, and add the ResourceDictionary with it's contents into the file. You can then load the ResourceDictionary by creating a new ResourceDictionary instance and setting it's source as follows:
 ```C#
 var libraryResources = new ResourceDictionary {
-    Source = new Uri($"ms-appx:///NameOfMyClassLibrary/Resources.xaml", UriKind.Absolute)
+  Source = new Uri($"ms-appx:///NameOfMyClassLibrary/Resources.xaml", UriKind.Absolute)
 };
 ```
 
@@ -507,8 +508,8 @@ var task = FetchData();
 var result = task.Result;
 ...
 async Task<String> FetchData() {
-	// With await, execution tries to continue on the captured context by default. However, as the context is blocked by task.Result, the execution can't continue and a deadlock occurs.
-	return await _networkManager.RequestData();
+  // With await, execution tries to continue on the captured context by default. However, as the context is blocked by task.Result, the execution can't continue and a deadlock occurs.
+  return await _networkManager.RequestData();
 }
 ```
 In order to prevent the deadlock use `Task.ConfigureAwait(false);` to change await's continuation behavior to not try to marshal back to the captured context. 
@@ -520,22 +521,22 @@ var task = FetchData();
 var result = task.Result;
 ...
 async Task<String> FetchData() {
-	// After RequestData completes, execution won't try to marshal back to the captured context (that is blocked), the Task returned by FetchData can complete, and the execution can continue as expected.
-	return await _networkManager.RequestData().ConfigureAwait(false);
+  // After RequestData completes, execution won't try to marshal back to the captured context (that is blocked), the Task returned by FetchData can complete, and the execution can continue as expected.
+  return await _networkManager.RequestData().ConfigureAwait(false);
 }
 ```
 
 There is also another way to utilize ConfigureAwait to avoid the deadlock, as demonstrated by [a utility method in Azure ActiveDirectory library for DotNet](https://github.com/AzureAD/azure-activedirectory-library-for-dotnet/blob/master/src/ADAL.CommonWinRT/CryptographyHelper.cs#L83):
 ```C#
 private static T RunAsyncTaskAndWait<T>(Task<T> task) {
-    try {
-        Task.Run(async () => await task.ConfigureAwait(false)).Wait();
-        return task.Result;
-    }
-    catch (AggregateException ae) {
-        // Any exception thrown as a result of running task will cause AggregateException to be thrown with actual exception as inner.
-        throw ae.InnerExceptions[0];
-    }
+  try {
+    Task.Run(async () => await task.ConfigureAwait(false)).Wait();
+    return task.Result;
+  }
+  catch (AggregateException ae) {
+    // Any exception thrown as a result of running task will cause AggregateException to be thrown with actual exception as inner.
+    throw ae.InnerExceptions[0];
+  }
 }
 ```
 
@@ -548,35 +549,35 @@ For example:
 ```C#
 public class ViewModelBase : INotifyPropertyChanged
 {
-	public event PropertyChangedEventHandler PropertyChanged;
+  public event PropertyChangedEventHandler PropertyChanged;
 
-	/// <summary>
-	/// Use this from within a property's setter
-	/// For example: if (SetProperty(ref _propertysBackingField, value)){ OptionallyDoThisIfValueWasNotEqual(); }
-	/// </summary>
-	protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName]String propertyName = "")
-	{
-		if (object.Equals(storage, value)) {
-			return false;
-		}
+  /// <summary>
+  /// Use this from within a property's setter
+  /// For example: if (SetProperty(ref _propertysBackingField, value)){ OptionallyDoThisIfValueWasNotEqual(); }
+  /// </summary>
+  protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName]String propertyName = "")
+  {
+    if (object.Equals(storage, value)) {
+      return false;
+    }
 
-		storage = value;
-		NotifyPropertyChanged(propertyName);
-		return true;
-	}
-	
-	
-	/// <summary>
-	/// You can use this from within a property's setter when you don't want to set a backing field. 
-	/// For example: NotifyPropertyChanged();
-	/// </summary>
-	protected void NotifyPropertyChanged([CallerMemberName]string propertyName = "")
-	{
-		PropertyChangedEventHandler handler = PropertyChanged;
-		if (handler != null) {
-			handler(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}	
+    storage = value;
+    NotifyPropertyChanged(propertyName);
+    return true;
+  }
+  
+  
+  /// <summary>
+  /// You can use this from within a property's setter when you don't want to set a backing field. 
+  /// For example: NotifyPropertyChanged();
+  /// </summary>
+  protected void NotifyPropertyChanged([CallerMemberName]string propertyName = "")
+  {
+    PropertyChangedEventHandler handler = PropertyChanged;
+    if (handler != null) {
+      handler(this, new PropertyChangedEventArgs(propertyName));
+    }
+  }  
 }
 ```
 
@@ -593,8 +594,8 @@ Altough writting something like the following might not fail, it carries a perfo
 ```XML
 
 <ResourceDictionary>
-    <SolidColorBrush x:Key="MyBrush" Color="{StaticResource MyColor}" />
-    <Color x:Key="MyColor" Value="Black" />   
+  <SolidColorBrush x:Key="MyBrush" Color="{StaticResource MyColor}" />
+  <Color x:Key="MyColor" Value="Black" />   
 ```
 
 Additionally, in some cases a forward reference will throw a runtime exception. 
@@ -622,18 +623,18 @@ So if you:
 ### Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl
 ```XML
 <ControlTemplate, DataTemplate, Page, or UserControl>
-	<Any Control>
-		<VisualStateManager.VisualStateGroups>
-			<!-- Visual states defined here will work as expected -->
+  <Any Control>
+    <VisualStateManager.VisualStateGroups>
+      <!-- Visual states defined here will work as expected -->
 ...
 ```
-		
+    
 ```XML
 <ControlTemplate, DataTemplate, Page, or UserControl>
-	<Any Control>
-		<Any Control>
-			<VisualStateManager.VisualStateGroups>
-				<!-- You will not get any kind of an error or exception, but visual states defined here will not work as expected -->
+  <Any Control>
+    <Any Control>
+      <VisualStateManager.VisualStateGroups>
+        <!-- You will not get any kind of an error or exception, but visual states defined here will not work as expected -->
 ...
 ```
 
@@ -641,20 +642,20 @@ So if you:
 The AdaptiveTrigger in the following example will not work, and will therefore never activate the Narrow-state.
 ```XML
 <DataTemplate>
-	<Not a UserControl>
-		<VisualStateManager.VisualStateGroups>
-			<VisualStateGroup>
-				<VisualState x:Name="Narrow">
-					<VisualState.StateTriggers>
-						<AdaptiveTrigger MinWindowWidth="0" />
+  <Not a UserControl>
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup>
+        <VisualState x:Name="Narrow">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="0" />
 ...
 ```
 For the AdaptiveTrigger to work within a DataTemplate, the VisualStates have to be wrapped into a user control:
 ```XML
 <DataTemplate>
-	<UserControl>
-		<Any Control>
-			<VisualStateManager.VisualStateGroups>
+  <UserControl>
+    <Any Control>
+      <VisualStateManager.VisualStateGroups>
 ...
 ```
 
@@ -687,15 +688,15 @@ For example, the following xaml looks for the AdVisiblity in MyAdViewModel, not 
 
 ```XML
 <Grid>
-    <Grid.DataContext>
-        <MyPageViewModel AdVisiblity="Collapsed">
-            <MyPageViewModel.AdContext>
-                <MyAdViewModel Url="www.bystuff.com" Text="Buy Stuff!"/>
-            </MyPageViewModel.AdContext>
-        </MyPageViewModel>
-    </Grid.DataContext>
-    
-    <AdControl Visibility="{Binding AdVisibility}" DataContext="{Binding AdContext}"/> 
+  <Grid.DataContext>
+    <MyPageViewModel AdVisiblity="Collapsed">
+      <MyPageViewModel.AdContext>
+        <MyAdViewModel Url="www.bystuff.com" Text="Buy Stuff!"/>
+      </MyPageViewModel.AdContext>
+    </MyPageViewModel>
+  </Grid.DataContext>
+  
+  <AdControl Visibility="{Binding AdVisibility}" DataContext="{Binding AdContext}"/> 
 </Grid>
 ```
 This happens because "{Binding PropertyName}" is short for:
@@ -710,11 +711,11 @@ While it is possible to create an instance of any class with a parameterless con
 For example:
 ```XML
 <Page>
-	<!-- Class does not inherit from FrameworkElement -->
-	<MyCustomClass>
-		<MyCustomClass.Content>
-			<!-- Binding will not evaluate -->
-			<TextBlock Text="{Binding Title}" />
+  <!-- Class does not inherit from FrameworkElement -->
+  <MyCustomClass>
+    <MyCustomClass.Content>
+      <!-- Binding will not evaluate -->
+      <TextBlock Text="{Binding Title}" />
 ```
 
 The [x:Bind](https://docs.microsoft.com/en-us/windows/uwp/xaml-platform/x-bind-markup-extension) doesn't have this limitation.
