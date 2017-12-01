@@ -55,6 +55,7 @@ Feedback and contributions are wholeheartedly welcomed! Feel free to fork and se
 
 ### Gotchas
 - [UI thread is the thread with the smallest Managed ID greater than 0](#ui-thread-is-the-thread-with-the-smallest-managed-id-greater-than-0)
+- [Edit and Continue doesn't modify the deployed build](#edit-and-continue-doesnt-modify-the-deployed-build)
 - [Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl](#visual-states-have-to-be-defined-in-the-root-element-of-a-controltemplate-datatemplate-page-or-usercontrol)
 - [VisualStates with AdaptiveTriggers in a DataTemplate have to be wrapped into a UserControl](#visualstates-with-adaptivetriggers-in-a-datatemplate-have-to-be-wrapped-into-a-usercontrol)
 - [Key times have to be set for key frames in a key framed animation](#key-times-have-to-be-set-for-key-frames-in-a-key-framed-animation)
@@ -606,6 +607,17 @@ x:Bind relies on code generation instead of reflection and therefore has some ad
 ## Gotchas
 ### UI thread is the thread with the smallest Managed ID greater than 0
 When looking at the Threads window in Visual Studio, it's not exactly obvious which of the threads is the UI thread in your UWP app. Well, it's the one with the smallest Managed ID greater than 0.
+
+### Edit and Continue doesn't modify the deployed build
+If you have the debugger attached to your running app and you use the Edit and Continue feature to modify the code, the changes won't be maintained in the deployed app after it is closed (and restarted without rebuilding and redeploying). 
+
+So if you:
+1. Start debugging an app
+2. Hit a breakpoint and modify the C#
+3. Continue running the app and see your changes take effect
+4. Close the app and stop the debugger
+5. Restart the app without rebuilding (For example from the all apps list)
+6. The changes you made in Edit and Continue won't be in effect
 
 ### Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl
 ```XML
