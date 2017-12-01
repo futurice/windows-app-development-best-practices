@@ -56,6 +56,7 @@ Feedback and contributions are wholeheartedly welcomed! Feel free to fork and se
 ### Gotchas
 - [UI thread is the thread with the smallest Managed ID greater than 0](#ui-thread-is-the-thread-with-the-smallest-managed-id-greater-than-0)
 - [Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl](#visual-states-have-to-be-defined-in-the-root-element-of-a-controltemplate-datatemplate-page-or-usercontrol)
+- [VisualStates with AdaptiveTriggers in a DataTemplate have to be wrapped into a UserControl](#visualstates-with-adaptivetriggers-in-a-datatemplate-have-to-be-wrapped-into-a-usercontrol)
 - [Key times have to be set for key frames in a key framed animation](#key-times-have-to-be-set-for-key-frames-in-a-key-framed-animation)
 - [Don't be fooled by the IObservable duration parameters in IObservable extension methods](#dont-be-fooled-by-the-iobservable-duration-parameters-in-iobservable-extension-methods)
 - [Be very careful when binding into multiple dependency properties of a dependency object](#be-very-careful-when-binding-into-multiple-dependency-properties-of-a-dependency-object)
@@ -609,15 +610,39 @@ When looking at the Threads window in Visual Studio, it's not exactly obvious wh
 ### Visual states have to be defined in the root element of a ControlTemplate, DataTemplate, Page, or UserControl
 ```XML
 <ControlTemplate, DataTemplate, Page, or UserControl>
-	<AnyControl>
+	<Any Control>
 		<VisualStateManager.VisualStateGroups>
-		<!-- Visual states defined here will work as expected -->
-		</VisualStateManager.VisualStateGroups>
+			<!-- Visual states defined here will work as expected -->
+...
+```
 		
-		<AnyControl>
+```XML
+<ControlTemplate, DataTemplate, Page, or UserControl>
+	<Any Control>
+		<Any Control>
 			<VisualStateManager.VisualStateGroups>
 				<!-- You will not get any kind of an error or exception, but visual states defined here will not work as expected -->
-			</VisualStateManager.VisualStateGroups>
+...
+```
+
+### VisualStates with AdaptiveTriggers in a DataTemplate have to be wrapped into a UserControl
+The AdaptiveTrigger in the following example will not work, and will therefore never activate the Narrow-state.
+```XML
+<DataTemplate>
+	<Not a UserControl>
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup>
+				<VisualState x:Name="Narrow">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="0" />
+...
+```
+For the AdaptiveTrigger to work within a DataTemplate, the VisualStates have to be wrapped into a user control:
+```XML
+<DataTemplate>
+	<UserControl>
+		<Any Control>
+			<VisualStateManager.VisualStateGroups>
 ...
 ```
 
