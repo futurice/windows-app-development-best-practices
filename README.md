@@ -60,7 +60,7 @@ Feedback and contributions are wholeheartedly welcomed! Feel free to fork and se
 - [VisualStates with AdaptiveTriggers in a DataTemplate have to be wrapped into a UserControl](#visualstates-with-adaptivetriggers-in-a-datatemplate-have-to-be-wrapped-into-a-usercontrol)
 - [Key times have to be set for key frames in a key framed animation](#key-times-have-to-be-set-for-key-frames-in-a-key-framed-animation)
 - [Don't be fooled by the IObservable duration parameters in IObservable extension methods](#dont-be-fooled-by-the-iobservable-duration-parameters-in-iobservable-extension-methods)
-- [Be very careful when binding into multiple dependency properties of a dependency object](#be-very-careful-when-binding-into-multiple-dependency-properties-of-a-dependency-object)
+- [XAML attribute order can matter when using databindings](#xaml-attribute-order-can-matter-when-using-databindings)
 - [Binding only works for the children of FrameworkElements](#binding-only-works-for-the-children-of-frameworkelements)
 - [ResourceDictionary code-behind has to be modified for x:Bind to work](#resourcedictionary-code-behind-has-to-be-modified-for-xbind-to-work)
 
@@ -675,35 +675,15 @@ However, that will simply timeout immediately. A correct way to use these parame
 .Timeout(i => Observable.Timer(TimeSpan.FromSeconds(1)))
 ```
 
-### Be very careful when binding into multiple dependency properties of a dependency object
-There are two possible suprises:
+### XAML attribute order can matter when using databindings
+In most cases the order of element attributes in XAML doesn't matter. However, as the properties are being set (and Bindings evaluated) one by one in the order the attributes appear, it's possible to run into a case where the attribute order does matter.
 
-#### Order matters
-
-For example: [1](http://www.weseman.net/blog/development/c/order-in-xaml-is-important-when-using-data-binding/) and [2](http://discoveringdotnet.alexeyev.org/2011/03/order-in-xaml-is-important.html)
-
-#### Binding to DataContext changes the default binding source
-
-For example, the following xaml looks for the AdVisiblity in MyAdViewModel, not in the MyPageViewModel. Changing the order of the bindings doesn't make a difference. (However, does it first look in MyPageViewModel and then in MyAdViewModel).
-
+One such case is when binding to ItemsSource and SelectedItem of a Selector -based control. The following example throws an exception because when the SelectedItem is set the ComboBox doesn't have items (ItemsSource) at all. Switching the attributes around fixes the issue.
 ```XML
-<Grid>
-  <Grid.DataContext>
-    <MyPageViewModel AdVisiblity="Collapsed">
-      <MyPageViewModel.AdContext>
-        <MyAdViewModel Url="www.bystuff.com" Text="Buy Stuff!"/>
-      </MyPageViewModel.AdContext>
-    </MyPageViewModel>
-  </Grid.DataContext>
-  
-  <AdControl Visibility="{Binding AdVisibility}" DataContext="{Binding AdContext}"/> 
-</Grid>
+<ComboBox
+  SelectedItem="{Binding SelectedCar, Mode=TwoWay}"
+  ItemsSource="{Binding Cars}"/>
 ```
-This happens because "{Binding PropertyName}" is short for:
-```XML
-"{Binding Path=DataContext.PropertyName, Source={RelativeSource Self}"
-```
-It actually binds to the property PropertyName in the object in the DataContext property of its self. When DataContext is not set, it's automatically inherited from the Parent.
 
 ### Binding only works for the children of FrameworkElements
 While it is possible to create an instance of any class with a parameterless constructor in XAML, data bindings created using the [Binding](https://docs.microsoft.com/en-us/windows/uwp/xaml-platform/binding-markup-extension)-keyword only work for DependencyProperties of instances that are children of a FrameworkElement (or it's derivate).
