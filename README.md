@@ -25,6 +25,7 @@ Feedback and contributions are wholeheartedly welcomed! Feel free to fork and se
 - [To log and handle unhandled exceptions subscribe to App.UnhandledException and TaskScheduler.UnobservedTaskException](#to-log-and-handle-unhandled-exceptions-subscribe-to-appunhandledexception-and-taskschedulerunobservedtaskexception)
 - [Only throw exceptions in exceptional cases](#only-throw-exceptions-in-exceptional-cases)
 - [Catch exactly the exception you expect](#catch-exactly-the-exception-you-expect)
+- [Catch OperationCancelledException to detect cancellation of an async function](#catch-operationcancelledexception-to-detect-cancellation-of-an-async-function)
 - [Set Visual Studio to break debugger every time a CLR exception is thrown](#set-visual-studio-to-break-debugger-every-time-a-clr-exception-is-thrown)
 - [When rethrowing an exception use just "throw" or include the original exception in the new exception](#when-rethrowing-an-exception-use-just-throw-or-include-the-original-exception-in-the-new-exception)
 - [Use ContinueWith and Task.Exception to handle exceptions from async methods in expected cases](#use-continuewith-and-taskexception-to-handle-exceptions-from-async-methods-in-expected-cases)
@@ -209,6 +210,11 @@ try {
 If you expect a NetworkException, write _"catch (NetworkException e)"_, not just _"catch (Exception e)"_. By catching a more general exception, you hide programming errors inside the try-block. For example, a NullReferenceException would be swallowed, and make it a lot harder to notice. Additionally, any recovery code you have in the catch-block might not work as intended for other than the specific exception it was written for.
 
 [A good article on handling exceptions](http://www.codeproject.com/Articles/9538/Exception-Handling-Best-Practices-in-NET)
+
+### Catch [OperationCancelledException](https://docs.microsoft.com/en-us/dotnet/api/system.operationcanceledexception?view=netcore-2.0) to detect cancellation of an async function
+When you cancel a [Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task?view=netcore-2.0) using a  [CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken?view=netcore-2.0) a [TaskCancelledException](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcanceledexception?view=netcore-2.0) is thrown (when the Task is awaited). However, if you pass a CancellationToken into an async function and it uses  [CancellationToken.ThrowIfCancellationRequested](https://docs.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken.throwifcancellationrequested?view=netcore-2.0#System_Threading_CancellationToken_ThrowIfCancellationRequested) to implement cancellation, an OperationCanceledException is thrown. Without looking inside, it's impossible to know which exception the async function might throw. However, as TaskCanceledException inherits from OperationCanceledException, you can just always catch OperationCanceledException to be safe.
+
+If you need the TaskCanceledException, for example to access its Task property, you can catch that as well (before catching the OperationCanceledException). Or you can try to cast the caught OperationCanceledException into it.
 
 ### Set Visual Studio to break debugger every time a CLR exception is thrown
 If you have followed the practices above, exceptions should only be thrown in/into your code as a result of a programming error or something unrecoverable such as an OutOfMemoryException. Generally, When you make an error, you want to be notified about it as loud and clear as possible. The default behavior for Visual Studio is to only break debugger on uncaught exceptions. Now, if you have some generic catches in place to swallow exceptions, for example from some of your secondary components, such as analytics, you'd miss the unwanted behavior.
