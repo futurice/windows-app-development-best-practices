@@ -16,6 +16,7 @@ Feedback and contributions are wholeheartedly welcomed! Feel free to fork and se
 - [Use Package Restore](#use-package-restore)
 - [Refer to the right documentation](#refer-to-the-right-documentation)
 - [Use the Live Visual Tree and the Live Property Explorer](#use-the-live-visual-tree-and-the-live-property-explorer)
+- [Use the Windows Community Toolkit](#use-the-windows-community-toolkit)
 - [If you get a certificate error when sideloading an UWP app, install the cert from the package](#if-you-get-a-certificate-error-when-sideloading-an-uwp-app-install-the-cert-from-the-package)
 
 ### Debugging and Exceptions
@@ -122,6 +123,9 @@ There's also a generic landing page for [UWP development](https://developer.micr
 The VS 2015+ XAML inspection tools are a great asset when tweaking and debugging your UI. Unfortunately the Live Property Explorer doesn't save the changes you make to your XAML. However, after you find a good value for a property, you can click 'go to source' and modify the XAML while debugging. The XAML changes you make won't take effect until you relaunch the app, but at least you have now 'saved' the value you want to use. Notice that you have to be running your app on Windows 10 (device or emulator) to be able to use these tools.
 
 You can find the official documentation on how to use them [here](https://msdn.microsoft.com/en-us/library/mt270227.aspx).
+
+### Use the [Windows Community Toolkit](https://github.com/Microsoft/WindowsCommunityToolkit)
+The Windows Community Toolkit is the first place you should look for any UI controls or other functionality missing from the core UWP framework. It is an open source project maintained by both Microsoft and the community. There's also an excellent [sample app](https://www.microsoft.com/store/apps/9nblggh4tlcq) in the Windows Store that enables you to easily evaluate whether the library offers something valuable for your project.
 
 ### If you get a certificate error when sideloading an UWP app, install the cert from the package
 On Windows 10 Anniversary Update (10.0.14393) or newer, you can enable Sideload Apps or Developer Mode in Settings and simply double click an .appx or .appxbundle to install an UWP app. However, if you haven't installed the certificate that was used to create the app package, you will get an error. You can install the certificate by opening the .appx or .appxbundle Properties -> Digital Signatures -> Details -> View Certificate -> Details -> Install Certificate. Select Local Machine as the Store Location Group and Trusted People as the Store Location.
@@ -370,7 +374,7 @@ public System.Collections.Generic.IEnumerable<Galaxy> Galaxies {
   }
 }
 ```
-It will automatically return empty IEnumreable if no "yield return" is called. This will avoid null reference exceptions when you're expecting to get an IEnumerable. The yield approach also only runs as far as is required by the possible iterator. For example, the following only creates one Galaxy instance, avoiding unnecessary processing.
+It will automatically return empty IEnumerable if no "yield return" is called. This will avoid null reference exceptions when you're expecting to get an IEnumerable. The yield approach also only runs as far as is required by the possible iterator. For example, the following only creates one Galaxy instance, avoiding unnecessary processing.
 ```C#
 var firstGalaxy = Galaxies.First();
 ```
